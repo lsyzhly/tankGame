@@ -27,15 +27,15 @@ char *newMuchSquare(int x,int y,int size,unmoveType type,int state){
 		*a++=2;
 		b=(unmoveSquare *)a;
 		if(state&0x1==0){
-			*b++=new unmoveSquare(x,y,size,,type);
+			*b++=new unmoveSquare(x,y,size,new BlockShow(2,type-1),type);
 		}else if(state&0x1){
-			*b++=new unmoveSquare(x+size,y+size,size,,type);
+			*b++=new unmoveSquare(x+size,y+size,size,new BlockShow(2,type-1),type);
 		}else {
 			state++;
 			if(state&0x3){
-				*b++=new unmoveSquare(x,y+size,size,,type);
+				*b++=new unmoveSquare(x,y+size,size,new BlockShow(2,type-1),type);
 			}else{
-				*b++=new unmoveSquare(x+size,y,size,,type);
+				*b++=new unmoveSquare(x+size,y,size,new BlockShow(2,type-1),type);
 			}
 			
 		}
