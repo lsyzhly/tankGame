@@ -1,0 +1,17 @@
+*.sln
+*.ncb
+*.suo
+*.vcproj
+*.user
+*.exe
+*.obj
+*.log
+*.idb
+*.dep
+*\debug\*
+*\backup\*
+*.filters
+*.htm
+*.pdb
+*.ilk
+*.manifest

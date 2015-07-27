@@ -1,0 +1,44 @@
+#ifndef ALL_H
+#define ALL_H
+enum direct{ up=0, down=1, left=2, right=3 };
+
+//不能移动的类型,墙和土
+enum unmoveType{ qiang, tu ,cao};
+
+//碰撞的类型
+enum bumpType {
+	stop = 1,//碰撞后停止
+	abandonded = 2,
+	through = 4,//碰撞后穿过
+	astop = 3
+};
+
+//方向取反
+direct operator!(direct);
+
+namespace bump{
+	class bumpchecker;
+}
+
+namespace Controler{
+	class Control;
+	class autoTankControl;
+	typedef Control* cpointer;
+}
+
+namespace item{
+	class square;
+	class moveSquare;
+	class unmoveSquare;
+	class Tank;
+	class Bullet;
+	typedef square *pointer;
+	typedef moveSquare *mpointer;
+	typedef unmoveSquare *upointer;
+}
+
+namespace view{
+	class Show;
+}
+
+#endif
