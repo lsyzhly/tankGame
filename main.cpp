@@ -161,8 +161,8 @@ bool initdirectx(){
 			for(int j=0;j<n;j++)
 			{
 			      result = d3ddev->CreateOffscreenPlainSurface(  
-                                 100,                //width of the surface  
-                                 100,                //height of the surface  
+                                 28,                //width of the surface  
+                                 28,                //height of the surface  
                                  D3DFMT_X8R8G8B8,    //surface format  
                                  D3DPOOL_DEFAULT,    //memory pool to use  
                                  sur + n*i + j,           //pointer to the surface  bo
