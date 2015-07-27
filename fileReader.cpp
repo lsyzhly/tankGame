@@ -59,10 +59,11 @@ void readFile(char *path){
 					//addItem(new unmoveSquare(j<<5,i<<5,32,0,tie));
 				}else{
 					m=*ptr++;
-					char *ptr= newMuchSquare(j,i,32,n,m);
-					int n=*ptr;
+					char *pt= newMuchSquare(j,i,32,n,m);
+					int n=*pt++;
+					unmoveSquare *ptp=(unmoveSquare *)pt;
 					for(n--){
-						;
+						addItem(ptp+n);
 					}
 				}
 			}

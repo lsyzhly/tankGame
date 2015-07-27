@@ -1,18 +1,22 @@
 #include <windows.h>
 #include "main.h"
+#include "enemytankshow.h"
 #include <stdio.h>
+using namespace view;
+Show *s;
 void init(){
-    mspf=30;
+    mspf=10;
+	s=new TankBShow(true,2);
+	s->move(32,32,left);
 }
 
 void flush(){
-    //make sure the Direct3D device is valid  
-    if (!d3ddev) return;  
-	static int n=0;
-    //start rendering  
-    if (d3ddev->BeginScene())  
-    {  
-    }  
+	static int n=0;/*
+	if(n&0x3==0x3){
+		s->move(-1,-1,down|0x00);
+	}*/
+	s->Repaint();
+	n++;
 }
 
 void destory(){
