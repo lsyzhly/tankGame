@@ -20,3 +20,5 @@
 *.log
 *.sdf
 *.bmp
+*.cbp
+*.o
