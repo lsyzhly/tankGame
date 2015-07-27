@@ -18,8 +18,8 @@ namespace view{
 		}else{
 			rec.left=x;
 			rec.top=y;
-			rec.bottom=y+32;
-			rec.right=x+32;
+			rec.bottom=y+28;
+			rec.right=x+28;
 			va_list va;
 			va_start(va,y);
 			drt=va_arg(va,direct);
@@ -28,7 +28,7 @@ namespace view{
 	}
 	void TankAShow::Repaint(){
 		int n=0;
-		if(is_red && counts&0x2){
+		if(is_red && counts&0x08){
 			n|=0x2;
 		}
 		if(countss&0x1){
