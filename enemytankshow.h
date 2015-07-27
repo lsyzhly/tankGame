@@ -14,5 +14,15 @@ namespace view{
 		virtual void Repaint();
 		virtual void move(int x, int y,...);
 	};
+	class TankBShow:public Show{
+	public:
+		bool is_red;
+		int counts;
+		int countss;
+		direct drt;
+		TankBShow(bool is_red,int rat);
+		virtual void Repaint();
+		virtual void move(int x, int y,...);
+	};
 }
 #endif
