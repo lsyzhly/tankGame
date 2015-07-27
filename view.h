@@ -1,6 +1,7 @@
 #ifndef VIEW_H
 #define VIEW_H
 #include "all.h"
+#include "main.h"
 
 namespace view{
 	//显示器类,抽象类
