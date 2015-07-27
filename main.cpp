@@ -1,17 +1,18 @@
-#include <windows.h> 
-#include <d3d9.h>  
+#include <windows.h>
+#include <d3d9.h>
 #include <d3dx9.h>
 #include "main.h"
 #include <time.h>
 #include <iostream>
+#define LPCWSTR LPCSTR
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
 
 
-LPDIRECT3D9 d3d = NULL;   
-LPDIRECT3DDEVICE9 d3ddev = NULL;   
-LPDIRECT3DSURFACE9 backbuffer = NULL;  
+LPDIRECT3D9 d3d = NULL;
+LPDIRECT3DDEVICE9 d3ddev = NULL;
+LPDIRECT3DSURFACE9 backbuffer = NULL;
 LPDIRECT3DSURFACE9 enemy[8][8];
 LPDIRECT3DSURFACE9 player1[4][8];
 LPDIRECT3DSURFACE9 player2[4][8];
@@ -35,12 +36,12 @@ bool WaterAndHeadquartersInit(LPCWSTR f,LPDIRECT3DSURFACE9 *wa,LPDIRECT3DSURFACE
 		HRESULT result;
 		RECT rec;
 		for(int i=0;i<2;i++)
-		{	
-			      result = d3ddev->CreateOffscreenPlainSurface(  
-                                 32,                //width of the surface  
-                                 32,                //height of the surface  
-                                 D3DFMT_X8R8G8B8,    //surface format  
-                                 D3DPOOL_DEFAULT,    //memory pool to use  
+		{
+			      result = d3ddev->CreateOffscreenPlainSurface(
+                                 32,                //width of the surface
+                                 32,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
                                  wa + i,           //pointer to the surface  bo
                                  NULL);
 				  if (!SUCCEEDED(result)) return false;
@@ -48,24 +49,24 @@ bool WaterAndHeadquartersInit(LPCWSTR f,LPDIRECT3DSURFACE9 *wa,LPDIRECT3DSURFACE
 				  rec.bottom=rec.top+32;
 				  rec.left=(i+3)*32;
 				  rec.right=rec.left+32;
-				  result=D3DXLoadSurfaceFromFile(  
-				        *(wa+i),            //destination surface  
-				        NULL,               //destination palette  
-				        NULL,               //destination rectangle  
-				        f,                  //source filename  
-				        &rec,               //source rectangle  
-				        D3DX_DEFAULT,       //controls how image is filtered  
-				        0,                  //for transparency (0 for none)  
+				  result=D3DXLoadSurfaceFromFile(
+				        *(wa+i),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
 				        NULL);
-		
+
                   if (!SUCCEEDED(result)) return false;
 
 //				  d3ddev->StretchRect(water[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
-			      result = d3ddev->CreateOffscreenPlainSurface(  
-                                 32,                //width of the surface  
-                                 32,                //height of the surface  
-                                 D3DFMT_X8R8G8B8,    //surface format  
-                                 D3DPOOL_DEFAULT,    //memory pool to use  
+			      result = d3ddev->CreateOffscreenPlainSurface(
+                                 32,                //width of the surface
+                                 32,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
                                  hq+ i,           //pointer to the surface  bo
                                  NULL);
 				  if (!SUCCEEDED(result)) return false;
@@ -73,16 +74,16 @@ bool WaterAndHeadquartersInit(LPCWSTR f,LPDIRECT3DSURFACE9 *wa,LPDIRECT3DSURFACE
 				  rec.bottom=rec.top+32;
 				  rec.left=(i+5)*32;
 				  rec.right=rec.left+32;
-				  result=D3DXLoadSurfaceFromFile(  
-				        *(hq+i),            //destination surface  
-				        NULL,               //destination palette  
-				        NULL,               //destination rectangle  
-				        f,                  //source filename  
-				        &rec,               //source rectangle  
-				        D3DX_DEFAULT,       //controls how image is filtered  
-				        0,                  //for transparency (0 for none)  
+				  result=D3DXLoadSurfaceFromFile(
+				        *(hq+i),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
 				        NULL);
-		
+
                   if (!SUCCEEDED(result)) return false;
 //				  d3ddev->StretchRect(headquarters[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
 
@@ -110,7 +111,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wcex.lpszMenuName = NULL;
-    wcex.lpszClassName = L"GLSample";
+    wcex.lpszClassName = "GLSample";
     wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);;
 
 
@@ -118,8 +119,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         return 0;
     /* create main window */
     hwnd = CreateWindowEx(0,
-                          L"GLSample",
-                          L"press w",
+                          "GLSample",
+                          "press w",
                           WS_OVERLAPPEDWINDOW,
                           CW_USEDEFAULT,
                           CW_USEDEFAULT,
@@ -155,7 +156,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         }
 	    d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         flush();
-		d3ddev->Present(NULL, NULL, NULL, NULL);  
+		d3ddev->Present(NULL, NULL, NULL, NULL);
         clock_t end=clock();
         end-=start;
         end*=1000;
@@ -178,48 +179,48 @@ int WINAPI WinMain(HINSTANCE hInstance,
 }
 
 bool initdirectx(){
-    //initialize Direct3D  
-    d3d = Direct3DCreate9(D3D_SDK_VERSION);  
-    if (d3d == NULL)  
+    //initialize Direct3D
+    d3d = Direct3DCreate9(D3D_SDK_VERSION);
+    if (d3d == NULL)
     {
-        return false;  
-    }  
-  
-    //set Direct3D presentation parameters  
-    D3DPRESENT_PARAMETERS d3dpp;   
-    ZeroMemory(&d3dpp, sizeof(d3dpp));  
-    d3dpp.Windowed = TRUE;  
-    d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;  
-    d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;  
-    d3dpp.BackBufferCount = 1;  
-    d3dpp.BackBufferWidth = SCREENW;  
-    d3dpp.BackBufferHeight = SCREENH;  
-    d3dpp.hDeviceWindow = hwnd;  
-  
-    //create Direct3D device  
-    d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd,  
-        D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3ddev);  
-  
-    if (!d3ddev)  
-    {  
-        return false;  
-    }   
-  
-    //clear the backbuffer to black  
-    d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);  
-      
-    //create pointer to the back buffer  
+        return false;
+    }
+
+    //set Direct3D presentation parameters
+    D3DPRESENT_PARAMETERS d3dpp;
+    ZeroMemory(&d3dpp, sizeof(d3dpp));
+    d3dpp.Windowed = TRUE;
+    d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+    d3dpp.BackBufferCount = 1;
+    d3dpp.BackBufferWidth = SCREENW;
+    d3dpp.BackBufferHeight = SCREENH;
+    d3dpp.hDeviceWindow = hwnd;
+
+    //create Direct3D device
+    d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd,
+        D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3ddev);
+
+    if (!d3ddev)
+    {
+        return false;
+    }
+
+    //clear the backbuffer to black
+    d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
+
+    //create pointer to the back buffer
     d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
-	TankInit(L"graphics/player1.bmp",(LPDIRECT3DSURFACE9 *)player1,4,8);
-	TankInit(L"graphics/player2.bmp",(LPDIRECT3DSURFACE9 *)player2,4,8);
-	TankInit(L"graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
-	BlockInit(L"graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
-	WaterAndHeadquartersInit(L"graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
+	TankInit("graphics/player1.bmp",(LPDIRECT3DSURFACE9 *)player1,4,8);
+	TankInit("graphics/player2.bmp",(LPDIRECT3DSURFACE9 *)player2,4,8);
+	TankInit("graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
+	BlockInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
+	WaterAndHeadquartersInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
 
 
-  
- 
-    return true;  
+
+
+    return true;
 }
 	bool TankInit(LPCWSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n)
 	{
@@ -227,11 +228,11 @@ bool initdirectx(){
 		for(int i=0;i<m;i++)
 			for(int j=0;j<n;j++)
 			{
-			      result = d3ddev->CreateOffscreenPlainSurface(  
-                                 28,                //width of the surface  
-                                 28,                //height of the surface  
-                                 D3DFMT_X8R8G8B8,    //surface format  
-                                 D3DPOOL_DEFAULT,    //memory pool to use  
+			      result = d3ddev->CreateOffscreenPlainSurface(
+                                 28,                //width of the surface
+                                 28,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
                                  sur + n*i + j,           //pointer to the surface  bo
                                  NULL);
 				  if (!SUCCEEDED(result)) return false;
@@ -240,31 +241,31 @@ bool initdirectx(){
 				  rec.bottom=rec.top+28;
 				  rec.left=j*28;
 				  rec.right=rec.left+28;
-				  result=D3DXLoadSurfaceFromFile(  
-				        *(sur + n*i + j),            //destination surface  
-				        NULL,               //destination palette  
-				        NULL,               //destination rectangle  
-				        f,                  //source filename  
-				        &rec,               //source rectangle  
-				        D3DX_DEFAULT,       //controls how image is filtered  
-				        0,                  //for transparency (0 for none)  
+				  result=D3DXLoadSurfaceFromFile(
+				        *(sur + n*i + j),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
 				        NULL);
 
                   if (!SUCCEEDED(result)) return false;
 			}
 		  return true;
- 
+
 	}
 bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs)
 {
 		HRESULT result;
 		for(int i=0;i<3;i++)
 		{
-			      result = d3ddev->CreateOffscreenPlainSurface(  
-                                 16,                //width of the surface  
-                                 16,                //height of the surface  
-                                 D3DFMT_X8R8G8B8,    //surface format  
-                                 D3DPOOL_DEFAULT,    //memory pool to use  
+			      result = d3ddev->CreateOffscreenPlainSurface(
+                                 16,                //width of the surface
+                                 16,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
                                  bs + i,           //pointer to the surface  bo
                                  NULL);
 				  if (!SUCCEEDED(result)) return false;
@@ -273,24 +274,24 @@ bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs)
 				  rec.bottom=rec.top+16;
 				  rec.left=i*32;
 				  rec.right=rec.left+16;
-				  result=D3DXLoadSurfaceFromFile(  
-				        *(bs+i),            //destination surface  
-				        NULL,               //destination palette  
-				        NULL,               //destination rectangle  
-				        f,                  //source filename  
-				        &rec,               //source rectangle  
-				        D3DX_DEFAULT,       //controls how image is filtered  
-				        0,                  //for transparency (0 for none)  
+				  result=D3DXLoadSurfaceFromFile(
+				        *(bs+i),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
 				        NULL);
-		
+
                   if (!SUCCEEDED(result)) return false;
 			}
 		  return true;
 }
 
-void freedirectx(){  
-        if (d3ddev) d3ddev->Release();  
-        if (d3d) d3d->Release();  
+void freedirectx(){
+        if (d3ddev) d3ddev->Release();
+        if (d3d) d3d->Release();
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

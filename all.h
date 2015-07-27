@@ -1,5 +1,6 @@
 #ifndef ALL_H
 #define ALL_H
+
 enum direct{ up=0, down=2, left=3, right=1 };
 
 //不能移动的类型,墙和土
