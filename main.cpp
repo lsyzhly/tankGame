@@ -12,8 +12,10 @@ LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 LPDIRECT3D9 d3d = NULL;   
 LPDIRECT3DDEVICE9 d3ddev = NULL;   
 LPDIRECT3DSURFACE9 backbuffer = NULL;  
-LPDIRECT3DSURFACE9 surface = NULL;  
-LPDIRECT3DSURFACE9 ConstSurface = NULL;  
+LPDIRECT3DSURFACE9 enemy[8][8];
+LPDIRECT3DSURFACE9 player1[4][8];
+LPDIRECT3DSURFACE9 player2[4][8];
+
 
 
 bool isKeyDown[256];
@@ -22,6 +24,7 @@ int fps;
 HWND hwnd;
 bool initdirectx();
 void freedirectx();
+bool TankInit(LPCSTR *f,LPDIRECT3DSURFACE9 *sur,int m,int n);//传入对应二维数组（enemy，player1，player2），对tank的surface初始化
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -143,29 +146,45 @@ bool initdirectx(){
     //create pointer to the back buffer  
     d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);  
   
-    //create surface  
-	HRESULT result = d3ddev->CreateOffscreenPlainSurface(  
-        100,                //width of the surface  
-        100,                //height of the surface  
-        D3DFMT_X8R8G8B8,    //surface format  
-        D3DPOOL_DEFAULT,    //memory pool to use  
-        &ConstSurface,           //pointer to the surface  
-        NULL);              //reserved (always NULL)  
-  
-    if (!SUCCEEDED(result)) return false;  
-    result = d3ddev->CreateOffscreenPlainSurface(  
-        100,                //width of the surface  
-        100,                //height of the surface  
-        D3DFMT_X8R8G8B8,    //surface format  
-        D3DPOOL_DEFAULT,    //memory pool to use  
-        &surface,           //pointer to the surface  
-        NULL);              //reserved (always NULL)  
-    if (!SUCCEEDED(result)) return false; 
+ 
     return true;  
 }
+	bool TankInit(LPCSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n)
+	{
+		HRESULT result;
+		for(int i=0;i<m;i++)
+			for(int j=0;j<n;j++)
+			{
+			      result = d3ddev->CreateOffscreenPlainSurface(  
+                                 100,                //width of the surface  
+                                 100,                //height of the surface  
+                                 D3DFMT_X8R8G8B8,    //surface format  
+                                 D3DPOOL_DEFAULT,    //memory pool to use  
+                                 sur + n*i + j,           //pointer to the surface  bo
+                                 NULL);
+				  if (!SUCCEEDED(result)) return false;
+				  RECT rec;
+				  rec.top=i*28;
+				  rec.bottom=rec.top+28;
+				  rec.left=j*28;
+				  rec.right=rec.left+28;
+				  result=D3DXLoadSurfaceFromFile(  
+				        *(sur + n*i + j),            //destination surface  
+				        NULL,               //destination palette  
+				        NULL,               //destination rectangle  
+				        f,                  //source filename  
+				        &rec,               //source rectangle  
+				        D3DX_DEFAULT,       //controls how image is filtered  
+				        0,                  //for transparency (0 for none)  
+				        NULL);
 
+                  if (!SUCCEEDED(result)) return false;
+			}
+		  return true;
+ 
+	}
 
-void freedirectx(){
+void freedirectx(){  
         if (d3ddev) d3ddev->Release();  
         if (d3d) d3d->Release();  
 }
