@@ -2,7 +2,6 @@
 *.ncb
 *.suo
 *.vcproj
-*.vcxproj
 *.user
 *.exe
 *.obj
@@ -16,4 +15,5 @@
 *.pdb
 *.ilk
 *.manifest
-*.sdf
+*.tlog
+*.log
