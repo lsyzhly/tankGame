@@ -26,21 +26,28 @@ char *newMuchSquare(int x,int y,int size,unmoveType type,int state){
 		a=(char *)malloc(2*sizeof(unmoveSquare *)+sizeof(char));
 		*a++=2;
 		b=(unmoveSquare **)a;
-		if(state&0x1==0){
+		if((state&0x1)==0){
 			*b++=new unmoveSquare(x,y,size,new BlockShow(2,type-1),type);
-		}else if(state&0x1){
+		}else{
 			*b++=new unmoveSquare(x+size,y+size,size,new BlockShow(2,type-1),type);
-		}else {
-			state++;
-			if(state&0x3){
-				*b++=new unmoveSquare(x,y+size,size,new BlockShow(2,type-1),type);
-			}else{
-				*b++=new unmoveSquare(x+size,y,size,new BlockShow(2,type-1),type);
-			}
-			
 		}
+        state++;
+        if(state&0x2){
+            *b++=new unmoveSquare(x,y+size,size,new BlockShow(2,type-1),type);
+        }else{
+            *b++=new unmoveSquare(x+size,y,size,new BlockShow(2,type-1),type);
+        }
 	}
-	return 0;
+	return --a;
+}
+
+void addSqares(char *a){
+    int n=*a++;
+    unmoveSquare **b=(unmoveSquare **)a;
+    while(n--){
+        addItem(*b++);
+    }
+    free(--a);
 }
 
 void readFile(char *path){

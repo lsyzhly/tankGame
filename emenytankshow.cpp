@@ -43,11 +43,11 @@ namespace view{
 	TankBShow::TankBShow(bool is_red, int rat):Show(rat){
 		this->is_red=is_red;
 	}
-	void TankBShow::move(int x, int y, ...){
+	void TankBShow::move(int x, int y,...){
 		if(x==-1&&y==-1){
 			va_list va;
 			va_start(va,y);
-			drt=va_arg(va,direct);
+			drt=(direct)va_arg(va,int);
 			va_end(va);
 			countss++;
 			movedrt(drt&0x3,rec,rat);
@@ -58,7 +58,7 @@ namespace view{
 			rec.right=x+28;
 			va_list va;
 			va_start(va,y);
-			drt=va_arg(va,direct);
+			drt=(direct)va_arg(va,int);
 			va_end(va);
 		}
 	}
