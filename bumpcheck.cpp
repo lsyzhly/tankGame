@@ -10,7 +10,7 @@ namespace bump{
 		this->width = width;
 		this->hight = hight;
 	}
-	
+
 	bool bumpchecker::is_out(pair<int, int> pos){
 		if (pos.first >= width) return true;
 		if (pos.second >= hight) return true;
@@ -47,7 +47,7 @@ namespace bump{
 		int n = bumpType::through;
 		//检测是否有碰撞
 		for(set<pointer>::iterator ci=(p).begin();ci!=(p).end();ci++){
-			pointer &b=*ci;
+			pointer b=*ci;
 			n |= a->bump(b,drt);
 		}
 		if (n&bumpType::astop){
@@ -93,7 +93,7 @@ namespace bump{
 	pointer bumpchecker::add(pointer a){
 		posSet *p = a->getRange();
 		for(posSet::iterator bi=(*p).begin();bi!=(*p).end();bi++){
-			posSet::value_type &b=*bi;
+			posSet::value_type b=*bi;
 			pointer *c = &bmap[b.second][b.first];
 			//如果加入冲突的组件 返回null
 			//不进行错误处理
