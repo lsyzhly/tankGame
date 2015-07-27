@@ -17,3 +17,5 @@
 *.manifest
 *.tlog
 *.log
+*.sdf
+*.bmp

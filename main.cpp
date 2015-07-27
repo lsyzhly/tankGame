@@ -24,7 +24,7 @@ int fps;
 HWND hwnd;
 bool initdirectx();
 void freedirectx();
-bool TankInit(LPCSTR *f,LPDIRECT3DSURFACE9 *sur,int m,int n);//传入对应二维数组（enemy，player1，player2），对tank的surface初始化
+bool TankInit(LPCWSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n);//传入对应二维数组（enemy，player1，player2），对tank的surface初始化
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -47,7 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wcex.lpszMenuName = NULL;
-    wcex.lpszClassName = "GLSample";
+    wcex.lpszClassName = L"GLSample";
     wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);;
 
 
@@ -55,8 +55,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         return 0;
     /* create main window */
     hwnd = CreateWindowEx(0,
-                          "GLSample",
-                          "press w",
+                          L"GLSample",
+                          L"press w",
                           WS_OVERLAPPEDWINDOW,
                           CW_USEDEFAULT,
                           CW_USEDEFAULT,
@@ -144,12 +144,16 @@ bool initdirectx(){
     d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);  
       
     //create pointer to the back buffer  
-    d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);  
+    d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
+	TankInit(L"graphics/player1.bmp",(LPDIRECT3DSURFACE9 *)player1,4,8);
+	TankInit(L"graphics/player2.bmp",(LPDIRECT3DSURFACE9 *)player2,4,8);
+	TankInit(L"graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
+
   
  
     return true;  
 }
-	bool TankInit(LPCSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n)
+	bool TankInit(LPCWSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n)
 	{
 		HRESULT result;
 		for(int i=0;i<m;i++)
