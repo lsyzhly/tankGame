@@ -12,7 +12,7 @@ char *newMuchSquare(int x,int y,int size,unmoveType type,int state){
 	char *a;
 	unmoveSquare **b;
 	x<<=5;
-	y<<=5;
+    y<<=5;
 	size>>=1;
 	if(state&0x4){
 		a=(char *)malloc(4*sizeof(unmoveSquare *)+sizeof(char));

@@ -1,10 +1,10 @@
 #ifndef ALL_H
 #define ALL_H
-
+extern int *test_type;
 enum direct{ up=0, down=2, left=3, right=1 };
 
 //不能移动的类型,墙和土
-enum unmoveType{ qiang, tu ,cao};
+enum unmoveType{ tu=1 ,qiang=2, cao=3};
 
 //碰撞的类型
 enum bumpType {

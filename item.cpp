@@ -7,7 +7,7 @@ namespace item{
 		this->y = y;
 		this->size = size;
 		this->draw = draw;
-		draw->move(x, y, up);
+		draw->move(x, y,up);
 		draw = 0;
 	}
 	posSet *square::getRange(){

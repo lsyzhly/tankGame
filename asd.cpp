@@ -14,13 +14,15 @@ void init(){
     int n;/*
 	s=new TankBShow(true,2);
 	s->move(32,32,(int)left);*/
-	char *a=newMuchSquare(2,2,32,qiang,0);
+	char *a=newMuchSquare(3,4,32,tu,0);
 	addSqares(a);
-    a=newMuchSquare(2,3,32,qiang,1);
+    a=newMuchSquare(2,3,32,tu,3);
 	addSqares(a);
-    a=newMuchSquare(3,3,32,qiang,2);
+    a=newMuchSquare(3,2,32,cao,1);
 	addSqares(a);
-    a=newMuchSquare(3,2,32,qiang,3);
+    a=newMuchSquare(4,3,32,cao,2);
+	addSqares(a);
+	a=newMuchSquare(3,3,32,qiang,4);
 	addSqares(a);
 }
 
