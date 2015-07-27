@@ -7,8 +7,7 @@ namespace view{
 	//只负责显示,
 	class Show{
 	public:
-		int x;
-		int y;
+		RECT rec;
 		//下面两个变量针对opengl,对于directx可以修改
 		//缩放率,表示组件虚拟大小和实际显示大小的比例
 		int rat;

@@ -1,6 +1,6 @@
 #ifndef ALL_H
 #define ALL_H
-enum direct{ up=0, down=1, left=2, right=3 };
+enum direct{ up=0, down=2, left=3, right=1 };
 
 //不能移动的类型,墙和土
 enum unmoveType{ qiang, tu ,cao};
@@ -39,6 +39,27 @@ namespace item{
 
 namespace view{
 	class Show;
+}
+
+#define movedrt(drt,rect,size) {\
+	switch(drt){\
+		case up:\
+			rect.top-=size;\
+			rect.bottom-=size;\
+			break;\
+		case down:\
+			rect.top+=size;\
+			rect.bottom+=size;\
+			break;\
+		case left:\
+			rect.right-=size;\
+			rect.left-=size;\
+			break;\
+		case right:\
+			rect.right+=size;\
+			rect.left+=size;\
+			break;\
+	}\
 }
 
 #endif
