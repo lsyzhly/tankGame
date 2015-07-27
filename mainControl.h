@@ -13,7 +13,7 @@ extern bumpchecker *checker;
 //添加组件到删除列表,该组件将会在count次屏幕刷新后删除
 void add_to_delete(pointer a, int count);
 //添加组件
-void addItem(pointer a,int isTop=false);
+void addItem(pointer a,bool isTop=false);
 //添加控制器
 void addControl(cpointer a);
 //绑定碰撞检测系统

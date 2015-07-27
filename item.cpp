@@ -51,6 +51,12 @@ namespace item{
 	moveSquare::~moveSquare(){
 		if (control) delete control;
 	}
+	unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
+	{
+        this->utype=utype;
+	}
+	unmoveSquare::~unmoveSquare(){
+	}
 	Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
 		int maxbullets, int pvalue, int bullet_size, int bullet_speed)
 		:moveSquare(x,y,size,draw,drt,speed)
