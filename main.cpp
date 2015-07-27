@@ -15,6 +15,7 @@ LPDIRECT3DSURFACE9 backbuffer = NULL;
 LPDIRECT3DSURFACE9 enemy[8][8];
 LPDIRECT3DSURFACE9 player1[4][8];
 LPDIRECT3DSURFACE9 player2[4][8];
+LPDIRECT3DSURFACE9 block[3];//0砖块，1铁块，2草地
 
 
 
@@ -25,6 +26,7 @@ HWND hwnd;
 bool initdirectx();
 void freedirectx();
 bool TankInit(LPCWSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n);//传入对应二维数组（enemy，player1，player2），对tank的surface初始化
+bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs);
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -150,6 +152,8 @@ bool initdirectx(){
 	TankInit(L"graphics/player1.bmp",(LPDIRECT3DSURFACE9 *)player1,4,8);
 	TankInit(L"graphics/player2.bmp",(LPDIRECT3DSURFACE9 *)player2,4,8);
 	TankInit(L"graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
+	BlockInit(L"graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
+
 
   
  
@@ -189,6 +193,37 @@ bool initdirectx(){
 		  return true;
  
 	}
+bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs)
+{
+		HRESULT result;
+		for(int i=0;i<3;i++)
+		{
+			      result = d3ddev->CreateOffscreenPlainSurface(  
+                                 32,                //width of the surface  
+                                 32,                //height of the surface  
+                                 D3DFMT_X8R8G8B8,    //surface format  
+                                 D3DPOOL_DEFAULT,    //memory pool to use  
+                                 bs + i,           //pointer to the surface  bo
+                                 NULL);
+				  if (!SUCCEEDED(result)) return false;
+				  RECT rec;
+				  rec.top=0;
+				  rec.bottom=rec.top+32;
+				  rec.left=i*32;
+				  rec.right=rec.left+32;
+				  result=D3DXLoadSurfaceFromFile(  
+				        *(bs+i),            //destination surface  
+				        NULL,               //destination palette  
+				        NULL,               //destination rectangle  
+				        f,                  //source filename  
+				        &rec,               //source rectangle  
+				        D3DX_DEFAULT,       //controls how image is filtered  
+				        0,                  //for transparency (0 for none)  
+				        NULL);
+                  if (!SUCCEEDED(result)) return false;
+			}
+		  return true;
+}
 
 void freedirectx(){  
         if (d3ddev) d3ddev->Release();  

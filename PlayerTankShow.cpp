@@ -6,8 +6,8 @@ namespace view
 	{
           this->rat = rat;
 		  this->flag=0;
-		  this->rank=0;
-		  this->player=1;
+		  this->rank=rank;
+		  this->player=player;
 	}
 	void PlayerTankShow::move(int x,int y,...)
 	{
@@ -15,6 +15,7 @@ namespace view
 			va_list va;
 			va_start(va,y);
 			dir=va_arg(va,direct);
+			rank=va_arg(va,int);
 			va_end(va);
 			movedrt(dir,rec,rat);
 			 flag=(flag+1)%2;
@@ -25,6 +26,7 @@ namespace view
 			rec.right=x+28;
 			va_list va;
 			va_start(va,y);
+			rank=va_arg(va,int);
 			dir=va_arg(va,direct);
 			va_end(va);
 		}
