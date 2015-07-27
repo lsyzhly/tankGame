@@ -18,5 +18,5 @@ extern LPDIRECT3DSURFACE9 backbuffer;
 extern  LPDIRECT3DSURFACE9 enemy[8][8];
 extern LPDIRECT3DSURFACE9 player1[4][8];
 extern LPDIRECT3DSURFACE9 player2[4][8];
-
+extern LPDIRECT3DSURFACE9 block[3];
 #endif // MAIN_H_INCLUDED

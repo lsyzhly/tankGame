@@ -199,8 +199,8 @@ bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs)
 		for(int i=0;i<3;i++)
 		{
 			      result = d3ddev->CreateOffscreenPlainSurface(  
-                                 32,                //width of the surface  
-                                 32,                //height of the surface  
+                                 16,                //width of the surface  
+                                 16,                //height of the surface  
                                  D3DFMT_X8R8G8B8,    //surface format  
                                  D3DPOOL_DEFAULT,    //memory pool to use  
                                  bs + i,           //pointer to the surface  bo
@@ -208,9 +208,9 @@ bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs)
 				  if (!SUCCEEDED(result)) return false;
 				  RECT rec;
 				  rec.top=0;
-				  rec.bottom=rec.top+32;
+				  rec.bottom=rec.top+16;
 				  rec.left=i*32;
-				  rec.right=rec.left+32;
+				  rec.right=rec.left+16;
 				  result=D3DXLoadSurfaceFromFile(  
 				        *(bs+i),            //destination surface  
 				        NULL,               //destination palette  
@@ -220,6 +220,7 @@ bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs)
 				        D3DX_DEFAULT,       //controls how image is filtered  
 				        0,                  //for transparency (0 for none)  
 				        NULL);
+		
                   if (!SUCCEEDED(result)) return false;
 			}
 		  return true;
