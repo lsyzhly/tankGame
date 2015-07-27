@@ -3,29 +3,29 @@
 #include "control.h"
 #include "view.h"
 #include "item.h"
-#include "blockview.h"
+#include "BlockShow.h"
 using namespace	view;
 using namespace item;
 using namespace Controler;
 
 char *newMuchSquare(int x,int y,int size,unmoveType type,int state){
 	char *a;
-	unmoveSquare *b;
+	unmoveSquare **b;
 	x<<=5;
 	y<<=5;
 	size>>=1;
 	if(state&0x4){
 		a=(char *)malloc(4*sizeof(unmoveSquare *)+sizeof(char));
 		*a++=4;
-		b=(unmoveSquare *)a;
-		*b++=new unmoveSquare(x,y,size,,type);
-		*b++=new unmoveSquare(x+size,y,size,,type);
-		*b++=new unmoveSquare(x+size,y+size,size,,type);
-		*b++=new unmoveSquare(x,y+size,size,,type);
+		b=(unmoveSquare **)a;
+		*b++=new unmoveSquare(x,y,size,new BlockShow(2,type-1),type);
+		*b++=new unmoveSquare(x+size,y,size,new BlockShow(2,type-1),type);
+		*b++=new unmoveSquare(x+size,y+size,size,new BlockShow(2,type-1),type);
+		*b++=new unmoveSquare(x,y+size,size,new BlockShow(2,type-1),type);
 	}else{
 		a=(char *)malloc(2*sizeof(unmoveSquare *)+sizeof(char));
 		*a++=2;
-		b=(unmoveSquare *)a;
+		b=(unmoveSquare **)a;
 		if(state&0x1==0){
 			*b++=new unmoveSquare(x,y,size,new BlockShow(2,type-1),type);
 		}else if(state&0x1){
@@ -59,10 +59,10 @@ void readFile(char *path){
 					//addItem(new unmoveSquare(j<<5,i<<5,32,0,tie));
 				}else{
 					m=*ptr++;
-					char *pt= newMuchSquare(j,i,32,n,m);
+					char *pt= newMuchSquare(j,i,32,(unmoveType)n,m);
 					int n=*pt++;
 					unmoveSquare *ptp=(unmoveSquare *)pt;
-					for(n--){
+					while(n--){
 						addItem(ptp+n);
 					}
 				}

@@ -1,7 +1,7 @@
 #include "view.h"
 namespace view
 {
-	class BlockShow:Show
+	class BlockShow:public Show
 	{
 	public:
 		BlockShow(int rat,int type);
