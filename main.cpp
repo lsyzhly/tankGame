@@ -91,6 +91,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
             }
         }
         flush();
+		d3ddev->Present(NULL, NULL, NULL, NULL);  
         clock_t end=clock();
         end-=start;
         end*=1000;
