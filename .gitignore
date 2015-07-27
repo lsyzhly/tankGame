@@ -2,6 +2,7 @@
 *.ncb
 *.suo
 *.vcproj
+*.vcxproj
 *.user
 *.exe
 *.obj
