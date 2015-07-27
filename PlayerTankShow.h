@@ -13,7 +13,7 @@ namespace view
 
 		PlayerTankShow(int rat,int rank,int player);
 		virtual void Repaint() ;
-		virtual void move(int x, int y,...);//需要传进来的参数有资源的x,y,tank移动的方向
+		virtual void move(int x, int y,...);//需要传进来的参数有资源的x,y,tank移动的方向,tank等级
 
 	};
 
