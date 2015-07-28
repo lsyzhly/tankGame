@@ -81,11 +81,9 @@ namespace bump{
 		while (size--){
 			int n = move(a, drt);
 			if (n&bumpType::astop){
-				a->draw->move(a->x, a->y, a->drt);
 				return n;
 			}
 		}
-		a->draw->move(a->x, a->y, a->drt);
 		return bumpType::through;
 	}
 

@@ -60,7 +60,7 @@ namespace Controler{
 		else if(isKeyDown[player1tank[4]])
 		{tank->fire();return false;}
 		if(-1!=dir)
-		{int sta=checker->move(tank,tank->drt,tank->speed);
+		{int sta=checker->move(tank,tank->drt);
 		if(sta&bumpType::through)
 		{
 			tank->draw->move(-1,-1,MOVEDIRECT|dir);

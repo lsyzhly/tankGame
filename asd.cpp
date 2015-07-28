@@ -18,9 +18,8 @@ void init(){
     mspf=10;
     int n;
 	s=new PlayerTankShow(2,1);
-	s->move(32,32,(int)left);
     readFile("map\\level1.map");
-    Tank *tank=new Tank(4<<4,12<<4,16,1,up,s,0,0,0,0,1);
+    Tank *tank=new Tank(4<<4,12<<4,14,1,up,s,0,0,0,0,1);
     playTankControl *b=new playTankControl(tank,0);
     addControl(b);
     addItem(tank);
