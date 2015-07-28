@@ -60,7 +60,7 @@ playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
 }
 bool playTankControl::run()
 {
- //   if(count--)return false;
+    if(count--)return false;
     int dir=-1;
     count=maxcount;
 	if(0==type)
@@ -102,7 +102,7 @@ bool playTankControl::run()
     }
     return false;
 	}
-	else 
+	else
 	{ if(isKeyDown[player2tank[up]])
     {
         tank->reDirect(up);
