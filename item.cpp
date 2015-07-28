@@ -7,8 +7,7 @@ namespace item{
 		this->y = y;
 		this->size = size;
 		this->draw = draw;
-		draw->move(x, y,up);
-		draw = 0;
+		draw->move(x, y,0);
 	}
 	posSet *square::getRange(){
 		pos_set.clear();
@@ -26,8 +25,8 @@ namespace item{
 	moveSquare::moveSquare(int x, int y, int size,Show *draw, direct drt, int speed) :square(x,y,size,draw){
 		this->drt = drt;
 		this->speed = speed;
-		draw->move(x, y, drt);
 		this->control = 0;
+		draw->move(-1,-1,MOVESETDIRECT|drt);
 	}
 	void moveSquare::move(direct drt){
 		switch (drt)
