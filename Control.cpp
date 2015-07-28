@@ -31,7 +31,7 @@ namespace Controler{
 	bool autoTankControl::run(){
 		if(count--)return false;
 		srand(clock());
-		unsigned int a = rand() % 4;
+		unsigned int a = rand()%4;
 		//unsigned int b = rand() % 50;
 		int c = checker->move(tank, tank->drt);
 		if (c&bumpType::astop){
