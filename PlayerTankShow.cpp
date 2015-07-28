@@ -12,6 +12,8 @@ namespace view
 	void PlayerTankShow::move(int x,int y,...)
 	{
 		if(x!=-1&&y!=-1){
+            x*=rat;
+            y*=rat;
 			rec.left=x;
 			rec.top=y;
 			rec.bottom=y+28;

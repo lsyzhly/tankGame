@@ -33,7 +33,7 @@ namespace Controler{
 		srand(clock());
 		unsigned int a = rand() % 4;
 		//unsigned int b = rand() % 50;
-		int c = checker->move(tank, tank->drt, tank->speed);
+		int c = checker->move(tank, tank->drt);
 		if (c&bumpType::astop){
 			checker->move(tank, (direct)a, tank->speed);
 			tank->drt = (direct)a;

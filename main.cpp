@@ -173,7 +173,7 @@ bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
 		for(int i=0;i<6;i++)
 		{
 			      result = d3ddev->CreateOffscreenPlainSurface(
-                                 30,                //width of the surface
+                                 28,                //width of the surface
                                  28,                //height of the surface
                                  D3DFMT_X8R8G8B8,    //surface format
                                  D3DPOOL_DEFAULT,    //memory pool to use

@@ -32,31 +32,35 @@ void bindbumpchecker(bumpchecker *checker){
 	::checker = checker;
 	for (std::set<pointer>::iterator ai = items.begin(); ai != items.end(); ai++){
 		pointer a = *ai;
-		checker->add(a);
+		if(!checker->add(a)){
+            throw a;
+		}
 	}
 	for (std::set<pointer>::iterator ai = topLevelItem.begin();
 			ai != topLevelItem.end(); ai++){
 		pointer a = *ai;
-		checker->add(a);
+		if(!checker->add(a)){
+            throw a;
+		}
 	}
 }
 
 void clean(){
 	std::list<pointer> pset;
-	for (std::map<pointer, int>::iterator it = to_delete.begin(); 
+	for (std::map<pointer, int>::iterator it = to_delete.begin();
 			it != to_delete.end(); it++){
 		if (--it->second<=0){
 			pset.push_back(it->first);
 		}
 	}
-	for (std::list<pointer>::iterator it = pset.begin(); 
+	for (std::list<pointer>::iterator it = pset.begin();
 			it != pset.end(); it++){
 		remove(*it);
 	}
 }
 
 void runControls(){
-	for (std::set<cpointer>::iterator a = controls.begin(); 
+	for (std::set<cpointer>::iterator a = controls.begin();
 			a != controls.end(); a++){
 		(*a)->run();
 	}

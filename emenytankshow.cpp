@@ -9,6 +9,8 @@ namespace view{
 	}
 	void TankAShow::move(int x, int y, ...){
 		if(x!=-1&&y!=-1){
+            x*=rat;
+            y*=rat;
 			rec.left=x;
 			rec.top=y;
 			rec.bottom=y+28;
@@ -49,6 +51,8 @@ namespace view{
 	}
 	void TankBShow::move(int x, int y,...){
 		if(x!=-1&&y!=-1){
+            x*=rat;
+            y*=rat;
             rec.left=x;
             rec.top=y;
             rec.bottom=y+28;

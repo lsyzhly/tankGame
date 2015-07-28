@@ -1,7 +1,7 @@
 #include "view.h"
 namespace view
 {
-	class PlayerTankShow:Show
+	class PlayerTankShow:public Show
 	{
 	public:
 		int dir;//tankµÄ·½Ïò
