@@ -41,9 +41,9 @@ namespace view
 	}
 	void PlayerTankShow::Repaint()
 	{
-		 if(1==player)
+		 if(0==player)
              d3ddev->StretchRect(player1[dir][(rank<<1)+flag], NULL, backbuffer, &rec, D3DTEXF_NONE);
-		 else if(2==player)
+		 else if(1==player)
 			 d3ddev->StretchRect(player2[dir][(rank<<1)+flag], NULL, backbuffer, &rec, D3DTEXF_NONE);
 		 else
 			 return;
