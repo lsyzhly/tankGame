@@ -72,6 +72,7 @@ namespace item{
 		//碰撞处理函数
 		virtual bumpType bump(square *a,direct drt);
 		virtual void reDirect(direct drt);
+		virtual void moveDirect(direct drt);
 		//开火
 		Bullet *fire();
 		virtual ~Tank();

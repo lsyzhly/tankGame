@@ -20,7 +20,7 @@ void init(){
 	s=new PlayerTankShow(2,1);
     readFile("map\\level1.map");
     Tank *tank=new Tank(4<<4,12<<4,14,1,up,s,0,0,0,0,1);
-    playTankControl *b=new playTankControl(tank,0);
+    autoTankControl *b=new autoTankControl(tank);
     addControl(b);
     addItem(tank);
     bumpchecker *a=new bumpchecker(320,480);

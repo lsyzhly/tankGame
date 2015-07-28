@@ -130,6 +130,10 @@ namespace item{
         draw->move(-1,-1,MOVESETDIRECT|drt);
     }
 
+	void Tank::moveDirect(direct drt){
+        this->drt=drt;
+        draw->move(-1,-1,MOVEDIRECT|drt);
+	}
 	Tank::~Tank(){
 		for (set<Bullet *>::iterator ai=bullet_set.begin();ai!=bullet_set.end();ai++){
 			Bullet *a=*ai;
