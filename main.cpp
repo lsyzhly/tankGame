@@ -20,7 +20,7 @@ LPDIRECT3DSURFACE9 block[3];//0×©¿é£¬1Ìú¿é£¬2²ÝµØ
 LPDIRECT3DSURFACE9 water[2];//Ë®µÄÁ½ÖÖÐÎÌ¬
 LPDIRECT3DSURFACE9 headquarters[2];//Ë¾Áî²¿£¬Á½ÖÖÐÎÌ¬£¬0±íÊ¾ÂÙÏÝ£¬1±íÊ¾´æÔÚ
 LPDIRECT3DSURFACE9 bonus[6];//½±Àø£¬ÒÀ´ÎÊÇ£¬0Ì¹¿Ë£¬1¶¨Ê±£¬2Ìú²ù£¬3Õ¨µ¯£¬4ÐÇÐÇ£¬5°²È«Ã±
-LPDIRECT3DSURFACE9 explode[2];//±¬Õ¨£¬Á½ÖÖ¹æ¸ñ£¬0±íÊ¾28*28,×Óµ¯Åöµ½Ç½£¬
+LPDIRECT3DSURFACE9 explode[2];//±¬Õ¨£¬Á½ÖÖ¹æ¸ñ£¬0±íÊ¾28*28,×Óµ¯Åöµ½Ç½£¬1±íÊ¾64*64£¬×Óµ¯´òµ½tank
 
 bool isKeyDown[256];
 int mspf=30;//miliseconds per Frame
@@ -32,6 +32,64 @@ bool TankInit(LPCWSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n);//´«Èë¶ÔÓ¦¶þÎ¬Êý×é£
 bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs);
 bool WaterAndHeadquartersInit(LPCWSTR f,LPDIRECT3DSURFACE9 *wa,LPDIRECT3DSURFACE9 *hq);
 bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
+bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn);
+
+
+bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn)
+{
+        HRESULT result;
+        result = d3ddev->CreateOffscreenPlainSurface(
+                                 28,                //width of the surface
+                                 28,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
+                                 bn,           //pointer to the surface  bo
+                                 NULL);
+				  if (!SUCCEEDED(result)) return false;
+				  RECT rec;
+				  rec.top=0;
+				  rec.bottom=rec.top+28;
+				  rec.left=0;
+				  rec.right=rec.left+28;
+				  result=D3DXLoadSurfaceFromFile(
+				        *(bn),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f1,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
+				        NULL);
+
+                  if (!SUCCEEDED(result)) return false;
+        result = d3ddev->CreateOffscreenPlainSurface(
+                                 64,                //width of the surface
+                                 64,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
+                                 bn+1,           //pointer to the surface  bo
+                                 NULL);
+				  if (!SUCCEEDED(result)) return false;
+				  rec.top=0;
+				  rec.bottom=rec.top+64;
+				  rec.left=0;
+				  rec.right=rec.left+64;
+				  result=D3DXLoadSurfaceFromFile(
+				        *(bn+1),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f2,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
+				        NULL);
+
+                  if (!SUCCEEDED(result)) return false;
+			//	  d3ddev->StretchRect(bonus[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+			}
+		  return true;
+}
+
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -160,7 +218,7 @@ bool initdirectx(){
 	BlockInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
 	WaterAndHeadquartersInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
 	BonusInit("graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
-
+    ExplodeInit("graphics/explode1.bmp","grapics/explode2.bmp",LPDIRECT3DSURFACE9 *bn);
 
 
 

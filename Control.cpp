@@ -46,16 +46,27 @@ namespace Controler{
 		this->type=type;
 	}
 	bool playTankControl::run(){
+		if(count--)return false;
+		int dir;
 		if(isKeyDown[player1tank[up]])
-			tank->reDirect(up);
+		{tank->reDirect(up);dir=up;}
 		else if(isKeyDown[player1tank[down]])
-			tank->reDirect(down);
+		{tank->reDirect(down);dir=down;}
 		else if(isKeyDown[player1tank[left]])
-			tank->reDirect(left);
+		{tank->reDirect(left);dir= left;}
 		else if(isKeyDown[player1tank[right]])
-			tank->reDirect(right);
+		{	tank->reDirect(right);dir=right;}
 		else if(isKeyDown[player1tank[4]])
-			tank->fire();
+		{tank->fire();return false;}
+		int sta=checker->move(tank,tank->drt,tank->speed);
+		if(sta&bumpType::through)
+		{
+			tank->draw->move(-1,-1,MOVEDIRECT|dir);
+		}
+		else if(sta&bumpType::abandonded)
+		{
+			return true;
+		}
 		return false;
 	}
 
