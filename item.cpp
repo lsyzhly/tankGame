@@ -58,18 +58,51 @@ namespace item{
 	unmoveSquare::~unmoveSquare(){
 	}
 	Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
-		int maxbullets, int pvalue, int bullet_size, int bullet_speed)
+		int maxbullets, int pvalue, int bullet_size, int bullet_speed，bool isPlayer)
 		:moveSquare(x,y,size,draw,drt,speed)
 	{
 		this->maxbullets = maxbullets;
 		this->pvalue = pvalue;
 		this->bullet_size = bullet_size;
 		this->bullet_speed = bullet_speed;
+		this->isPlayer=isPlayer;
 	}
 	bumpType Tank::bump(square *a,direct drt){
 		if (a == 0){
-			add_to_delete(this, 1);
-			return bumpType::abandonded;
+			return bumpType::stop;
+		}
+		unmoveSquare *b=dynamic_cast<unmoveSquare *>(a);//b=0 转换不可移动的墙土失败
+		if(b!=0)
+		{
+			if(b->utype==tu||b->utype==qiang||shui==b->utype||boss==b->utype)
+			{
+				return bumpType::stop;
+			}
+			else (b->utype=cao)
+			{
+				return bumpType::through;
+			}
+		}
+		Tank *c=dynamic_cast<Tank *>(a);//碰撞的为坦克的转换
+		if(c)
+		{
+            return bumpType::stop;
+		}
+        Bullet *d=dynamic_cast<Bullet *>(a);//碰撞为子弹的转换
+		if(d)
+		{
+			if(d->t->isPlayer==true && this->isPlayer==true)
+			{
+				return bumpType::stop;//暂时将己方定位停止
+			}
+			if(d->t->isPlaye!=this->isPlayer)
+			{
+                return bumpType::abandonded;
+			}
+			if(d->t->isPlayer==false && this->isPlayer==false)
+			{
+               return bumpType::through;
+			}	
 		}
 		//TODO judge the bump type
 		return stop;
