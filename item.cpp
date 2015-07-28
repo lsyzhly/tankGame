@@ -78,7 +78,7 @@ namespace item{
 			{
 				return bumpType::stop;
 			}
-			else (b->utype=cao)
+			else// (b->utype==cao)
 			{
 				return bumpType::through;
 			}
@@ -93,11 +93,14 @@ namespace item{
 		{
 			if(d->t->isPlayer==true && this->isPlayer==true)
 			{
+				add_to_delete(a,1);
 				return bumpType::stop;//暂时将己方定位停止
 			}
-			if(d->t->isPlaye!=this->isPlayer)
+			if(d->t->isPlayer!=this->isPlayer)
 			{
-                return bumpType::abandonded;
+				add_to_delete(this,1);
+				add_to_delete(a,1);
+                return bumpType::abandonded;//将自身消失
 			}
 			if(d->t->isPlayer==false && this->isPlayer==false)
 			{
@@ -128,8 +131,57 @@ namespace item{
 	{
 		this->t = t;
 	}
-	bumpType Bullet::bump(square *a,direct drt){
-		//TODO judge the bump type
+	bumpType Bullet::bump(square *a,direct drt)
+	{
+		if (a == 0){
+			add_to_delete(this,1);
+			return bumpType::abandonded;
+		}
+       unmoveSquare *b=dynamic_cast<unmoveSquare *>(a);//b=0 转换不可移动的墙土失败
+	   if(b)
+	   {
+		   if(b->utype==tu)//击中土后消失的情况
+		   {
+			 add_to_delete(this,1);
+			 add_to_delete(a,1);
+             return bumpType::abandonded;
+		   }
+		   if(b->utype==qiang && this->t->pvalue==3)//最高等级坦克击中铁
+		   {
+              add_to_delete(this,1);
+			  add_to_delete(a,1);
+              return bumpType::abandonded;
+		   }
+		   if(b->utype==shui && b->utype==cao)
+		   {
+			   return bumpType::through;
+		   }
+		   if(b->utype==boss)
+		   {
+             add_to_delete(this,1);
+			 add_to_delete(a,1);
+             return bumpType::abandonded;
+		   }
+		   if(b->utype==qiang && this->t->pvalue!=3)
+		   {
+               add_to_delete(this,1);
+			   return bumpType::abandonded;
+		   }
+	   }
+	   Tank *c=dynamic_cast<Tank *>(a);//子弹碰到坦克
+	   if(c)
+	   {
+		   if(this->t->isPlayer==true && c->isPlayer==true)
+		   {
+			   add_to_delete(this,1);
+			   //todo 将坦克的处理不全
+               return bumpType::abandonded;
+		   }
+		   if(this->t->isPlayer==false && c->isPlayer==false)
+		   {
+			   return bumpType::through;
+		   }
+	   }
 		return stop;
 	}
 

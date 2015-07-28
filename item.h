@@ -66,8 +66,9 @@ namespace item{
 		int bullet_size;
 		//子弹速度
 		int bullet_speed;
+		bool isPlayer;
 		Tank(int x, int y, int size, int speed, direct drt,Show *draw,
-			int maxbullets, int pvalue, int bullet_size, int bullet_speed);
+			int maxbullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer);
 		//碰撞处理函数
 		virtual bumpType bump(square *a,direct drt);
 		virtual void reDirect(direct drt);

@@ -24,18 +24,17 @@ namespace view
         if(n&MOVEDIRECT){
             flag++;
             flag&=0x1;
-            drt=(direct)(n&MOVEVALUE);
-            movedrt(drt,rec,rat);
+            dir=(direct)(n&MOVEVALUE);
+            movedrt(dir,rec,rat);
         }else if(n&MOVELEVEL){
             rank=n&MOVEVALUE;
         }else if(n&MOVESETDIRECT){
-            drt=(direct)(n&MOVEVALUE);
+            dir=(direct)(n&MOVEVALUE);
         }else if(n&MOVEFLAG==0){
             return;
         }else{
             throw n;
         }
-        movedrt(dir,rec,rat);
 
 	  // d3ddev->StretchRect(ConstSurface, NULL, backbuffer, &rec, D3DTEXF_NONE);
 	}
