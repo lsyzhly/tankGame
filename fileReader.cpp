@@ -67,11 +67,7 @@ void readFile(char *path){
 				}else{
 					m=*ptr++;
 					char *pt= newMuchSquare(j,i,32,(unmoveType)n,m);
-					int n=*pt++;
-					unmoveSquare *ptp=(unmoveSquare *)pt;
-					while(n--){
-						addItem(ptp+n);
-					}
+					addSqares(pt);
 				}
 			}
 		}
