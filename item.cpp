@@ -98,16 +98,26 @@ namespace item{
 			}
 			if(d->t->isPlayer!=this->isPlayer)
 			{
-				add_to_delete(this,1);
-				add_to_delete(a,1);
-                return bumpType::abandonded;//将自身消失
+				//add_to_delete(this,1);
+				//add_to_delete(a,1);
+				this->pvalue=this->pvalue-1;
+				if(this->pvalue==-1)
+				{
+					add_to_delete(this,1);
+					add_to_delete(a,1);
+					return bumpType::abandonded;//消失
+				}
+				else
+				{
+					add_to_delete(a,1);
+                    return bumpType::stop;//降级
+				}		
 			}
 			if(d->t->isPlayer==false && this->isPlayer==false)
 			{
                return bumpType::through;
 			}
 		}
-		//TODO judge the bump type
 		return stop;
 	}
 
@@ -180,6 +190,34 @@ namespace item{
 		   if(this->t->isPlayer==false && c->isPlayer==false)
 		   {
 			   return bumpType::through;
+		   }
+		   if(this->t->isPlayer!=c->isPlayer)// enemy and player reduce HP
+		   {
+			   c->pvalue=c->pvalue-1;
+			   if(c->pvalue==-1)
+			   {
+				   add_to_delete(this,1);
+				   add_to_delete(a,1);
+                   return bumpType::abandonded;
+			   }
+			  
+			   add_to_delete(this,1);
+			   c->draw->move(-1,-1,MOVELEVEL|c->pvalue);
+			   return bumpType::abandonded;   
+		   }
+	   }
+	   Bullet *d=dynamic_cast<Bullet *>(a);
+	   if(d)
+	   {
+		   if(this->t->isPlayer==d->t->isPlayer)// same side
+		   {
+                 return bumpType::through;
+		   }
+		   else
+		   {
+		   add_to_delete(this,1);
+           add_to_delete(a,1);
+		   return bumpType::abandonded;
 		   }
 	   }
 		return stop;
