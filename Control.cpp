@@ -12,7 +12,8 @@
 #include "item.h"
 #include <Windows.h>
 #include  <list>
-
+UINT player1tank[5]={VK_UP,VK_RIGHT,VK_DOWN,VK_LEFT,76};//表示player1的上下左右的虚拟键值up=0, down=2, left=3, right=1,L(fire)
+UINT player2tank[5]={87,68,83,65,VK_SPACE};//表示player2的上下左右的虚拟键值 w,s,a,d,space
 namespace Controler{
 	Control::Control(int maxcount){
 		this->maxcount=maxcount;
@@ -40,11 +41,12 @@ namespace Controler{
 		count=maxcount;
 		return c&bumpType::abandonded;
 	}
-	playTankControl::playTankControl(item::Tank *tank,bool type):Control(tank->speed){
+	playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed){
 		this->tank=tank;
 		this->type=type;
 	}
 	bool playTankControl::run(){
 		if(count--)return false;
 	}
+
 }

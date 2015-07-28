@@ -4,7 +4,6 @@ namespace view
 	class PlayerTankShow:Show
 	{
 	public:
-		int size;//tank的大小
 		int dir;//tank的方向
 		//int dis;//tank移动的距离
 		int rank;//tank的等级,赋值0，1,2,3
