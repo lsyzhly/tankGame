@@ -79,6 +79,11 @@ namespace item{
 		return new Bullet(this,x+size/2-bullet_size/2,y+size/2-bullet_size/2,bullet_size,bullet_speed,0);
 	}
 
+    void Tank::reDirect(direct drt){
+        this->drt=drt;
+        draw->move(-1,-1,(pvalue<<4)|drt);
+    }
+
 	Tank::~Tank(){
 		for (set<Bullet *>::iterator ai=bullet_set.begin();ai!=bullet_set.end();ai++){
 			Bullet *a=*ai;

@@ -12,6 +12,8 @@ using std::mutex;
 #include <set>
 #include "item.h"
 #include "bumpcheck.h"
+extern UINT player1tank[5];//表示player1的上下左右,fire的虚拟键值
+extern UINT player2tank[5];//表示player2的上下左右,fire的虚拟键值
 namespace Controler{
 	using std::map;
 	using std::vector;
@@ -44,9 +46,10 @@ namespace Controler{
 		virtual bool run();
 	};
 	class playTankControl:public Control{
-		bool type;
+	public:
+		int type;//0表示player1,1表示player2
 		Tank *tank;
-		playTankControl(Tank *tank,bool type);
+		playTankControl(Tank *tank,int type);
 		virtual bool run();
 	};
 }

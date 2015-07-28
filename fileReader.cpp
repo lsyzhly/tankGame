@@ -59,19 +59,15 @@ void readFile(char *path){
 	char *ptr=(char *)malloc(n);
 	fread(ptr,1,n,fp);
 	int i,j;
-	for(i=0;i<15;i++){
-		for(j=0;j<15;j++){
+	for(i=0;i<13;i++){
+		for(j=0;j<13;j++){
 			if(n=*ptr++){
 				if(n==6){
 					//addItem(new unmoveSquare(j<<5,i<<5,32,0,tie));
 				}else{
 					m=*ptr++;
 					char *pt= newMuchSquare(j,i,32,(unmoveType)n,m);
-					int n=*pt++;
-					unmoveSquare *ptp=(unmoveSquare *)pt;
-					while(n--){
-						addItem(ptp+n);
-					}
+					addSqares(pt);
 				}
 			}
 		}

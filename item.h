@@ -24,7 +24,7 @@ namespace item{
 		Show *draw;
 		//指向轮廓对应点的指针
 		set<square**> occupy;
-		
+
 		square(int x, int y, int size, Show *draw);
 		//获取对象轮廓
 		virtual posSet *getRange();
@@ -70,6 +70,7 @@ namespace item{
 			int maxbullets, int pvalue, int bullet_size, int bullet_speed);
 		//碰撞处理函数
 		virtual bumpType bump(square *a,direct drt);
+		virtual void reDirect(direct drt);
 		//开火
 		Bullet *fire();
 		virtual ~Tank();
