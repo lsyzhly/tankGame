@@ -16,25 +16,26 @@ UINT player1tank[5]= {VK_UP,VK_RIGHT,VK_DOWN,VK_LEFT,76}; //±íÊ¾player1µÄÉÏÏÂ×óÓ
 UINT player2tank[5]= {87,68,83,65,VK_SPACE}; //±íÊ¾player2µÄÉÏÏÂ×óÓÒµÄÐéÄâ¼üÖµ w,s,a,d,space
 namespace Controler
 {
-    Control::Control(int maxcount)
-    {
-        this->maxcount=maxcount;
-        this->count=maxcount;
-    }
-    Control::~Control()
-    {
-    }
+Control::Control(int maxcount)
+{
+    this->maxcount=maxcount;
+    this->count=maxcount;
+}
+Control::~Control()
+{
+}
 
-    autoTankControl::autoTankControl(Tank *tank):Control(tank->speed)
-    {
-        this->tank = tank;
-        tank->control = this;
-        printf("starting run%p,%p\n", this,this->tank);
-    }
+autoTankControl::autoTankControl(Tank *tank):Control(tank->speed)
+{
+    this->tank = tank;
+    tank->control = this;
+    printf("starting run%p,%p\n", this,this->tank);
+}
 
-    bool autoTankControl::run()
+bool autoTankControl::run()
+{
+    while(count--)
     {
-        if(count--)return false;
         srand(clock());
         unsigned int a = rand()%4;
         unsigned int b = rand() % 50;
@@ -55,99 +56,103 @@ namespace Controler
         {
             tank->moveDirect(tank->drt);
         }
-        count=maxcount;
-        return c&bumpType::abandonded;
-    }
-    playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
-    {
-        this->tank=tank;
-        this->type=type;
-    }
-    bool playTankControl::run()
-    {
-        count=maxcount;
-        while(count--)
-        {
-            int dir=-1;
-            if(0==type)
-            {
-                if(isKeyDown[player1tank[up]])
-                {
-                    tank->reDirect(up);
-                    dir=up;
-                }
-                else if(isKeyDown[player1tank[down]])
-                {
-                    tank->reDirect(down);
-                    dir=down;
-                }
-                else if(isKeyDown[player1tank[left]])
-                {
-                    tank->reDirect(left);
-                    dir= left;
-                }
-                else if(isKeyDown[player1tank[right]])
-                {
-                    tank->reDirect(right);
-                    dir=right;
-                }
-                else if(isKeyDown[player1tank[4]])
-                {
-                    tank->fire();
-                    return false;
-                }
-                if(-1!=dir)
-                {
-                    int sta=checker->move(tank,tank->drt);
-                    if(!(sta&bumpType::astop))
-                        tank->draw->move(-1,-1,MOVEDIRECT|dir);
-                    if(sta&bumpType::abandonded)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            else
-            {
-                if(isKeyDown[player2tank[up]])
-                {
-                    tank->reDirect(up);
-                    dir=up;
-                }
-                else if(isKeyDown[player2tank[down]])
-                {
-                    tank->reDirect(down);
-                    dir=down;
-                }
-                else if(isKeyDown[player2tank[left]])
-                {
-                    tank->reDirect(left);
-                    dir= left;
-                }
-                else if(isKeyDown[player2tank[right]])
-                {
-                    tank->reDirect(right);
-                    dir=right;
-                }
-                else if(isKeyDown[player2tank[4]])
-
-                {
-                    tank->fire();
-                    return false;
-                }
-                if(-1!=dir)
-                {
-                    int sta=checker->move(tank,tank->drt);
-                    if(!(sta&bumpType::astop))
-                        tank->draw->move(-1,-1,MOVEDIRECT|dir);
-                    if(sta&bumpType::abandonded)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
+        if(c&bumpType::abandonded) {
+    count=maxcount;return true;
         }
     }
+    count=maxcount;
+    return false;
+}
+playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
+{
+    this->tank=tank;
+    this->type=type;
+}
+bool playTankControl::run()
+{
+    count=maxcount;
+    while(count--)
+    {
+        int dir=-1;
+        if(0==type)
+        {
+            if(isKeyDown[player1tank[up]])
+            {
+                tank->reDirect(up);
+                dir=up;
+            }
+            else if(isKeyDown[player1tank[down]])
+            {
+                tank->reDirect(down);
+                dir=down;
+            }
+            else if(isKeyDown[player1tank[left]])
+            {
+                tank->reDirect(left);
+                dir= left;
+            }
+            else if(isKeyDown[player1tank[right]])
+            {
+                tank->reDirect(right);
+                dir=right;
+            }
+            else if(isKeyDown[player1tank[4]])
+            {
+                tank->fire();
+                return false;
+            }
+            if(-1!=dir)
+            {
+                int sta=checker->move(tank,tank->drt);
+                if(!(sta&bumpType::astop))
+                    tank->draw->move(-1,-1,MOVEDIRECT|dir);
+                if(sta&bumpType::abandonded)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else
+        {
+            if(isKeyDown[player2tank[up]])
+            {
+                tank->reDirect(up);
+                dir=up;
+            }
+            else if(isKeyDown[player2tank[down]])
+            {
+                tank->reDirect(down);
+                dir=down;
+            }
+            else if(isKeyDown[player2tank[left]])
+            {
+                tank->reDirect(left);
+                dir= left;
+            }
+            else if(isKeyDown[player2tank[right]])
+            {
+                tank->reDirect(right);
+                dir=right;
+            }
+            else if(isKeyDown[player2tank[4]])
+
+            {
+                tank->fire();
+                return false;
+            }
+            if(-1!=dir)
+            {
+                int sta=checker->move(tank,tank->drt);
+                if(!(sta&bumpType::astop))
+                    tank->draw->move(-1,-1,MOVEDIRECT|dir);
+                if(sta&bumpType::abandonded)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+}
 }

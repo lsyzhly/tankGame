@@ -16,18 +16,18 @@ using namespace bump;
 Show *s;
 void init()
 {
-    mspf=0;
+    mspf=80;
     int n;
     Tank *tank;
     readFile("map\\level1.map");
     s=new PlayerTankShow(2,1);
     tank=new Tank(4<<4,12<<4,14,3,up,s,0,0,0,0,1);
-    playTankControl *b=new playTankControl(tank,1);
+    autoTankControl *b=new autoTankControl(tank);
     addControl(b);
     addItem(tank);
     s=new PlayerTankShow(2,0);
-    tank=new Tank(8<<4,12<<4,14,4,up,s,0,0,0,0,1);
-    b=new playTankControl(tank,0);
+    tank=new Tank(8<<4,12<<4,14,1,up,s,0,0,0,0,1);
+    b=new autoTankControl(tank);
     addControl(b);
     addItem(tank);
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
