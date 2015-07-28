@@ -2,11 +2,10 @@
 #include "stdarg.h"
 namespace view
 {
-	PlayerTankShow::PlayerTankShow(int rat,int rank,int player):Show(rat)
+	PlayerTankShow::PlayerTankShow(int rat,int player):Show(rat)
 	{
           this->rat = rat;
 		  this->flag=0;
-		  this->rank=rank;
 		  this->player=player;
 	}
 	void PlayerTankShow::move(int x,int y,...)
