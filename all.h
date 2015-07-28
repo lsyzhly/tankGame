@@ -4,7 +4,7 @@ extern int *test_type;
 enum direct{ up=0, down=2, left=3, right=1 };
 
 //不能移动的类型,墙和土
-enum unmoveType{ tu=1 ,qiang=2, cao=3};
+enum unmoveType{ tu=1 ,qiang=2, cao=3,shui=4,boss=5};
 
 //碰撞的类型
 enum bumpType {
