@@ -65,9 +65,9 @@ namespace view{
 	void TankBShow::Repaint(){
 		int n=0;
 		if(is_red && counts&0x08){
-			n|=0x3;
+			n=0x3;
 		}else{
-			n|=drt>>4;
+			n=3-(drt>>4);
 		}
 		n<<=1;
 		if(countss&0x1){
