@@ -5,34 +5,26 @@
 #include "fileReader.h"
 #include <stdio.h>
 #include "blockShow.h"
+#include "control.h"
 #include "item.h"
 using namespace view;
 using namespace item;
+using namespace Controler;
 Show *s;
 void init(){
     mspf=10;
-    int n;/*
+    int n;
 	s=new TankBShow(true,2);
-	s->move(32,32,(int)left);*/
-	char *a=newMuchSquare(3,4,32,tu,0);
-	addSqares(a);
-    a=newMuchSquare(2,3,32,tu,3);
-	addSqares(a);
-    a=newMuchSquare(3,2,32,cao,1);
-	addSqares(a);
-    a=newMuchSquare(4,3,32,cao,2);
-	addSqares(a);
-	a=newMuchSquare(3,3,32,qiang,4);
-	addSqares(a);
+	s->move(32,32,(int)left);
+    readFile("map\\level1.map");
+    Tank *tank=new Tank(0,0,16,1,up,s,0,0,0,0,1);
+    playTankControl *b=new playTankControl(tank,0);
+    addControl(b);
+    addItem(tank);
 }
 
-void flush(){/*
-	static int n=0;
-	if(n&0x3==0x3){
-		s->move(-1,-1,(int)(down|0x00));
-	}
-	s->Repaint();
-	n++;*/
+void flush(){
+    runControls();
 	rePaint();
 }
 
