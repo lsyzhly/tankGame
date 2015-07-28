@@ -60,9 +60,10 @@ playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
 }
 bool playTankControl::run()
 {
-    if(count--)return false;
     int dir=-1;
-    count=maxcount;
+	count=maxcount;
+	bool re=false;
+	while(count--){
 	if(0==type)
 	{ if(isKeyDown[player1tank[up]])
     {
@@ -88,7 +89,7 @@ bool playTankControl::run()
 
     {
         tank->fire();
-        return false;
+        re= false;
     }
     if(-1!=dir)
     {
@@ -97,10 +98,9 @@ bool playTankControl::run()
             tank->draw->move(-1,-1,MOVEDIRECT|dir);
         if(sta&bumpType::abandonded)
         {
-            return true;
+            re= true;
         }
     }
-    return false;
 	}
 	else
 	{ if(isKeyDown[player2tank[up]])
@@ -127,7 +127,7 @@ bool playTankControl::run()
 
     {
         tank->fire();
-        return false;
+        re= false;
     }
     if(-1!=dir)
     {
@@ -136,12 +136,14 @@ bool playTankControl::run()
             tank->draw->move(-1,-1,MOVEDIRECT|dir);
         if(sta&bumpType::abandonded)
         {
-            return true;
+            re= true;
         }
     }
-    return false;
+
 
 	}
+	}
+	return re;
 }
 
 }
