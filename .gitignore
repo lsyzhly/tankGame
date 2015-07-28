@@ -25,3 +25,5 @@
 *.tlog
 *.layout
 *.depend
+*.lnk
+*.map
