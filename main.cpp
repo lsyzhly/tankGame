@@ -86,7 +86,6 @@ bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn)
 
                   if (!SUCCEEDED(result)) return false;
 			//	  d3ddev->StretchRect(bonus[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
-			}
 		  return true;
 }
 
@@ -218,7 +217,7 @@ bool initdirectx(){
 	BlockInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
 	WaterAndHeadquartersInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
 	BonusInit("graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
-    ExplodeInit("graphics/explode1.bmp","grapics/explode2.bmp",LPDIRECT3DSURFACE9 *bn);
+    ExplodeInit("graphics/explode1.bmp","grapics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
 
 
 
