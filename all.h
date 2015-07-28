@@ -1,5 +1,10 @@
 #ifndef ALL_H
 #define ALL_H
+#define MOVEDIRECT 0x8000//向某方向移动
+#define MOVESETDIRECT 0x2000//设置方向
+#define MOVELEVEL 0x4000//设置等级
+#define MOVEVALUE 0xfff
+#define MOVEFLAG 0xf000
 extern int *test_type;
 enum direct{ up=0, down=2, left=3, right=1 };
 

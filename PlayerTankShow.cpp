@@ -11,25 +11,31 @@ namespace view
 	}
 	void PlayerTankShow::move(int x,int y,...)
 	{
-		if(x==-1&&y==-1){
-			va_list va;
-			va_start(va,y);
-			dir=va_arg(va,direct);
-			rank=va_arg(va,int);
-			va_end(va);
-			movedrt(dir,rec,rat);
-			 flag=(flag+1)%2;
-		}else{
+		if(x!=-1&&y!=-1){
 			rec.left=x;
 			rec.top=y;
 			rec.bottom=y+28;
 			rec.right=x+28;
-			va_list va;
-			va_start(va,y);
-			rank=va_arg(va,int);
-			dir=va_arg(va,direct);
-			va_end(va);
 		}
+        va_list va;
+        va_start(va,y);
+        int n=va_arg(va,int);
+        va_end(va);
+        if(n&MOVEDIRECT){
+            flag++;
+            flag&=0x1;
+            drt=(direct)(n&MOVEVALUE);
+            movedrt(drt,rec,rat);
+        }else if(n&MOVELEVEL){
+            rank=n&MOVEVALUE;
+        }else if(n&MOVESETDIRECT){
+            drt=(direct)(n&MOVEVALUE);
+        }else if(n&MOVEFLAG==0){
+            return;
+        }else{
+            throw n;
+        }
+        movedrt(dir,rec,rat);
 
 	  // d3ddev->StretchRect(ConstSurface, NULL, backbuffer, &rec, D3DTEXF_NONE);
 	}
@@ -41,6 +47,6 @@ namespace view
 			 d3ddev->StretchRect(player2[dir][(rank<<1)+flag], NULL, backbuffer, &rec, D3DTEXF_NONE);
 		 else
 			 return;
-   
+
 	}
 }

@@ -58,7 +58,7 @@ namespace item{
 	unmoveSquare::~unmoveSquare(){
 	}
 	Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
-		int maxbullets, int pvalue, int bullet_size, int bullet_speed£¬bool isPlayer)
+        int maxbullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer)
 		:moveSquare(x,y,size,draw,drt,speed)
 	{
 		this->maxbullets = maxbullets;
@@ -102,7 +102,7 @@ namespace item{
 			if(d->t->isPlayer==false && this->isPlayer==false)
 			{
                return bumpType::through;
-			}	
+			}
 		}
 		//TODO judge the bump type
 		return stop;

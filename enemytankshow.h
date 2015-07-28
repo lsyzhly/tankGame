@@ -21,6 +21,7 @@ namespace view{
 		int counts;
 		int countss;
 		direct drt;
+		unsigned char pvalue;
 		TankBShow(bool is_red,int rat);
 		virtual void Repaint();
 		//... is int the first 4 bits is direct
