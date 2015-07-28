@@ -48,6 +48,7 @@ namespace Controler{
 	bool playTankControl::run(){
 		if(count--)return false;
 		int dir=-1;
+		count=maxcount;
 		if(isKeyDown[player1tank[up]])
 		{tank->reDirect(up);dir=up;}
 		else if(isKeyDown[player1tank[down]])
