@@ -30,7 +30,7 @@ namespace view
             rank=n&MOVEVALUE;
         }else if(n&MOVESETDIRECT){
             dir=(direct)(n&MOVEVALUE);
-        }else if(n&MOVEFLAG==0){
+        }else if((n&MOVEFLAG)==0){
             return;
         }else{
             throw n;
