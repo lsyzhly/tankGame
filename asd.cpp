@@ -13,7 +13,7 @@ void init(){
     mspf=10;
     int n;/*
 	s=new TankBShow(true,2);
-	s->move(32,32,(int)left);*/
+	s->move(32,32,(int)left);*//*
 	char *a=newMuchSquare(3,4,32,tu,0);
 	addSqares(a);
     a=newMuchSquare(2,3,32,tu,3);
@@ -23,7 +23,8 @@ void init(){
     a=newMuchSquare(4,3,32,cao,2);
 	addSqares(a);
 	a=newMuchSquare(3,3,32,qiang,4);
-	addSqares(a);
+	addSqares(a);*/
+    readFile("map\\level1.map");
 }
 
 void flush(){/*
@@ -33,7 +34,9 @@ void flush(){/*
 	}
 	s->Repaint();
 	n++;*/
-	rePaint();
+	if(!isKeyDown['W'])
+        rePaint();
+
 }
 
 void destory(){
