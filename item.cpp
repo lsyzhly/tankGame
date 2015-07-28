@@ -32,10 +32,10 @@ namespace item{
 		switch (drt)
 		{
 		case up:
-			y++;
+			y--;
 			break;
 		case down:
-			y--;
+			y++;
 			break;
 		case left:
 			x--;
