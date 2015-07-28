@@ -20,7 +20,7 @@ LPDIRECT3DSURFACE9 block[3];//0砖块，1铁块，2草地
 LPDIRECT3DSURFACE9 water[2];//水的两种形态
 LPDIRECT3DSURFACE9 headquarters[2];//司令部，两种形态，0表示沦陷，1表示存在
 LPDIRECT3DSURFACE9 bonus[6];//奖励，依次是，0坦克，1定时，2铁铲，3炸弹，4星星，5安全帽
-
+LPDIRECT3DSURFACE9 explode[2];//爆炸，两种规格，0表示28*28,子弹碰到墙，
 
 bool isKeyDown[256];
 int mspf=30;//miliseconds per Frame
