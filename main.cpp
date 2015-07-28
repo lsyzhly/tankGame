@@ -19,7 +19,7 @@ LPDIRECT3DSURFACE9 player2[4][8];
 LPDIRECT3DSURFACE9 block[3];//0砖块，1铁块，2草地
 LPDIRECT3DSURFACE9 water[2];//水的两种形态
 LPDIRECT3DSURFACE9 headquarters[2];//司令部，两种形态，0表示沦陷，1表示存在
-
+LPDIRECT3DSURFACE9 bonus[6];//奖励，依次是，0坦克，1定时，2铁铲，3炸弹，4星星，5安全帽
 
 
 bool isKeyDown[256];
@@ -31,6 +31,7 @@ void freedirectx();
 bool TankInit(LPCWSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n);//传入对应二维数组（enemy，player1，player2），对tank的surface初始化
 bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs);
 bool WaterAndHeadquartersInit(LPCWSTR f,LPDIRECT3DSURFACE9 *wa,LPDIRECT3DSURFACE9 *hq);
+bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -96,7 +97,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
-	    d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
+      d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         flush();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
         clock_t end=clock();
@@ -158,12 +159,49 @@ bool initdirectx(){
 	TankInit("graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
 	BlockInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
 	WaterAndHeadquartersInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
+	BonusInit("graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
 
 
 
 
     return true;
 }
+
+bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
+{
+        HRESULT result;
+		for(int i=0;i<6;i++)
+		{
+			      result = d3ddev->CreateOffscreenPlainSurface(
+                                 30,                //width of the surface
+                                 28,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
+                                 bn + i,           //pointer to the surface  bo
+                                 NULL);
+				  if (!SUCCEEDED(result)) return false;
+				  RECT rec;
+				  rec.top=0;
+				  rec.bottom=rec.top+28;
+				  rec.left=i*30;
+				  rec.right=rec.left+30;
+				  result=D3DXLoadSurfaceFromFile(
+				        *(bn+i),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
+				        NULL);
+
+                  if (!SUCCEEDED(result)) return false;
+			//	  d3ddev->StretchRect(bonus[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+			}
+		  return true;
+}
+
+
 bool WaterAndHeadquartersInit(LPCWSTR f,LPDIRECT3DSURFACE9 *wa,LPDIRECT3DSURFACE9 *hq)
 {
 		HRESULT result;

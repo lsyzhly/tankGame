@@ -46,7 +46,17 @@ namespace Controler{
 		this->type=type;
 	}
 	bool playTankControl::run(){
-		if(count--)return false;
+		if(isKeyDown[player1tank[up]])
+			tank->reDirect(up);
+		else if(isKeyDown[player1tank[down]])
+			tank->reDirect(down);
+		else if(isKeyDown[player1tank[left]])
+			tank->reDirect(left);
+		else if(isKeyDown[player1tank[right]])
+			tank->reDirect(right);
+		else if(isKeyDown[player1tank[4]])
+			tank->fire();
+		return false;
 	}
 
 }

@@ -21,4 +21,5 @@ extern LPDIRECT3DSURFACE9 player2[4][8];
 extern LPDIRECT3DSURFACE9 block[3];
 extern LPDIRECT3DSURFACE9 water[2];
 extern LPDIRECT3DSURFACE9 headquarters[2];
+extern LPDIRECT3DSURFACE9 bonus[6];//奖励，依次是，0坦克，1定时，2铁铲，3炸弹，4星星，5安全帽
 #endif // MAIN_H_INCLUDED
