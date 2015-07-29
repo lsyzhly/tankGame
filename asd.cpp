@@ -42,15 +42,15 @@ void init()
     //bulletControl *qwea=new bulletControl(ads);
     //addItem(ads);
     //addControl(qwea);
-	//ws=new WaterShow(2);
-	//ws->move(0,0);
+    //ws=new WaterShow(2);
+    //ws->move(0,0);
 
 }
 
 void flush()
 {
-	//ws->move(-1,-1);
-	//ws->Repaint();
+    //ws->move(-1,-1);
+    //ws->Repaint();
     static int n;
     runControls();
     rePaint();

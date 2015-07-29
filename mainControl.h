@@ -34,17 +34,20 @@ void freeAll();
 typedef void (*OnTime)(...);
 
 template <int size>
-class MEMSTRUCT{
-    public:
+class MEMSTRUCT
+{
+public:
     char a[size];
     OnTime func;
     int count;
-    void init(OnTime fun,char *ptr,int count){
+    void init(OnTime fun,char *ptr,int count)
+    {
         func=fun;
         memcpy(a,ptr,size);
         this->count=count;
     }
-    bool operator()(){
+    bool operator()()
+    {
         if(--count==0)
             func(*this);
     }

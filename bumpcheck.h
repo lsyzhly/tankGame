@@ -18,45 +18,50 @@
 using std::mutex;
 #endif
 
-namespace bump{
-	using item::pointer;
-	using item::mpointer;
-	//二维数组模板类
-	template <typename T>
-	class twoarray{
-	public:
-		int length;
-		T *ptr;
-		T *operator[](int size){
-			return ptr + size*length;
-		}
-		twoarray(int length,int width){
-			ptr = (T *)calloc(length*width, sizeof(T));
-			this->length = length;
-		}
-	};
+namespace bump
+{
+using item::pointer;
+using item::mpointer;
+//二维数组模板类
+template <typename T>
+class twoarray
+{
+public:
+    int length;
+    T *ptr;
+    T *operator[](int size)
+    {
+        return ptr + size*length;
+    }
+    twoarray(int length,int width)
+    {
+        ptr = (T *)calloc(length*width, sizeof(T));
+        this->length = length;
+    }
+};
 
-	class bumpchecker {
-	public:
-		int width;
-		int hight;
+class bumpchecker
+{
+public:
+    int width;
+    int hight;
 #ifdef CPP11
-		mutex lock;
+    mutex lock;
 #endif CPP11
-		//二维数组
-		twoarray<pointer> bmap;
-		bumpchecker(int width,int hight);
-		//判断是否出了边界
-		bool is_out(pair<int, int> pos);
-		//重写move方法
-		virtual int move(mpointer a, direct drt, int size);
-		//移动一个单位,返回碰撞类型
-		virtual int move(mpointer a, direct drt);
-		//重写add方法
-		virtual pointer add(pointer a);
-		//重写remove方法
-		virtual void remove(pointer a);
-		virtual ~bumpchecker();
-	};
+    //二维数组
+    twoarray<pointer> bmap;
+    bumpchecker(int width,int hight);
+    //判断是否出了边界
+    bool is_out(pair<int, int> pos);
+    //重写move方法
+    virtual int move(mpointer a, direct drt, int size);
+    //移动一个单位,返回碰撞类型
+    virtual int move(mpointer a, direct drt);
+    //重写add方法
+    virtual pointer add(pointer a);
+    //重写remove方法
+    virtual void remove(pointer a);
+    virtual ~bumpchecker();
+};
 }
 #endif
