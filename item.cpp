@@ -50,7 +50,7 @@ namespace item{
 		}
 	}
 	moveSquare::~moveSquare(){
-		if (control) delete control;
+	//	if (control) delete control;
 	}
 	unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 	{
@@ -204,7 +204,7 @@ namespace item{
 		}
 		else if(this->drt==left)
 		{
-            tempx=x;
+            tempx=x-BULLETSIZE;
 			tempy=y+size/2-BULLETSIZE/2;
 			tempType=3;
           //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
@@ -252,7 +252,7 @@ namespace item{
 		this->t = t;
 	}
 	bumpType Bullet::bump(square *a,direct drt)
-	{
+{
 		if (a == 0){
 			add_to_delete(this,1);
 			return bumpType::abandonded;
