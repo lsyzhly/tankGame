@@ -24,9 +24,9 @@ LPDIRECT3DSURFACE9 explode[2];//爆炸，两种规格，0表示28*28,子弹碰到墙，1表示64*6
 LPDIRECT3DSURFACE9 bulletbmp[4];//子弹，上右下左
 
 bool isKeyDown[256];
+HWND hwnd;
 int mspf=30;//miliseconds per Frame
 int fps;
-HWND hwnd;
 bool initdirectx();
 void freedirectx();
 bool TankInit(LPCWSTR f,LPDIRECT3DSURFACE9 *sur,int m,int n);//传入对应二维数组（enemy，player1，player2），对tank的surface初始化

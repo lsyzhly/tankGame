@@ -76,7 +76,7 @@ namespace Controler
         {
             dir=right;
         }
-        else if(isKeyDown[tmp[4]])
+        if(isKeyDown[tmp[4]])
         {
             tank->fire();
             return false;
