@@ -211,7 +211,13 @@ namespace item{
           //  return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
 		}
 		temp=new BulletShow(2,tempType);//需要new出一个bulletshow指针
-        return new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
+		Bullet *myBullet;
+        myBullet=new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
+		addItem(myBullet);
+		bulletControl *myControl=new bulletControl(myBullet);
+		addControl(myControl);
+       // return new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
+	   return myBullet;
 	}  
 
     void Tank::reDirect(direct drt){
