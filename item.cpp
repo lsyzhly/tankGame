@@ -21,7 +21,9 @@ namespace item{
 		}
 		return &pos_set;
 	}
-	square::~square(){}
+	square::~square(){
+        delete draw;
+	}
 	moveSquare::moveSquare(int x, int y, int size,Show *draw, direct drt, int speed) :square(x,y,size,draw){
 		this->drt = drt;
 		this->speed = speed;
