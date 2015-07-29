@@ -26,6 +26,7 @@ namespace Controler
 
     autoTankControl::autoTankControl(Tank *tank):Control(tank->speed)
     {
+		tank->control=this;
         this->tank = tank;
         tank->control = this;
         printf("starting run%p,%p\n", this,this->tank);
@@ -50,6 +51,7 @@ namespace Controler
     }
     playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
     {
+		tank->control=this;
         this->tank=tank;
         this->type=type;
         clo=clock();
@@ -100,6 +102,7 @@ namespace Controler
         return false;
     }
     bulletControl::bulletControl(Bullet *a):Control(a->speed){
+		a->control=this;
         this->bul=a;
     }
     bool bulletControl::run(){
