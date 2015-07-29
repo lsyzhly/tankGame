@@ -65,6 +65,7 @@ namespace item{
 		set<Bullet *> bullet_set;
 		//发射子弹的最大数量
 		int maxbullets;
+		int nowBullets;//点钱子弹数量初始为0
 		int pvalue;//生命值
 		//子弹大小
 		int bullet_size;
@@ -72,7 +73,7 @@ namespace item{
 		int bullet_speed;
 		bool isPlayer;
 		Tank(int x, int y, int size, int speed, direct drt,Show *draw,
-			int maxbullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer);
+			int maxbullets,int nowBullets,int pvalue, int bullet_size, int bullet_speed,bool isPlayer);
 		//碰撞处理函数
 		virtual bumpType bump(square *a,direct drt);
 		//开火

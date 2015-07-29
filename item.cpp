@@ -65,7 +65,7 @@ namespace item{
 	unmoveSquare::~unmoveSquare(){
 	}
 	Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
-        int maxbullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer)
+        int maxbullets,int nowBullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer)
 		:moveSquare(x,y,size,draw,drt,speed)
 	{
 		this->maxbullets = maxbullets;
@@ -73,6 +73,7 @@ namespace item{
 		this->bullet_size = bullet_size;
 		this->bullet_speed = bullet_speed;
 		this->isPlayer=isPlayer;
+		this->nowBullets=nowBullets;
 		draw->move(-1,-1,MOVELEVEL|pvalue);
 	}
 	bumpType Tank::bump(square *a,direct drt){
@@ -172,7 +173,10 @@ namespace item{
 		int tempx=0;
 		int tempy=0;
 		int tempType=0;
-		if(this->isPlayer==true && this->pvalue!=0)
+		this->nowBullets=this->nowBullets+1;
+		if(this->nowBullets<=this->maxbullets)
+		{
+			if(this->isPlayer==true && this->pvalue!=0)
 		{
            TempBulletSpeed=1;
 		}
@@ -218,6 +222,11 @@ namespace item{
 		addControl(myControl);
        // return new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
 	   return myBullet;
+		}
+		else
+		{
+			this->nowBullets=this->nowBullets-1;
+		}
 	}
 
     void moveSquare::reDirect(direct drt){
