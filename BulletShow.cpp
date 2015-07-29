@@ -37,5 +37,4 @@ namespace view
 	{
          d3ddev->StretchRect(bulletbmp[type], NULL, backbuffer, &rec, D3DTEXF_NONE);
 	}
-
 }

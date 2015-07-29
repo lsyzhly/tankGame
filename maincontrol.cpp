@@ -55,6 +55,7 @@ void clean(){
 	}
 	for (std::list<pointer>::iterator it = pset.begin();
 			it != pset.end(); it++){
+        to_delete.erase(*it);
 		remove(*it);
 	}
 }
@@ -63,8 +64,9 @@ void runControls(){
 	std::list<cpointer> pset;
 	for (std::set<cpointer>::iterator a = controls.begin();
 			a != controls.end(); a++){
-		if((*a)->run()){
-			pset.push_back(*a);
+        cpointer ai=*a;
+		if(ai->run()){
+			pset.push_back(ai);
 		}
 	}
 	for (std::list<cpointer>::iterator it = pset.begin();
@@ -86,12 +88,12 @@ void rePaint(){
 void remove(pointer a){
 	items.erase(a);
 	topLevelItem.erase(a);
+	checker->remove(a);
 	delete a;
 }
 void remove(cpointer a){
-    std::cout << controls.size()<<std::endl;
 	controls.erase(a);
-    std::cout << controls.size()<<std::endl;
+	delete a;
 }
 
 void freeAll(){
