@@ -4,8 +4,10 @@
 #include "item.h"
 #include <list>
 std::map<pointer,int> to_delete;
-std::set<cpointer> controls;
+std::map<Ontiem,int> to_call;
+std::map<cpointer,bool> controls;
 std::set<pointer> items;
+bool is_run;
 std::set<pointer> topLevelItem;
 bumpchecker *checker;
 void add_to_delete(pointer a, int count){
@@ -25,7 +27,7 @@ void addItem(pointer a,bool isTop){
 }
 
 void addControl(cpointer a){
-	controls.insert(a);
+	controls[a]=true;
 }
 
 void bindbumpchecker(bumpchecker *checker){
@@ -58,15 +60,31 @@ void clean(){
         to_delete.erase(*it);
 		remove(*it);
 	}
+	{
+        std::list<Ontiem> pset;
+        for (std::map<Ontiem, int>::iterator it = to_call.begin();
+                it != to_call.end(); it++){
+            if (--it->second<=0){
+                pset.push_back(it->first);
+            }
+        }
+        for (std::list<Ontiem>::iterator it = pset.begin();
+                it != pset.end(); it++){
+            (*it)();
+            to_call.erase(*it);
+        }
+	}
 }
 
 void runControls(){
 	std::list<cpointer> pset;
-	for (std::set<cpointer>::iterator a = controls.begin();
+	for (std::map<cpointer,bool>::iterator a = controls.begin();
 			a != controls.end(); a++){
-        cpointer ai=*a;
-		if(ai->run()){
-			pset.push_back(ai);
+        if(a->second){
+            cpointer ai=a->first;
+            if(ai->run()){
+                pset.push_back(ai);
+            }
 		}
 	}
 	for (std::list<cpointer>::iterator it = pset.begin();
@@ -98,4 +116,20 @@ void remove(cpointer a){
 
 void freeAll(){
 	delete checker;
+}
+
+void addTimeFun(Ontiem on,int n){
+    to_call[on]=0;
+}
+
+void setTankState(bool is,bool is_run){
+	for (std::set<pointer>::iterator a = items.begin();
+			a != items.end(); a++) {
+		Tank *b=dynamic_cast<Tank *>(*a);
+		if(b){
+            if(b->isPlayer==is){
+                controls[b->control]=is_run;
+            }
+		}
+	}
 }

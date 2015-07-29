@@ -30,4 +30,11 @@ void remove(cpointer a);
 
 void freeAll();
 
+typedef (*Ontiem)(...);
+typedef (*is_do)(pointer *a);
+//指定n次刷新自后调用该函数
+void addTimeFun(Ontiem on,int n);
+//设置某阵营坦克状态
+void setTankState(bool is,bool is_run);
+
 #endif

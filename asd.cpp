@@ -23,7 +23,7 @@ void init()
     Tank *tank;
     readFile("map\\level1.map");
     s=new PlayerTankShow(2,1);
-    tank=new Tank(4<<4,12<<4,14,3,up,s,1,0,0,0,0,1);
+    tank=new Tank(4<<4,12<<4,14,3,up,s,4,0,0,0,0,1);
     playTankControl *b=new playTankControl(tank,0);
     addControl(b);
     addItem(tank);

@@ -81,10 +81,10 @@ namespace Controler
         {
             clock_t cloi=clock();
             int n=cloi-clo;
-            clo=clock();
-            if(n<300){
+            if(n<200){
                 return false;
             }
+            clo=clock();
             tank->fire();
             return false;
         }
