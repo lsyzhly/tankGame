@@ -9,7 +9,7 @@ namespace view{
 		bool is_fast;
 		int counts;
 		int countss;
-		direct drt;
+		int drt;
 		TankAShow(bool is_red,int rat,bool is_fast);
 		virtual void Repaint();
 		//...is the direct of tank(int)
@@ -20,7 +20,7 @@ namespace view{
 		bool is_red;
 		int counts;
 		int countss;
-		direct drt;
+		int drt;
 		unsigned char pvalue;
 		TankBShow(bool is_red,int rat);
 		virtual void Repaint();

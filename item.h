@@ -44,6 +44,8 @@ namespace item{
 		virtual void move(direct drt);
 		//碰撞处理函数,返回碰撞类型
 		virtual bumpType bump(square *a,direct drt) = 0;
+		virtual void reDirect(direct drt);
+		virtual void moveDirect(direct drt,int size=1);
 		virtual ~moveSquare();
 	};
 	//不可移动正方形
@@ -73,8 +75,6 @@ namespace item{
 			int maxbullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer);
 		//碰撞处理函数
 		virtual bumpType bump(square *a,direct drt);
-		virtual void reDirect(direct drt);
-		virtual void moveDirect(direct drt);
 		//开火
 		Bullet *fire();
 		virtual ~Tank();

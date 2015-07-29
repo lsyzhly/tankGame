@@ -94,14 +94,18 @@ int bumpchecker::move(mpointer a, direct drt)
 //调用之前的move函数移动a
 int bumpchecker::move(mpointer a, direct drt, int size)
 {
+    int m=0;
     while (size--)
     {
         int n = move(a, drt);
         if (n&bumpType::astop)
         {
+            a->moveDirect(drt,m);
             return n;
         }
+        m++;
     }
+    a->moveDirect(drt,m);
     return bumpType::through;
 }
 
