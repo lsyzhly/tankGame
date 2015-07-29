@@ -102,4 +102,6 @@ namespace Controler
         }
         return false;
     }
+    bulletControl::~bulletControl(){
+    }
 }

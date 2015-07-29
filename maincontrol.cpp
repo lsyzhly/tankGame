@@ -55,6 +55,7 @@ void clean(){
 	}
 	for (std::list<pointer>::iterator it = pset.begin();
 			it != pset.end(); it++){
+        to_delete.erase(*it);
 		remove(*it);
 	}
 }
@@ -89,9 +90,7 @@ void remove(pointer a){
 	delete a;
 }
 void remove(cpointer a){
-    std::cout << controls.size()<<std::endl;
 	controls.erase(a);
-    std::cout << controls.size()<<std::endl;
 }
 
 void freeAll(){

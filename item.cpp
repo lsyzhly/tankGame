@@ -332,6 +332,6 @@ namespace item{
 	}
 
 	Bullet::~Bullet(){
-		t->bullet_set.erase(this);
+		t->nowBullets--;
 	}
 }

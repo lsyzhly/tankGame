@@ -56,6 +56,7 @@ namespace Controler{
     public:
         Bullet *bul;
 		bulletControl(Bullet *bul);
+		virtual ~bulletControl();
 		virtual bool run();
 	};
 }
