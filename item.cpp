@@ -78,9 +78,46 @@ namespace item{
 			{
 				return bumpType::stop;
 			}
-			else// (b->utype==cao)
+			else if (b->utype==cao)
 			{
 				return bumpType::through;
+			}//未进行调试的碰撞道具部分
+			else if(b->utype==star)//star part
+			{
+				if(this->isPlayer==true && this->pvalue<3)
+				{
+					this->pvalue=this->pvalue+1;
+					add_to_delete(a);
+					this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
+					return bumpType::through;
+				}
+				else if(this->isPlayer==false && this->pvalue<2)
+				{   //加强敌方坦克
+                    this->pvalue=this->pvalue+1;
+					add_to_delete(a);
+					this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
+					return bumpType::through;
+				}
+				else
+				{
+					add_to_delete(a);
+                    return bumpType::through;
+				}
+			}
+			else if(b->utype==tank)
+			{
+			}
+			else if(b->utype==clock)
+			{
+			}
+			else if(b->utype==cap)
+			{
+			}
+			else if(b->utype==shovel)
+			{
+			}
+			else
+			{
 			}
 		}
 		Tank *c=dynamic_cast<Tank *>(a);//碰撞的为坦克的转换
@@ -121,8 +158,35 @@ namespace item{
 		return stop;
 	}
 
-	Bullet *Tank::fire(){
-		return new Bullet(this,x+size/2-bullet_size/2,y+size/2-bullet_size/2,bullet_size,bullet_speed,0);
+	Bullet *Tank::fire()
+	{
+        int TempBulletSpeed=0;
+		if(this->isPlayer==true && this->pvalue=!=0)
+		{
+           TempBulletSpeed=6;
+		}
+		else
+		{
+           TempBulletSpeed=10;
+		}
+		Show *temp;
+		temp=new BulletShow();//需要new出一个bulletshow指针
+		if(this->drt==up)
+		{
+			return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
+		}
+		else if(this->drt==down)
+		{
+            return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
+		}
+		else if(this->drt==left)
+		{
+            return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
+		}
+		else (this->drt==right)
+		{
+            return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
+		}
 	}
 
     void Tank::reDirect(direct drt){
