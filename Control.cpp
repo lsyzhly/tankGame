@@ -52,6 +52,7 @@ namespace Controler
     {
         this->tank=tank;
         this->type=type;
+        clo=clock();
     }
     bool playTankControl::run()
     {
@@ -78,6 +79,12 @@ namespace Controler
         }
         else if(isKeyDown[tmp[4]])
         {
+            clock_t cloi=clock();
+            int n=cloi-clo;
+            clo=clock();
+            if(n<300){
+                return false;
+            }
             tank->fire();
             return false;
         }
