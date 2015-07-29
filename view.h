@@ -19,6 +19,11 @@ namespace view{
 		virtual void move(int x, int y,...)=0;
 		virtual ~Show();
 	};
+	class moveShow:public Show{
+    public:
+        int maxcount;
+        int count;
+	};
 }
 
 #endif

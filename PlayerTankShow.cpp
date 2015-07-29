@@ -5,7 +5,6 @@ namespace view
 	PlayerTankShow::PlayerTankShow(int rat,int player):Show(rat)
 	{
           this->rat = rat;
-		  this->flag=0;
 		  this->player=player;
 	}
 	void PlayerTankShow::move(int x,int y,...)
@@ -23,10 +22,11 @@ namespace view
         int n=va_arg(va,int);
         va_end(va);
         if(n&MOVEDIRECT){
-            flag++;
-            flag&=0x1;
-            dir=(direct)(n&MOVEVALUE);
-            movedrt(dir,rec,rat);
+            count++;
+            int m=(n&MOVEVALUE);
+            dir=m&0xf;
+            m>>=4;
+            movedrt(dir,rec,(rat*m));
         }else if(n&MOVELEVEL){
             rank=n&MOVEVALUE;
         }else if(n&MOVESETDIRECT){
@@ -36,15 +36,13 @@ namespace view
         }else{
             throw n;
         }
-
-	  // d3ddev->StretchRect(ConstSurface, NULL, backbuffer, &rec, D3DTEXF_NONE);
 	}
 	void PlayerTankShow::Repaint()
 	{
 		 if(0==player)
-             d3ddev->StretchRect(player1[dir][(rank<<1)+flag], NULL, backbuffer, &rec, D3DTEXF_NONE);
+             d3ddev->StretchRect(player1[dir][(rank<<1)+count&0x1], NULL, backbuffer, &rec, D3DTEXF_NONE);
 		 else if(1==player)
-			 d3ddev->StretchRect(player2[dir][(rank<<1)+flag], NULL, backbuffer, &rec, D3DTEXF_NONE);
+			 d3ddev->StretchRect(player2[dir][(rank<<1)+count&0x1], NULL, backbuffer, &rec, D3DTEXF_NONE);
 		 else
 			 return;
 

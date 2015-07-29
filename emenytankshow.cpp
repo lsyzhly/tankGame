@@ -22,8 +22,10 @@ namespace view{
         va_end(va);
         if(n&MOVEDIRECT){
             countss++;
-            drt=(direct)(n&MOVEVALUE);
-            movedrt(drt,rec,rat);
+            int m=(n&MOVEVALUE);
+            drt=m&0xf;
+            m>>=4;
+            movedrt(drt,rec,(rat*m));
         }else if(n&MOVESETDIRECT){
             drt=(direct)(n&MOVEVALUE);
         }else if((n&MOVEFLAG)==0){
@@ -64,8 +66,10 @@ namespace view{
         va_end(va);
         if(n&MOVEDIRECT){
             countss++;
-            drt=(direct)(n&MOVEVALUE);
-            movedrt(drt,rec,rat);
+            int m=(n&MOVEVALUE);
+            drt=m&0xf;
+            m>>=4;
+            movedrt(drt,rec,(rat*m));
         }else if(n&MOVELEVEL){
             pvalue=n&MOVEVALUE;
         }else if(n&MOVESETDIRECT){

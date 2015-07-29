@@ -54,6 +54,14 @@ namespace item{
 	{
         this->utype=utype;
 	}
+	posSet *unmoveSquare::getRange(){
+        if(utype==cao){
+            return &pos_set;
+        }
+        else{
+            return square::getRange();
+        }
+	}
 	unmoveSquare::~unmoveSquare(){
 	}
 	Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
@@ -87,27 +95,27 @@ namespace item{
 				if(this->isPlayer==true && this->pvalue<3)
 				{
 					this->pvalue=this->pvalue+1;
-					add_to_delete(a);
+					add_to_delete(a,1);
 					this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
 					return bumpType::through;
 				}
 				else if(this->isPlayer==false && this->pvalue<2)
 				{   //加强敌方坦克
                     this->pvalue=this->pvalue+1;
-					add_to_delete(a);
+					add_to_delete(a,1);
 					this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
 					return bumpType::through;
 				}
 				else
 				{
-					add_to_delete(a);
+					add_to_delete(a,1);
                     return bumpType::through;
 				}
 			}
 			else if(b->utype==tank)
 			{
 			}
-			else if(b->utype==clock)
+			else if(b->utype==myclock)
 			{
 			}
 			else if(b->utype==cap)
@@ -161,42 +169,65 @@ namespace item{
 	Bullet *Tank::fire()
 	{
         int TempBulletSpeed=0;
-		if(this->isPlayer==true && this->pvalue=!=0)
+		int tempx=0;
+		int tempy=0;
+		int tempType=0;
+		if(this->isPlayer==true && this->pvalue!=0)
 		{
-           TempBulletSpeed=6;
+           TempBulletSpeed=1;
 		}
 		else
 		{
-           TempBulletSpeed=10;
+           TempBulletSpeed=2;
 		}
 		Show *temp;
-		temp=new BulletShow();//需要new出一个bulletshow指针
+
 		if(this->drt==up)
 		{
-			return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
+			tempx=x+size/2-BULLETSIZE/2;
+			tempy=y-BULLETSIZE;
+			tempType=0;
+			//return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
 		}
 		else if(this->drt==down)
 		{
-            return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
+            tempx=x+size/2-BULLETSIZE/2;
+			tempy=y+size;
+			tempType=2;
+            //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
 		}
 		else if(this->drt==left)
 		{
-            return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
+            tempx=x;
+			tempy=y+size/2-BULLETSIZE/2;
+			tempType=3;
+          //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
 		}
-		else (this->drt==right)
+		else
 		{
-            return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
+			tempx=x+size;
+			tempy=y+size/2-BULLETSIZE/2;
+			tempType=1;
+          //  return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
 		}
+		temp=new BulletShow(2);//需要new出一个bulletshow指针
+		Bullet *myBullet;
+        myBullet=new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
+		addItem(myBullet);
+		bulletControl *myControl=new bulletControl(myBullet);
+		addControl(myControl);
+       // return new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
+	   return myBullet;
 	}
 
-    void Tank::reDirect(direct drt){
+    void moveSquare::reDirect(direct drt){
         this->drt=drt;
         draw->move(-1,-1,MOVESETDIRECT|drt);
     }
 
-	void Tank::moveDirect(direct drt){
+	void moveSquare::moveDirect(direct drt,int size){
         this->drt=drt;
-        draw->move(-1,-1,MOVEDIRECT|drt);
+        draw->move(-1,-1,MOVEDIRECT|drt|(size<<4));
 	}
 	Tank::~Tank(){
 		for (set<Bullet *>::iterator ai=bullet_set.begin();ai!=bullet_set.end();ai++){

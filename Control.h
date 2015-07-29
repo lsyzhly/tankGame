@@ -30,7 +30,6 @@ namespace Controler{
 	class Control{
 	protected:
 		int maxcount;
-		int count;
 		Control(int maxcount);
 	public:
 		//移动一次纯虚方法

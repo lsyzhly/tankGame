@@ -18,7 +18,7 @@ Show *s;
 BulletShow *bs;
 void init()
 {
-    mspf=80;
+    mspf=30;
     int n;
     Tank *tank;
     readFile("map\\level1.map");
@@ -34,17 +34,20 @@ void init()
     addItem(tank);
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
-   bs = new BulletShow(2,1);
-bs -> move(0,0);
+    //bs = new BulletShow(2,1);
+    //tank->drt=right;
+    //Bullet *ads=new Bullet(tank,0,16,1,2,bs);
+    //bulletControl *qwea=new bulletControl(ads);
+    //addItem(ads);
+    //addControl(qwea);
 }
 
 void flush()
 {
-	bs->move(-1,-1);
-	bs->Repaint();
     static int n;
     runControls();
     rePaint();
+    clean();
     n++;
 }
 
