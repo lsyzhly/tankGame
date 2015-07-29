@@ -8,6 +8,7 @@ using std::thread;
 using std::mutex;
 #endif
 #include <list>
+#include <time.h>
 #include <vector>
 #include <set>
 #include "item.h"
@@ -50,6 +51,7 @@ namespace Controler{
 		int type;//0表示player1,1表示player2
 		Tank *tank;
 		playTankControl(Tank *tank,int type);
+		clock_t clo;
 		virtual bool run();
 	};
 	class bulletControl:public Control{

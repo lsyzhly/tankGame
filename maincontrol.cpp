@@ -64,8 +64,9 @@ void runControls(){
 	std::list<cpointer> pset;
 	for (std::set<cpointer>::iterator a = controls.begin();
 			a != controls.end(); a++){
-		if((*a)->run()){
-			pset.push_back(*a);
+        cpointer ai=*a;
+		if(ai->run()){
+			pset.push_back(ai);
 		}
 	}
 	for (std::list<cpointer>::iterator it = pset.begin();
@@ -92,6 +93,7 @@ void remove(pointer a){
 }
 void remove(cpointer a){
 	controls.erase(a);
+	delete a;
 }
 
 void freeAll(){

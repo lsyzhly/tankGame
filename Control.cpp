@@ -13,7 +13,7 @@
 #include <Windows.h>
 #include  <list>
 UINT player1tank[5]= {VK_UP,VK_RIGHT,VK_DOWN,VK_LEFT,76}; //表示player1的上下左右的虚拟键值up=0, down=2, left=3, right=1,L(fire)
-UINT player2tank[5]= {'W','S','A','D',VK_SPACE}; //表示player2的上下左右的虚拟键值 w,s,a,d,space
+UINT player2tank[5]= {'W','D','S','A',VK_SPACE}; //表示player2的上下左右的虚拟键值 w,s,a,d,space
 namespace Controler
 {
     Control::Control(int maxcount)
@@ -52,6 +52,7 @@ namespace Controler
     {
         this->tank=tank;
         this->type=type;
+        clo=clock();
     }
     bool playTankControl::run()
     {
@@ -78,6 +79,12 @@ namespace Controler
         }
         else if(isKeyDown[tmp[4]])
         {
+            clock_t cloi=clock();
+            int n=cloi-clo;
+            clo=clock();
+            if(n<300){
+                return false;
+            }
             tank->fire();
             return false;
         }
