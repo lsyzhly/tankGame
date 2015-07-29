@@ -47,6 +47,7 @@ namespace Controler{
 	};
 	class playTankControl:public Control{
 	public:
+		//int flg;//用来标志刷新的频率来表示速度
 		int type;//0表示player1,1表示player2
 		Tank *tank;
 		playTankControl(Tank *tank,int type);

@@ -9,6 +9,8 @@ namespace view{
 	}
 	void TankAShow::move(int x, int y, ...){
 		if(x!=-1&&y!=-1){
+            x*=rat;
+            y*=rat;
 			rec.left=x;
 			rec.top=y;
 			rec.bottom=y+28;
@@ -24,7 +26,7 @@ namespace view{
             movedrt(drt,rec,rat);
         }else if(n&MOVESETDIRECT){
             drt=(direct)(n&MOVEVALUE);
-        }else if(n&MOVEFLAG==0){
+        }else if((n&MOVEFLAG)==0){
             return;
         }else{
             throw n;
@@ -49,6 +51,8 @@ namespace view{
 	}
 	void TankBShow::move(int x, int y,...){
 		if(x!=-1&&y!=-1){
+            x*=rat;
+            y*=rat;
             rec.left=x;
             rec.top=y;
             rec.bottom=y+28;
@@ -66,7 +70,7 @@ namespace view{
             pvalue=n&MOVEVALUE;
         }else if(n&MOVESETDIRECT){
             drt=(direct)(n&MOVEVALUE);
-        }else if(n&MOVEFLAG==0){
+        }else if((n&MOVEFLAG)==0){
             return;
         }else{
             throw n;
@@ -77,7 +81,7 @@ namespace view{
 		if(is_red && counts&0x08){
 			n=0x3;
 		}else{
-			n=3-pvalue;
+			n=2-pvalue;
 		}
 		n<<=1;
 		if(countss&0x1){

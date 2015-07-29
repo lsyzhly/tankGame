@@ -11,8 +11,8 @@ using namespace Controler;
 char *newMuchSquare(int x,int y,int size,unmoveType type,int state){
 	char *a;
 	unmoveSquare **b;
-	x<<=5;
-    y<<=5;
+	x<<=4;
+    y<<=4;
 	size>>=1;
 	if(state&0x4){
 		a=(char *)malloc(4*sizeof(unmoveSquare *)+sizeof(char));
@@ -66,7 +66,7 @@ void readFile(char *path){
 					//addItem(new unmoveSquare(j<<5,i<<5,32,0,tie));
 				}else{
 					m=*ptr++;
-					char *pt= newMuchSquare(j,i,32,(unmoveType)n,m);
+					char *pt= newMuchSquare(j,i,16,(unmoveType)n,m);
 					addSqares(pt);
 				}
 			}

@@ -5,37 +5,44 @@
 #include "fileReader.h"
 #include <stdio.h>
 #include "blockShow.h"
+#include "control.h"
 #include "item.h"
+#include "PlayerTankShow.h"
+#include "bumpcheck.h"
 using namespace view;
 using namespace item;
+using namespace Controler;
+using namespace bump;
 Show *s;
-void init(){
-    mspf=10;
-    int n;/*
-	s=new TankBShow(true,2);
-	s->move(32,32,(int)left);*/
-	char *a=newMuchSquare(3,4,32,tu,0);
-	addSqares(a);
-    a=newMuchSquare(2,3,32,tu,3);
-	addSqares(a);
-    a=newMuchSquare(3,2,32,cao,1);
-	addSqares(a);
-    a=newMuchSquare(4,3,32,cao,2);
-	addSqares(a);
-	a=newMuchSquare(3,3,32,qiang,4);
-	addSqares(a);
+void init()
+{
+    mspf=0;
+    int n;
+    Tank *tank;
+    readFile("map\\level1.map");
+    s=new PlayerTankShow(2,1);
+    tank=new Tank(4<<4,12<<4,14,3,up,s,0,0,0,0,1);
+    playTankControl *b=new playTankControl(tank,1);
+    addControl(b);
+    addItem(tank);
+    s=new PlayerTankShow(2,0);
+    tank=new Tank(8<<4,12<<4,14,4,up,s,0,0,0,0,1);
+    b=new playTankControl(tank,0);
+    addControl(b);
+    addItem(tank);
+    bumpchecker *a=new bumpchecker(13<<4,13<<4);
+    bindbumpchecker(a);
 }
 
-void flush(){/*
-	static int n=0;
-	if(n&0x3==0x3){
-		s->move(-1,-1,(int)(down|0x00));
-	}
-	s->Repaint();
-	n++;*/
-	rePaint();
+void flush()
+{
+    static int n;
+    runControls();
+    rePaint();
+    n++;
 }
 
-void destory(){
+void destory()
+{
 
 }

@@ -32,10 +32,10 @@ namespace item{
 		switch (drt)
 		{
 		case up:
-			y++;
+			y--;
 			break;
 		case down:
-			y--;
+			y++;
 			break;
 		case left:
 			x--;
@@ -65,6 +65,7 @@ namespace item{
 		this->bullet_size = bullet_size;
 		this->bullet_speed = bullet_speed;
 		this->isPlayer=isPlayer;
+		draw->move(-1,-1,MOVELEVEL|pvalue);
 	}
 	bumpType Tank::bump(square *a,direct drt){
 		if (a == 0){
@@ -147,7 +148,7 @@ namespace item{
 				{
 					add_to_delete(a,1);
                     return bumpType::stop;//½µ¼¶
-				}		
+				}
 			}
 			if(d->t->isPlayer==false && this->isPlayer==false)
 			{
@@ -190,9 +191,13 @@ namespace item{
 
     void Tank::reDirect(direct drt){
         this->drt=drt;
-        draw->move(-1,-1,(pvalue<<4)|drt);
+        draw->move(-1,-1,MOVESETDIRECT|drt);
     }
 
+	void Tank::moveDirect(direct drt){
+        this->drt=drt;
+        draw->move(-1,-1,MOVEDIRECT|drt);
+	}
 	Tank::~Tank(){
 		for (set<Bullet *>::iterator ai=bullet_set.begin();ai!=bullet_set.end();ai++){
 			Bullet *a=*ai;
@@ -263,10 +268,10 @@ namespace item{
 				   add_to_delete(a,1);
                    return bumpType::abandonded;
 			   }
-			  
+
 			   add_to_delete(this,1);
 			   c->draw->move(-1,-1,MOVELEVEL|c->pvalue);
-			   return bumpType::abandonded;   
+			   return bumpType::abandonded;
 		   }
 	   }
 	   Bullet *d=dynamic_cast<Bullet *>(a);

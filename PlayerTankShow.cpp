@@ -2,16 +2,17 @@
 #include "stdarg.h"
 namespace view
 {
-	PlayerTankShow::PlayerTankShow(int rat,int rank,int player):Show(rat)
+	PlayerTankShow::PlayerTankShow(int rat,int player):Show(rat)
 	{
           this->rat = rat;
 		  this->flag=0;
-		  this->rank=rank;
 		  this->player=player;
 	}
 	void PlayerTankShow::move(int x,int y,...)
 	{
 		if(x!=-1&&y!=-1){
+            x*=rat;
+            y*=rat;
 			rec.left=x;
 			rec.top=y;
 			rec.bottom=y+28;
@@ -30,7 +31,7 @@ namespace view
             rank=n&MOVEVALUE;
         }else if(n&MOVESETDIRECT){
             dir=(direct)(n&MOVEVALUE);
-        }else if(n&MOVEFLAG==0){
+        }else if((n&MOVEFLAG)==0){
             return;
         }else{
             throw n;
@@ -40,9 +41,9 @@ namespace view
 	}
 	void PlayerTankShow::Repaint()
 	{
-		 if(1==player)
+		 if(0==player)
              d3ddev->StretchRect(player1[dir][(rank<<1)+flag], NULL, backbuffer, &rec, D3DTEXF_NONE);
-		 else if(2==player)
+		 else if(1==player)
 			 d3ddev->StretchRect(player2[dir][(rank<<1)+flag], NULL, backbuffer, &rec, D3DTEXF_NONE);
 		 else
 			 return;

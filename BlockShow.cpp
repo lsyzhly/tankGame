@@ -20,6 +20,8 @@ namespace view
 		}
 		else
 		{
+		    x*=rat;
+		    y*=rat;
 			rec.left=x;
 			rec.top=y;
 			rec.bottom=y+16;
