@@ -164,13 +164,14 @@ namespace Controler
     bool bulletControl::run(){
         count=maxcount;
         while(count--){
-            int sta=checker->move(bul,bul->drt);
+            int sta=checker->move(bul,bul->drt,2);
             if(sta&bumpType::abandonded){
                 return true;
             }
             if(sta&bumpType::stop){
                 return false;
             }else{
+                bul->draw->move(-1,-1);
                 bul->draw->move(-1,-1);
             }
         }
