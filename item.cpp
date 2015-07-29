@@ -87,20 +87,20 @@ namespace item{
 				if(this->isPlayer==true && this->pvalue<3)
 				{
 					this->pvalue=this->pvalue+1;
-					add_to_delete(a);
+					add_to_delete(a,1);
 					this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
 					return bumpType::through;
 				}
 				else if(this->isPlayer==false && this->pvalue<2)
 				{   //加强敌方坦克
                     this->pvalue=this->pvalue+1;
-					add_to_delete(a);
+					add_to_delete(a,1);
 					this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
 					return bumpType::through;
 				}
 				else
 				{
-					add_to_delete(a);
+					add_to_delete(a,1);
                     return bumpType::through;
 				}
 			}
@@ -195,7 +195,7 @@ namespace item{
 			tempType=3;
           //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
 		}
-		else (this->drt==right)
+		else 
 		{
 			tempx=x+size;
 			tempy=y+size/2-BULLETSIZE/2;
