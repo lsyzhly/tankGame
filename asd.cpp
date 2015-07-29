@@ -9,11 +9,13 @@
 #include "item.h"
 #include "PlayerTankShow.h"
 #include "bumpcheck.h"
+#include "BulletShow.h"
 using namespace view;
 using namespace item;
 using namespace Controler;
 using namespace bump;
 Show *s;
+BulletShow *bs;
 void init()
 {
     mspf=80;
@@ -32,10 +34,14 @@ void init()
     addItem(tank);
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
+   bs = new BulletShow(2,1);
+bs -> move(0,0);
 }
 
 void flush()
 {
+	bs->move(-1,-1);
+	bs->Repaint();
     static int n;
     runControls();
     rePaint();

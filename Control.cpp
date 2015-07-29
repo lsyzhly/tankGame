@@ -75,7 +75,63 @@ namespace Controler
         int dir=-1;
         count=maxcount;
         bool re=false;
+		UINT tmp[5];
+		if(0==type)
+		{
+			for(int i=0;i<4;i++)
+			     tmp[i]=player1tank[i];
+			tmp[4]=player1tank[4];
+		}
+		else
+		{
+			for(int i=0;i<4;i++)
+				tmp[i]=player2tank[i];
+			 tmp[4]=player2tank[4];
+		}
         while(count--)
+		{
+			if(isKeyDown[tmp[up]])
+                {
+                    tank->reDirect(up);
+                    dir=up;
+                }
+                else if(isKeyDown[tmp[down]])
+                {
+                    tank->reDirect(down);
+                    dir=down;
+                }
+                else if(isKeyDown[tmp[left]])
+                {
+                    tank->reDirect(left);
+                    dir= left;
+                }
+                else if(isKeyDown[tmp[right]])
+                {
+                    tank->reDirect(right);
+                    dir=right;
+                }
+                else if(isKeyDown[tmp[4]])
+
+                {
+                    tank->fire();
+                    re= false;
+                }
+                if(-1!=dir)
+                {
+                    int sta=checker->move(tank,tank->drt);
+                    if(!(sta&bumpType::astop))
+                        tank->draw->move(-1,-1,MOVEDIRECT|dir);
+                    if(sta&bumpType::abandonded)
+                    {
+                        re= true;
+                    }
+				}
+		}
+
+        return re;
+
+
+      /*  while(count--)
         {
             if(0==type)
             {
@@ -156,7 +212,7 @@ namespace Controler
                 }
             }
         }
-        return re;
+        return re;*/
     }
     bulletControl::bulletControl(Bullet *a):Control(a->speed){
         this->bul=a;
