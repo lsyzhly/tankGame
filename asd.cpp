@@ -34,8 +34,8 @@ void init()
     addItem(tank);
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
-   bs = new BulletShow(2,1);
-bs -> move(0,0);
+    bs = new BulletShow(2,1);
+    bs -> move(0,0);
 }
 
 void flush()
