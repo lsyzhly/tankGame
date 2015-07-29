@@ -54,6 +54,14 @@ namespace item{
 	{
         this->utype=utype;
 	}
+	posSet *unmoveSquare::getRange(){
+        if(utype==cao){
+            return &pos_set;
+        }
+        else{
+            return square::getRange();
+        }
+	}
 	unmoveSquare::~unmoveSquare(){
 	}
 	Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
