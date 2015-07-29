@@ -29,7 +29,6 @@ namespace bump{
 
 namespace Controler{
 	class Control;
-	class autoTankControl;
 	typedef Control* cpointer;
 }
 
@@ -68,5 +67,4 @@ namespace view{
 			break;\
 	}\
 }
-
 #endif
