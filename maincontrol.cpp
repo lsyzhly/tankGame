@@ -3,8 +3,12 @@
 #include "Control.h"
 #include "item.h"
 #include <list>
+#include <stdarg.h>
+#include <tuple>
+#define ARRAYSIZE 16
+#define BUFFSIZE 64
 std::map<pointer,int> to_delete;
-std::map<Ontiem,int> to_call;
+MEMSTRUCT<BUFFSIZE>*OnTimeMap=(MEMSTRUCT<BUFFSIZE>*)calloc(sizeof(MEMSTRUCT<BUFFSIZE>),ARRAYSIZE);
 std::map<cpointer,bool> controls;
 std::set<pointer> items;
 bool is_run;
@@ -60,20 +64,10 @@ void clean(){
         to_delete.erase(*it);
 		remove(*it);
 	}
-	{
-        std::list<Ontiem> pset;
-        for (std::map<Ontiem, int>::iterator it = to_call.begin();
-                it != to_call.end(); it++){
-            if (--it->second<=0){
-                pset.push_back(it->first);
-            }
-        }
-        for (std::list<Ontiem>::iterator it = pset.begin();
-                it != pset.end(); it++){
-            (*it)();
-            to_call.erase(*it);
-        }
-	}
+    for(int i=0;i<ARRAYSIZE;i++){
+        if(OnTimeMap[i].count)
+            OnTimeMap[i]();
+    }
 }
 
 void runControls(){
@@ -102,6 +96,7 @@ void rePaint(){
 			a != topLevelItem.end(); a++) {
 		(*a)->draw->Repaint();
 	}
+
 }
 void remove(pointer a){
 	items.erase(a);
@@ -118,8 +113,10 @@ void freeAll(){
 	delete checker;
 }
 
-void addTimeFun(Ontiem on,int n){
-    to_call[on]=0;
+void addTimeFun(unsigned char id,OnTime on,int n,...){
+    va_list va;
+    va_start(va,n);
+    OnTimeMap[id].init(on,va,n);
 }
 
 void setTankState(bool is,bool is_run){

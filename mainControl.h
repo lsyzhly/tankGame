@@ -2,6 +2,7 @@
 #define MAINCONTROL_H
 #include <map>
 #include <set>
+#include <memory.h>
 #include "all.h"
 using namespace bump;
 using namespace item;
@@ -30,11 +31,30 @@ void remove(cpointer a);
 
 void freeAll();
 
-typedef (*Ontiem)(...);
-typedef (*is_do)(pointer *a);
-//指定n次刷新自后调用该函数
-void addTimeFun(Ontiem on,int n);
-//设置某阵营坦克状态
+typedef void (*OnTime)(...);
+
+template <int size>
+class MEMSTRUCT{
+    public:
+    char a[size];
+    OnTime func;
+    int count;
+    void init(OnTime fun,char *ptr,int count){
+        func=fun;
+        memcpy(a,ptr,size);
+        this->count=count;
+    }
+    bool operator()(){
+        if(--count==0)
+            func(*this);
+    }
+};
+//注册时间事件
+//n为事件id OnTime事件响应函数,n为响应时间,...为自定义参数
+//自定义参数总大小不能大于64字节
+void addTimeFun(unsigned char id,OnTime on,int n,...);
+//设置某阵营坦克状态 is为要设置的坦克阵营
+//is_run为要设置的状态
 void setTankState(bool is,bool is_run);
 
 #endif
