@@ -53,6 +53,7 @@ namespace item{
 		unmoveType utype;
 		unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype);
 		virtual ~unmoveSquare();
+		virtual posSet *getRange();
 	};
 
 	//Tank¿‡
