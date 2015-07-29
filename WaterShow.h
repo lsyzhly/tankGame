@@ -1,3 +1,5 @@
+#ifndef LYwatershow_S
+#define LYwatershow_S
 #include "view.h"
 namespace view
 {
@@ -12,3 +14,4 @@ namespace view
 	};
 
 }
+#endif

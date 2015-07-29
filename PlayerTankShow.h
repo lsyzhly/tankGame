@@ -1,3 +1,5 @@
+#ifndef LYplayertankshow_S
+#define LYplayertankshow_S
 #include "view.h"
 namespace view
 {
@@ -16,3 +18,4 @@ namespace view
 	};
 
 }
+#endif
