@@ -4,6 +4,7 @@
 #include "view.h"
 #include "item.h"
 #include "BlockShow.h"
+#include "WaterShow.h"
 using namespace	view;
 using namespace item;
 using namespace Controler;
@@ -41,11 +42,11 @@ char *newMuchSquare(int x,int y,int size,unmoveType type,int state){
 	return --a;
 }
 
-void addSqares(char *a){
+void addSqares(char *a,bool isTop){
     int n=*a++;
     unmoveSquare **b=(unmoveSquare **)a;
     while(n--){
-        addItem(*b++);
+        addItem(*b++,isTop);
     }
     free(--a);
 }
@@ -62,9 +63,20 @@ void readFile(char *path){
 	for(i=0;i<13;i++){
 		for(j=0;j<13;j++){
 			if(n=*ptr++){
-				if(n==6){
+				if(n==6)
+				{
 					//addItem(new unmoveSquare(j<<5,i<<5,32,0,tie));
-				}else{
+				}
+				else if(4==n)
+				{
+					addItem(new unmoveSquare(j<<4,i<<4,32>>1,new WaterShow(2),(unmoveType)n));
+				}
+				else if(3==n)
+				{
+					char *pt=newMuchSquare(j,i,16,(unmoveType)n,4);
+					addSqares(pt,true);
+				}
+				else{
 					m=*ptr++;
 					char *pt= newMuchSquare(j,i,16,(unmoveType)n,m);
 					addSqares(pt);

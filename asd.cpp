@@ -10,12 +10,14 @@
 #include "PlayerTankShow.h"
 #include "bumpcheck.h"
 #include "BulletShow.h"
+#include "WaterShow.h"
 using namespace view;
 using namespace item;
 using namespace Controler;
 using namespace bump;
 Show *s;
 BulletShow *bs;
+//WaterShow *ws;
 void init()
 {
     mspf=30;
@@ -40,10 +42,15 @@ void init()
     //bulletControl *qwea=new bulletControl(ads);
     //addItem(ads);
     //addControl(qwea);
+	//ws=new WaterShow(2);
+	//ws->move(0,0);
+
 }
 
 void flush()
 {
+	//ws->move(-1,-1);
+	//ws->Repaint();
     static int n;
     runControls();
     rePaint();

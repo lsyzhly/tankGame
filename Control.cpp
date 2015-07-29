@@ -79,7 +79,7 @@ namespace Controler
         {
             dir=right;
         }
-        else if(isKeyDown[tmp[4]])
+        if(isKeyDown[tmp[4]])
         {
             clock_t cloi=clock();
             int n=cloi-clo;
