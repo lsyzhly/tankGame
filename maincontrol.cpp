@@ -87,6 +87,7 @@ void rePaint(){
 void remove(pointer a){
 	items.erase(a);
 	topLevelItem.erase(a);
+	checker->remove(a);
 	delete a;
 }
 void remove(cpointer a){
