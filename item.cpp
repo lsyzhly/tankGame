@@ -107,7 +107,7 @@ namespace item{
 			else if(b->utype==tank)
 			{
 			}
-			else if(b->utype==clock)
+			else if(b->utype==myclock)
 			{
 			}
 			else if(b->utype==cap)
@@ -161,7 +161,10 @@ namespace item{
 	Bullet *Tank::fire()
 	{
         int TempBulletSpeed=0;
-		if(this->isPlayer==true && this->pvalue=!=0)
+		int tempx=0;
+		int tempy=0;
+		int tempType=0;
+		if(this->isPlayer==true && this->pvalue!=0)
 		{
            TempBulletSpeed=6;
 		}
@@ -170,24 +173,38 @@ namespace item{
            TempBulletSpeed=10;
 		}
 		Show *temp;
-		temp=new BulletShow();//需要new出一个bulletshow指针
+		
 		if(this->drt==up)
 		{
-			return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
+			tempx=x+size/2-BULLETSIZE/2;
+			tempy=y;
+			tempType=0;
+			//return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
 		}
 		else if(this->drt==down)
 		{
-            return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
+            tempx=x+size/2-BULLETSIZE/2;
+			tempy=y+size;
+			tempType=2;
+            //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
 		}
 		else if(this->drt==left)
 		{
-            return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
+            tempx=x;
+			tempy=y+size/2-BULLETSIZE/2;
+			tempType=3;
+          //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
 		}
 		else (this->drt==right)
 		{
-            return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
+			tempx=x+size;
+			tempy=y+size/2-BULLETSIZE/2;
+			tempType=1;
+          //  return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
 		}
-	}
+		temp=new BulletShow(2,tempType);//需要new出一个bulletshow指针
+        return new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
+	}  
 
     void Tank::reDirect(direct drt){
         this->drt=drt;

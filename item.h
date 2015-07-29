@@ -2,6 +2,7 @@
 #define ITEM_H
 #include <set>
 #include "view.h"
+#include "BulletShow.h"
 #include "all.h"
 using std::set;
 using std::pair;
