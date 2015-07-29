@@ -272,7 +272,7 @@ namespace item{
 			  add_to_delete(a,1);
               return bumpType::abandonded;
 		   }
-		   if(b->utype==shui && b->utype==cao)
+		   if(b->utype==shui || b->utype==cao)
 		   {
 			   return bumpType::through;
 		   }
