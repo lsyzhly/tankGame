@@ -90,6 +90,7 @@ namespace Controler
             }
             return false;
         }
+        return false;
     }
     bulletControl::bulletControl(Bullet *a):Control(a->speed){
         this->bul=a;
