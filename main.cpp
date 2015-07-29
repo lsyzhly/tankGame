@@ -21,7 +21,7 @@ LPDIRECT3DSURFACE9 water[2];//水的两种形态
 LPDIRECT3DSURFACE9 headquarters[2];//司令部，两种形态，0表示沦陷，1表示存在
 LPDIRECT3DSURFACE9 bonus[6];//奖励，依次是，0坦克，1定时，2铁铲，3炸弹，4星星，5安全帽
 LPDIRECT3DSURFACE9 explode[2];//爆炸，两种规格，0表示28*28,子弹碰到墙，1表示64*64，子弹打到tank{还没开始写show}
-//LPDIRECT3DSURFACE9 explode[2];
+LPDIRECT3DSURFACE9 bulletbmp[4];//子弹，上右下左
 
 bool isKeyDown[256];
 int mspf=30;//miliseconds per Frame
@@ -34,6 +34,43 @@ bool BlockInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bs);
 bool WaterAndHeadquartersInit(LPCWSTR f,LPDIRECT3DSURFACE9 *wa,LPDIRECT3DSURFACE9 *hq);
 bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn);
+bool BulletbmpInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
+
+
+bool BulletbmpInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
+{
+        HRESULT result;
+		for(int i=0;i<4;i++)
+		{
+			      result = d3ddev->CreateOffscreenPlainSurface(
+                                 8,                //width of the surface
+                                 8,                //height of the surface
+                                 D3DFMT_X8R8G8B8,    //surface format
+                                 D3DPOOL_DEFAULT,    //memory pool to use
+                                 bn + i,           //pointer to the surface  bo
+                                 NULL);
+				  if (!SUCCEEDED(result)) return false;
+				  RECT rec;
+				  rec.top=0;
+				  rec.bottom=rec.top+8;
+				  rec.left=i*8;
+				  rec.right=rec.left+8;
+				  result=D3DXLoadSurfaceFromFile(
+				        *(bn+i),            //destination surface
+				        NULL,               //destination palette
+				        NULL,               //destination rectangle
+				        f,                  //source filename
+				        &rec,               //source rectangle
+				        D3DX_DEFAULT,       //controls how image is filtered
+				        0,                  //for transparency (0 for none)
+				        NULL);
+
+                  if (!SUCCEEDED(result)) return false;
+ //     d3ddev->StretchRect(bulletbmp[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+			}
+		  return true;
+}
+
 
 
 bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn)
@@ -155,7 +192,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
-        d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
+      d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         flush();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
         clock_t end=clock();
@@ -219,6 +256,7 @@ bool initdirectx(){
 	WaterAndHeadquartersInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
 	BonusInit("graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
     ExplodeInit("graphics/explode1.bmp","grapics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
+    BulletbmpInit("graphics/bullet.bmp",(LPDIRECT3DSURFACE9 *)&bulletbmp);
 
 
 

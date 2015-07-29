@@ -15,6 +15,8 @@ namespace view
 		}
 		else
 		{
+	        x*=rat;
+            y*=rat;
 			va_list va;
 			va_start(va,y);
 			type=va_arg(va,int);

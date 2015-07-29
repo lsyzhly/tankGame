@@ -53,5 +53,11 @@ namespace Controler{
 		playTankControl(Tank *tank,int type);
 		virtual bool run();
 	};
+	class bulletControl:public Control{
+    public:
+        Bullet *bul;
+		bulletControl(Bullet *bul);
+		virtual bool run();
+	};
 }
 #endif
