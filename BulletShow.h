@@ -1,3 +1,5 @@
+#ifndef LYbulletshow_S
+#define LYbulletshow_S
 #include "view.h"
 namespace view
 {
@@ -12,3 +14,4 @@ namespace view
 	};
 
 }
+#endif
