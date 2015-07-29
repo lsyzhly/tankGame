@@ -210,10 +210,25 @@ namespace Controler
                         re= true;
                     }
                 }
-
-
             }
         }
         return re;*/
+    }
+    bulletControl::bulletControl(Bullet *a):Control(a->speed){
+        this->bul=a;
+    }
+    bool bulletControl::run(){
+        count=maxcount;
+        while(count--){
+            int sta=checker->move(bul,bul->drt);
+            if(sta&bumpType::abandonded){
+                return true;
+            }
+            if(sta&bumpType::stop){
+                return false;
+            }else{
+                bul->draw->move(-1,-1);
+            }
+        }
     }
 }
