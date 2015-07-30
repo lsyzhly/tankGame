@@ -29,7 +29,6 @@ autoTankControl::autoTankControl(Tank *tank):Control(tank->speed)
     tank->control=this;
     this->tank = tank;
     tank->control = this;
-    printf("starting run%p,%p\n", this,this->tank);
     clo=clock();
 }
 
@@ -38,7 +37,7 @@ bool autoTankControl::run()
     srand(clock());
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
-    unsigned int d=rand()%10;
+    unsigned int d=rand()%100000;
     if(d==0)
     {
         tank->fire();

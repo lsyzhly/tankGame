@@ -15,7 +15,7 @@ std::set<pointer> hasdelete;
 std::set<pointer> items;
 bool is_run;
 std::set<pointer> topLevelItem;
-int tanks[2]={3,3};
+int tanks[2]={100,100};
 bumpchecker *checker;
 void add_to_delete(pointer a, int count)
 {
@@ -150,14 +150,13 @@ void rePaint()
 void reremove(pointer a){
     items.erase(a);
     topLevelItem.erase(a);
-    checker->remove(a);
     delete a;
     hasdelete.erase(a);
 }
 
 void remove(pointer a)
 {
-    a->is_bump=false;
+    a->isBump=false;
     Tank *b=dynamic_cast<Tank *>(a);
     Bullet *c=dynamic_cast<Bullet *>(a);
     static int buid=0;
@@ -169,6 +168,7 @@ void remove(pointer a)
             b->draw->move(b->x,b->y);
             remove(b->control);
             if(b->control!=0)remove(b->control);
+            checker->remove(a);
             addTimeFun(buid&3|8|4,(OnTime)reremove,10,a);
             buid++;
             hasdelete.insert(a);
@@ -179,6 +179,7 @@ void remove(pointer a)
             c->draw=new ExplodeShow(2,0);
             c->draw->move(c->x,c->y);
             if(c->control!=0)remove(c->control);
+            checker->remove(a);
             addTimeFun(taid&3|8,(OnTime)reremove,5,a);
             taid++;
             hasdelete.insert(a);

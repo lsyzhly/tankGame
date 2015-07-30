@@ -22,11 +22,12 @@ public:
     int x;
     int y;
     int size;
-    bool is_bump;
+    bool isBump;
     //轮廓集合
     posSet pos_set;
     //画图器
     Show *draw;
+    square *next;
     //指向轮廓对应点的指针
     set<square**> occupy;
 

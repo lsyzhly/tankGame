@@ -4,6 +4,7 @@
 #ifndef bumpchecker_HPP
 #define bumpchecker_HPP
 #include "bumpcheck.h"
+#include "assert.h"
 namespace bump
 {
 bumpchecker::bumpchecker(int width, int hight) :bmap(width,hight)
@@ -44,11 +45,13 @@ int bumpchecker::move(mpointer a, direct drt)
             }
             continue;
         }
-        pointer *pt = &bmap[b.second][b.first];
+        pointer pt = bmap[b.second][b.first];
         //判断是否碰撞
-        if (*pt != 0 && *pt != a)
-        {
-            p.insert((*pt));
+        while(pt!=0){
+            if(pt!=a){
+                p.insert(pt);
+            }
+            pt=pt->next;
         }
     }
     int n = bumpType::through;
@@ -65,28 +68,8 @@ int bumpchecker::move(mpointer a, direct drt)
     }
     else
     {
-#ifdef CPP11
-        lock.lock();
-#endif
-        //移除碰撞系统
         remove(a);
-#ifndef CPP11
         add(a);
-#endif // CPP11
-#ifdef CPP11
-        //如果加入失败再退一步重新加入
-        while (add(a) == 0)
-        {
-            for(set<pointer *>::iterator di=(a->occupy).begin(); di!=(a->occupy).end(); di++)
-            {
-                pointer *b=*di;
-                *b = 0;
-            }
-            a->occupy.clear();
-            a->move(!drt);
-        }
-        lock.unlock();
-#endif
     }
     return n;
 }
@@ -114,42 +97,71 @@ pointer bumpchecker::add(pointer a)
 {
     int flag=1;
     posSet *p = a->getRange();
+    a->occupy.clear();
     for(posSet::iterator bi=(*p).begin(); bi!=(*p).end(); bi++)
     {
         posSet::value_type b=*bi;
+        if(is_out(b))continue;
         pointer *c = &bmap[b.second][b.first];
-        //如果加入冲突的组件 返回null
-        //不进行错误处理
-        if (*c != 0) flag=0;
-        else
-        {
-            *c = a;
-            a->occupy.insert(c);
+        fprintf(fpi,"inserting %p to %p\n",a,c);
+        a->next=*c;
+        *c=a;
+        fprintf(fpi,"answer:\n");
+        for(pointer f=bmap[b.second][b.first];f!=0;f=f->next){
+            fprintf(fpi,"%p\n",f);
         }
+        fflush(fpi);
+        a->occupy.insert(&bmap[b.second][b.first]);
+        for(pointer q=bmap[b.second][b.first];q!=0;q=q->next){
+            if(q==a){
+                goto st1;
+            }
+        }
+        throw a;
+        st1:;
     }
-    if(flag==0)
-        return 0;
     return a;
 }
 //从碰撞检测系统中移除该组件
 void bumpchecker::remove(pointer a)
 {
-    //printf("removeing %p\n");
     for(set<pointer*>::iterator bi=(a->occupy).begin(); bi!=(a->occupy).end(); bi++)
     {
         pointer *b=*bi;
-        *b = 0;
-    }
-    for (int i = 0; i < hight; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            if (bmap[i][j] == a)
-            {
-                printf("");
-                getchar();
+        int n=b-bmap.ptr;
+        fprintf(fpi,"removing %p from %p\n",a,b);
+        fflush(fpi);
+        if(*b==0){
+            throw a;
+        }else if((*b)->next==0){
+            if(*b==a){
+                *b=0;
+            }else{
+                fprintf(fpi,"in %p:\n",b);
+                for(pointer pa=*b;pa!=0;pa=pa->next){
+                    fprintf(fpi,"%p\n",pa);
+                }
+                fflush(fpi);
+                throw a;
             }
+        }else{
+            pointer c=*b,d=c->next;
+            while(d!=0){
+                if(d==a){
+                    c->next=d->next;
+                    goto st3;
+                }
+                c=d;
+                d=d->next;
+            }
+            //throw a;
+            st3:;
         }
+        fprintf(fpi,"answer:\n");
+        for(pointer f=*b;f!=0;f=f->next){
+            fprintf(fpi,"%p\n",f);
+        }
+        fflush(fpi);
     }
     a->occupy.clear();
 }

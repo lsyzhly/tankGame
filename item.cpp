@@ -10,12 +10,15 @@ square::square(int x, int y, int size,Show *draw)
     this->size = size;
     this->draw = draw;
     draw->move(x, y,0);
-    is_bump=true;
+    isBump=true;
+    next=0;
+    fprintf(fpi,"set %p null\n",this);
+    fflush(fpi);
 }
 posSet *square::getRange()
 {
     pos_set.clear();
-        if(is_bump){
+        if(isBump){
         for (int i = 0; i < size; i++)
         {
             pos_set.insert(std::make_pair(x + i, y));
@@ -181,7 +184,7 @@ bumpType Tank::bump(square *a,direct drt)
     if(c)
     {
         return bumpType::stop;
-    }
+    }/*
     Bullet *d=dynamic_cast<Bullet *>(a);//碰撞为子弹的转换未处理子弹碰到无敌坦克
     if(d)
     {
@@ -213,7 +216,7 @@ bumpType Tank::bump(square *a,direct drt)
         {
             return bumpType::through;
         }
-    }
+    }*/
     return stop;
 }
 
