@@ -59,7 +59,7 @@ void moveSquare::move(direct drt)
 }
 moveSquare::~moveSquare()
 {
-    //	if (control) delete control;
+    //if (control) remove(control);
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {

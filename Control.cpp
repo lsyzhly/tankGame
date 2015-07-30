@@ -49,6 +49,9 @@ bool autoTankControl::run()
     }
     return false;
 }
+autoTankControl::~autoTankControl(){
+    tank->control=0;
+}
 playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
 {
     tank->control=this;
@@ -102,6 +105,10 @@ bool playTankControl::run()
     }
     return false;
 }
+
+playTankControl::~playTankControl(){
+    tank->control=0;
+}
 bulletControl::bulletControl(Bullet *a):Control(a->speed)
 {
     a->control=this;
@@ -118,5 +125,6 @@ bool bulletControl::run()
 }
 bulletControl::~bulletControl()
 {
+    bul->control=0;
 }
 }

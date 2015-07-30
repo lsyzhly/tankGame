@@ -2,6 +2,7 @@
 #include "bumpcheck.h"
 #include "Control.h"
 #include "item.h"
+#include "ExplodeShow.h"
 #include "PlayerTankShow.h"
 #include <list>
 #include <stdarg.h>
@@ -144,12 +145,38 @@ void rePaint()
     }
 
 }
-void remove(pointer a)
-{
+
+void reremove(pointer a){
     items.erase(a);
     topLevelItem.erase(a);
     checker->remove(a);
     delete a;
+}
+
+void remove(pointer a)
+{
+    Tank *b=dynamic_cast<Tank *>(a);
+    Bullet *c=dynamic_cast<Bullet *>(a);
+    static int buid;
+    static int taid;
+    if(b){
+        delete b->draw;
+        b->draw=new ExplodeShow(2,1);
+        b->draw->move(b->x,b->y);
+        remove(b->control);
+        if(b->control!=0)remove(b->control);
+        addTimeFun(buid|8,(OnTime)reremove,10,a);
+    }else if(c){
+        delete c->draw;
+        c->draw=new ExplodeShow(2,0);
+        c->draw->move(c->x,c->y);
+        addTimeFun(9,(OnTime)reremove,5,a);
+    }else{
+        items.erase(a);
+        topLevelItem.erase(a);
+        checker->remove(a);
+        delete a;
+    }
 }
 void remove(cpointer a)
 {

@@ -47,6 +47,7 @@ public:
     Tank *tank;
     autoTankControl(Tank *tank);
     virtual bool run();
+    virtual ~autoTankControl();
 };
 class playTankControl:public Control
 {
@@ -57,6 +58,7 @@ public:
     playTankControl(Tank *tank,int type);
     clock_t clo;
     virtual bool run();
+    virtual ~playTankControl();
 };
 class bulletControl:public Control
 {
