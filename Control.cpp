@@ -37,18 +37,14 @@ bool autoTankControl::run()
 {
     srand(clock());
     unsigned int a = rand()%4;
-    unsigned int b = rand() % 50;
-    int c = checker->move(tank, tank->drt,maxcount);
-    tank->moveDirect((direct)a,c>>8);
-    clock_t cloi=clock();
-    int n=cloi-clo;
-    if(n<200)
+    unsigned int b = rand() % 500;
+    unsigned int d=rand()%10;
+    if(d==0)
     {
+        tank->fire();
         return false;
     }
-    clo=clock();
-    tank->fire();
-    return false;
+    int c = checker->move(tank, tank->drt,maxcount);
     if (c&bumpType::astop || b==0)
     {
         c=checker->move(tank, (direct)a,maxcount);

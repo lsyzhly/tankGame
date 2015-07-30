@@ -25,14 +25,14 @@ void init()
     Tank *tank;
     readFile("map\\level1.map");
     s=new PlayerTankShow(2,1);
-    tank=new Tank(4<<4,12<<4,14,3,up,s,4,0,0,0,0,0);
+    tank=new Tank(0<<4,0<<4,14,3,up,s,4,0,0,0,0,0);
     playTankControl *b=new playTankControl(tank,0);
     addControl(b);
     addItem(tank);
     s=new PlayerTankShow(2,0);
-    tank=new Tank(8<<4,12<<4,14,1,up,s,1,0,0,0,0,1);
-    b=new playTankControl(tank,1);
-    addControl(b);
+    tank=new Tank(4<<4,12<<4,14,1,up,s,1,0,0,0,0,1);
+    autoTankControl *bi=new autoTankControl(tank);
+    addControl(bi);
     addItem(tank);
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
