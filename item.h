@@ -4,6 +4,7 @@
 #include "view.h"
 #include "BulletShow.h"
 #include "all.h"
+#include "mainControl.h"
 using std::set;
 using std::pair;
 using Controler::cpointer;
@@ -77,8 +78,9 @@ public:
     //子弹速度
     int bullet_speed;
     bool isPlayer;
+	bool isStoppable;//设置坦克是否无敌true为是
     Tank(int x, int y, int size, int speed, direct drt,Show *draw,
-         int maxbullets,int nowBullets,int pvalue, int bullet_size, int bullet_speed,bool isPlayer);
+         int maxbullets,int nowBullets,int pvalue, int bullet_size, int bullet_speed,bool isPlayer,bool isStoppable);
     //碰撞处理函数
     virtual bumpType bump(square *a,direct drt);
     //开火

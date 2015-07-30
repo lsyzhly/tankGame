@@ -4,7 +4,7 @@
 #include "item.h"
 #include <list>
 #include <stdarg.h>
-#include <tuple>
+
 #define ARRAYSIZE 16
 #define BUFFSIZE 64
 std::map<pointer,int> to_delete;
@@ -161,4 +161,14 @@ void setTankState(bool is,bool is_run)
             }
         }
     }
+}
+void setCapTankState(Tank *theTank,bool stoppable)
+{
+	theTank->isStoppable=stoppable;
+}
+void setBossHome()
+{
+}
+void setAfterBomb()
+{
 }
