@@ -10,19 +10,22 @@ square::square(int x, int y, int size,Show *draw)
     this->size = size;
     this->draw = draw;
     draw->move(x, y,0);
+    is_bump=true;
 }
 posSet *square::getRange()
 {
     pos_set.clear();
-    for (int i = 0; i < size; i++)
-    {
-        pos_set.insert(std::make_pair(x + i, y));
-        pos_set.insert(std::make_pair(x + i, y + size - 1));
-    }
-    for (int i = 0; i < size; i++)
-    {
-        pos_set.insert(std::make_pair(x, y + i));
-        pos_set.insert(std::make_pair(x + size - 1, y + i));
+        if(is_bump){
+        for (int i = 0; i < size; i++)
+        {
+            pos_set.insert(std::make_pair(x + i, y));
+            pos_set.insert(std::make_pair(x + i, y + size - 1));
+        }
+        for (int i = 0; i < size; i++)
+        {
+            pos_set.insert(std::make_pair(x, y + i));
+            pos_set.insert(std::make_pair(x + size - 1, y + i));
+        }
     }
     return &pos_set;
 }
@@ -59,7 +62,7 @@ void moveSquare::move(direct drt)
 }
 moveSquare::~moveSquare()
 {
-    //	if (control) delete control;
+    //if (control) remove(control);
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {
@@ -300,11 +303,6 @@ void moveSquare::moveDirect(direct drt,int size)
 }
 Tank::~Tank()
 {
-    for (set<Bullet *>::iterator ai=bullet_set.begin(); ai!=bullet_set.end(); ai++)
-    {
-        Bullet *a=*ai;
-        delete a;
-    }
 }
 Bullet::Bullet(Tank *t, int x, int y, int size, int speed, Show *draw)
     :moveSquare(x, y, size, draw, t->drt, speed)

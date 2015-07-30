@@ -62,4 +62,5 @@ void addTimeFun(unsigned char id,OnTime on,int n,...);
 void setTankState(bool is,bool is_run);
 void setCapTankState(Tank *theTank,bool stoppable);
 void deleteTank(bool type);
+void OnPlayerTank(bool type);
 #endif

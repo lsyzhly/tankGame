@@ -2,6 +2,7 @@
 #include "bumpcheck.h"
 #include "Control.h"
 #include "item.h"
+#include "ExplodeShow.h"
 #include "PlayerTankShow.h"
 #include <list>
 #include <stdarg.h>
@@ -10,6 +11,7 @@
 std::map<pointer,int> to_delete;
 MEMSTRUCT<BUFFSIZE>*OnTimeMap=(MEMSTRUCT<BUFFSIZE>*)calloc(sizeof(MEMSTRUCT<BUFFSIZE>),ARRAYSIZE);
 std::map<cpointer,bool> controls;
+std::set<pointer> hasdelete;
 std::set<pointer> items;
 bool is_run;
 std::set<pointer> topLevelItem;
@@ -144,12 +146,49 @@ void rePaint()
     }
 
 }
-void remove(pointer a)
-{
+
+void reremove(pointer a){
     items.erase(a);
     topLevelItem.erase(a);
     checker->remove(a);
     delete a;
+    hasdelete.erase(a);
+}
+
+void remove(pointer a)
+{
+    a->is_bump=false;
+    Tank *b=dynamic_cast<Tank *>(a);
+    Bullet *c=dynamic_cast<Bullet *>(a);
+    static int buid=0;
+    static int taid=0;
+    if(b){
+        if(hasdelete.find(a)==hasdelete.end()){
+            delete b->draw;
+            b->draw=new ExplodeShow(2,1);
+            b->draw->move(b->x,b->y);
+            remove(b->control);
+            if(b->control!=0)remove(b->control);
+            addTimeFun(buid&3|8|4,(OnTime)reremove,10,a);
+            buid++;
+            hasdelete.insert(a);
+        }
+    }else if(c){
+        if(hasdelete.find(a)==hasdelete.end()){
+            delete c->draw;
+            c->draw=new ExplodeShow(2,0);
+            c->draw->move(c->x,c->y);
+            if(c->control!=0)remove(c->control);
+            addTimeFun(taid&3|8,(OnTime)reremove,5,a);
+            taid++;
+            hasdelete.insert(a);
+        }
+    }else{
+        items.erase(a);
+        topLevelItem.erase(a);
+        checker->remove(a);
+        delete a;
+    }
 }
 void remove(cpointer a)
 {

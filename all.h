@@ -6,6 +6,8 @@
 #define MOVEVALUE 0xfff
 #define MOVEFLAG 0xf000
 #define BULLETSIZE 4
+#define SCREENW 416
+#define SCREENH 416
 extern int *test_type;
 enum direct { up=0, down=2, left=3, right=1 };
 
