@@ -60,5 +60,6 @@ void addTimeFun(unsigned char id,OnTime on,int n,...);
 //is_run为要设置的状态
 void setTankState(bool is,bool is_run);
 void setTankState(Tank *tank,bool is_run);
+void deleteTank(bool type);
 
 #endif

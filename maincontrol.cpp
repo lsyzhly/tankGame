@@ -187,3 +187,18 @@ void setTankState(bool is,bool is_run)
 void setTankState(Tank *tank,bool is_run){
     controls[tank->control]=is_run;
 }
+void deleteTank(bool type){
+    for (std::set<pointer>::iterator a = items.begin();
+            a != items.end(); a++)
+    {
+        Tank *b=dynamic_cast<Tank *>(*a);
+        if(b)
+        {
+            if(b->isPlayer==type)
+            {
+                delete b->control;
+                delete b;
+            }
+        }
+    }
+}
