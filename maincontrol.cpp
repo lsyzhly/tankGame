@@ -189,7 +189,6 @@ void reremove(pointer a){
     items.erase(a);
     topLevelItem.erase(a);
 	//*********************
-	hqitems.erase(a);
 	//*********************
     checker->remove(a);
     delete a;
@@ -227,6 +226,7 @@ void remove(pointer a)
     }else{
         items.erase(a);
         topLevelItem.erase(a);
+		hqitems.erase(a);
         checker->remove(a);
         delete a;
     }
