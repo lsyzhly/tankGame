@@ -50,6 +50,7 @@ public:
     {
         if(--count==0)
             func(*this);
+		return 1;
     }
 };
 //注册时间事件
