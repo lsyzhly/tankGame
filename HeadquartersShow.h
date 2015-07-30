@@ -3,7 +3,7 @@
 #include "view.h"
 namespace view
 {
-class HeadquartersShow:Show
+class HeadquartersShow:public Show
 {
 public:
     HeadquartersShow(int rat,int type);

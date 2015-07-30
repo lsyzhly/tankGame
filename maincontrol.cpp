@@ -11,6 +11,7 @@ std::map<pointer,int> to_delete;
 MEMSTRUCT<BUFFSIZE>*OnTimeMap=(MEMSTRUCT<BUFFSIZE>*)calloc(sizeof(MEMSTRUCT<BUFFSIZE>),ARRAYSIZE);
 std::map<cpointer,bool> controls;
 std::set<pointer> items;
+std::set<pointer> hqitems;
 bool is_run;
 std::set<pointer> topLevelItem;
 int tanks[2]={3,3};
@@ -19,7 +20,26 @@ void add_to_delete(pointer a, int count)
 {
     to_delete[a] = count;
 }
+//*********************
+void addHqItems(pointer a)
+{
+	hqitems.insert(a);
+	if(checker)
+		checker->add(a);
+}
+void setHqState(int state)
+{
+	std::set<pointer>::iterator ai = hqitems.begin();
+	ai++;
+	 for (;ai != hqitems.end(); ai++)
+    {
+        pointer a = *ai;
+		a->draw->move(-1,-1,state);
 
+    }
+
+}
+//*********************
 void addItem(pointer a,bool isTop)
 {
     if (isTop)
@@ -82,6 +102,17 @@ void bindbumpchecker(bumpchecker *checker)
             throw a;
         }
     }
+	//*********************
+	 for (std::set<pointer>::iterator ai = hqitems.begin();
+            ai != hqitems.end(); ai++)
+    {
+        pointer a = *ai;
+        if(!checker->add(a))
+        {
+            throw a;
+        }
+    }
+   //*********************
 }
 
 void clean()
@@ -142,12 +173,22 @@ void rePaint()
     {
         (*a)->draw->Repaint();
     }
+	//*********************
+     for (std::set<pointer>::iterator a = hqitems.begin();
+            a != hqitems.end(); a++)
+    {
+        (*a)->draw->Repaint();
+    }
+	//*********************
 
 }
 void remove(pointer a)
 {
     items.erase(a);
     topLevelItem.erase(a);
+	//*********************
+	hqitems.erase(a);
+	//*********************
     checker->remove(a);
     delete a;
 }

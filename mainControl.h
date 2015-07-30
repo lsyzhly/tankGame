@@ -20,6 +20,12 @@ void addControl(cpointer a);
 //绑定碰撞检测系统
 void bindbumpchecker(bumpchecker *checker);
 //清理待删除组件
+
+//*********************
+void addHqItems(pointer a);
+void setHqState(int state);
+
+//*********************
 void clean();
 
 void runControls();
