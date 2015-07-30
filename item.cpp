@@ -251,6 +251,12 @@ Bullet *Tank::fire()
         {
             tempx=x+size/2-BULLETSIZE/2;
             tempy=y-BULLETSIZE;
+			if(tempy<=0)
+			{
+				this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
+				
             tempType=0;
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -258,13 +264,26 @@ Bullet *Tank::fire()
         {
             tempx=x+size/2-BULLETSIZE/2;
             tempy=y+size;
-            tempType=2;
+			tempType=2;
+			if(tempy+BULLETSIZE>=207)
+			{
+				this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
+			
+            
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
         }
         else if(this->drt==left)
         {
             tempx=x-BULLETSIZE;
             tempy=y+size/2-BULLETSIZE/2;
+			if(tempx<=0)
+			{
+               this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
+				
             tempType=3;
             //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -272,6 +291,11 @@ Bullet *Tank::fire()
         {
             tempx=x+size;
             tempy=y+size/2-BULLETSIZE/2;
+			if(tempx+BULLETSIZE>=207)
+			{
+				this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
             tempType=1;
             //  return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
         }
