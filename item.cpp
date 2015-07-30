@@ -134,6 +134,7 @@ bumpType Tank::bump(square *a,direct drt)
         }
         else if(b->utype==tank)
         {
+
         }
         else if(b->utype==myclock)
         {
@@ -171,7 +172,17 @@ bumpType Tank::bump(square *a,direct drt)
         }
         else
         {
-            return bumpType::through;
+			if(this->isPlayer==true)
+			{
+			  deleteTank(false);
+              return bumpType::through;
+			}
+			else
+			{
+			  deleteTank(true);
+              return bumpType::through;
+
+			}
         }
     }
     Tank *c=dynamic_cast<Tank *>(a);//碰撞的为坦克的转换
@@ -344,6 +355,8 @@ bumpType Bullet::bump(square *a,direct drt)
 		if(this->t->isPlayer==true && c->isPlayer==true && c->isStoppable==false)
         {
             add_to_delete(this,1);
+			setTankState(true,false);
+			addTimeFun(4,(OnTime)setTankState,100,true,true);
             //todo 将坦克的处理不全
             return bumpType::abandonded;
         }
