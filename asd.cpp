@@ -30,7 +30,7 @@ void init()
     addControl(b);
     addItem(tank);
     s=new PlayerTankShow(2,0);
-    tank=new Tank(8<<4,12<<4,14,1,up,s,1,0,0,0,0,0);
+    tank=new Tank(8<<4,12<<4,14,1,up,s,1,0,0,0,0,1);
     b=new playTankControl(tank,1);
     addControl(b);
     addItem(tank);
@@ -42,15 +42,15 @@ void init()
     //bulletControl *qwea=new bulletControl(ads);
     //addItem(ads);
     //addControl(qwea);
-    //ws=new WaterShow(2);
-    //ws->move(0,0);
+	//ws=new WaterShow(2);
+	//ws->move(0,0);
 
 }
 
 void flush()
 {
-    //ws->move(-1,-1);
-    //ws->Repaint();
+	//ws->move(-1,-1);
+	//ws->Repaint();
     static int n;
     runControls();
     rePaint();
