@@ -258,7 +258,7 @@ bool initdirectx()
     BlockInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
     WaterAndHeadquartersInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
     BonusInit("graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
-    ExplodeInit("graphics/explode1.bmp","grapics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
+    ExplodeInit("graphics/explode1.bmp","graphics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
     BulletbmpInit("graphics/bullet.bmp",(LPDIRECT3DSURFACE9 *)&bulletbmp);
 
 
