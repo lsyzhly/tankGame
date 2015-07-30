@@ -154,7 +154,7 @@ void bumpchecker::remove(pointer a)
                 c=d;
                 d=d->next;
             }
-            //throw a;
+            throw a;
             st3:;
         }
         fprintf(fpi,"answer:\n");

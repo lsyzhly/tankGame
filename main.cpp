@@ -124,7 +124,7 @@ bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn)
                NULL);
 
     if (!SUCCEEDED(result)) return false;
-    //	  d3ddev->StretchRect(bonus[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    //d3ddev->StretchRect(bonus[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
     return true;
 }
 

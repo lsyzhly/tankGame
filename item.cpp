@@ -140,6 +140,7 @@ bumpType Tank::bump(square *a,direct drt)
         }
         else if(b->utype==tank)
         {
+
         }
         else if(b->utype==myclock)
         {
@@ -177,7 +178,17 @@ bumpType Tank::bump(square *a,direct drt)
         }
         else
         {
-            return bumpType::through;
+			if(this->isPlayer==true)
+			{
+			  deleteTank(false);
+              return bumpType::through;
+			}
+			else
+			{
+			  deleteTank(true);
+              return bumpType::through;
+
+			}
         }
     }
     Tank *c=dynamic_cast<Tank *>(a);//碰撞的为坦克的转换
@@ -243,6 +254,12 @@ Bullet *Tank::fire()
         {
             tempx=x+size/2-BULLETSIZE/2;
             tempy=y-BULLETSIZE;
+			if(tempy<=0)
+			{
+				this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
+				
             tempType=0;
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -250,13 +267,26 @@ Bullet *Tank::fire()
         {
             tempx=x+size/2-BULLETSIZE/2;
             tempy=y+size;
-            tempType=2;
+			tempType=2;
+			if(tempy+BULLETSIZE>=207)
+			{
+				this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
+			
+            
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
         }
         else if(this->drt==left)
         {
             tempx=x-BULLETSIZE;
             tempy=y+size/2-BULLETSIZE/2;
+			if(tempx<=0)
+			{
+               this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
+				
             tempType=3;
             //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -264,6 +294,11 @@ Bullet *Tank::fire()
         {
             tempx=x+size;
             tempy=y+size/2-BULLETSIZE/2;
+			if(tempx+BULLETSIZE>=207)
+			{
+				this->nowBullets=this->nowBullets-1;
+				return NULL;
+			}
             tempType=1;
             //  return new Bullet(this,x+size,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -345,6 +380,8 @@ bumpType Bullet::bump(square *a,direct drt)
 		if(this->t->isPlayer==true && c->isPlayer==true && c->isStoppable==false)
         {
             add_to_delete(this,1);
+			setTankState(true,false);
+			addTimeFun(4,(OnTime)setTankState,100,true,true);
             //todo 将坦克的处理不全
             return bumpType::abandonded;
         }
