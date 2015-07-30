@@ -10,19 +10,22 @@ square::square(int x, int y, int size,Show *draw)
     this->size = size;
     this->draw = draw;
     draw->move(x, y,0);
+    is_bump=true;
 }
 posSet *square::getRange()
 {
     pos_set.clear();
-    for (int i = 0; i < size; i++)
-    {
-        pos_set.insert(std::make_pair(x + i, y));
-        pos_set.insert(std::make_pair(x + i, y + size - 1));
-    }
-    for (int i = 0; i < size; i++)
-    {
-        pos_set.insert(std::make_pair(x, y + i));
-        pos_set.insert(std::make_pair(x + size - 1, y + i));
+        if(is_bump){
+        for (int i = 0; i < size; i++)
+        {
+            pos_set.insert(std::make_pair(x + i, y));
+            pos_set.insert(std::make_pair(x + i, y + size - 1));
+        }
+        for (int i = 0; i < size; i++)
+        {
+            pos_set.insert(std::make_pair(x, y + i));
+            pos_set.insert(std::make_pair(x + size - 1, y + i));
+        }
     }
     return &pos_set;
 }

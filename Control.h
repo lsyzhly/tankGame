@@ -44,6 +44,7 @@ public:
 class autoTankControl :public Control
 {
 public:
+    clock_t clo;
     Tank *tank;
     autoTankControl(Tank *tank);
     virtual bool run();

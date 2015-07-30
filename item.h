@@ -21,6 +21,7 @@ public:
     int x;
     int y;
     int size;
+    bool is_bump;
     //ÂÖÀª¼¯ºÏ
     posSet pos_set;
     //»­Í¼Æ÷

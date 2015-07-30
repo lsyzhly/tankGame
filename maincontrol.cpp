@@ -155,22 +155,26 @@ void reremove(pointer a){
 
 void remove(pointer a)
 {
+    a->is_bump=false;
     Tank *b=dynamic_cast<Tank *>(a);
     Bullet *c=dynamic_cast<Bullet *>(a);
-    static int buid;
-    static int taid;
+    static int buid=0;
+    static int taid=0;
     if(b){
         delete b->draw;
         b->draw=new ExplodeShow(2,1);
         b->draw->move(b->x,b->y);
         remove(b->control);
         if(b->control!=0)remove(b->control);
-        addTimeFun(buid|8,(OnTime)reremove,10,a);
+        addTimeFun(buid&3|8|4,(OnTime)reremove,10,a);
+        buid++;
     }else if(c){
         delete c->draw;
         c->draw=new ExplodeShow(2,0);
         c->draw->move(c->x,c->y);
-        addTimeFun(9,(OnTime)reremove,5,a);
+        if(c->control!=0)remove(c->control);
+        addTimeFun(taid&3|8,(OnTime)reremove,5,a);
+        taid++;
     }else{
         items.erase(a);
         topLevelItem.erase(a);
