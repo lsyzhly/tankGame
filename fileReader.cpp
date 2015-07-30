@@ -5,6 +5,7 @@
 #include "item.h"
 #include "BlockShow.h"
 #include "WaterShow.h"
+#include "HeadquartersShow.h"
 using namespace	view;
 using namespace item;
 using namespace Controler;
@@ -81,7 +82,20 @@ void readFile(char *path)
             {
                 if(n==6)
                 {
-                    //addItem(new unmoveSquare(j<<5,i<<5,32,0,tie));
+					int m=j<<4;
+					int n=i<<4;
+					addHqItems(new unmoveSquare(m,n,32>>1,new HeadquartersShow(2,0),boss));
+					addHqItems(new unmoveSquare(m-8,n+8,16>>1,new BlockShow(2,0),tu));
+					addHqItems(new unmoveSquare(m-8,n,16>>1,new BlockShow(2,0),tu));
+					addHqItems(new unmoveSquare(m-8,n-8,16>>1,new BlockShow(2,0),tu));
+					addHqItems(new unmoveSquare(m,n-8,16>>1,new BlockShow(2,0),tu));
+					addHqItems(new unmoveSquare(m+8,n-8,16>>1,new BlockShow(2,0),tu));
+					addHqItems(new unmoveSquare(m+16,n-8,16>>1,new BlockShow(2,0),tu));
+                    addHqItems(new unmoveSquare(m+16,n,16>>1,new BlockShow(2,0),tu));
+					addHqItems(new unmoveSquare(m+16,n+8,16>>1,new BlockShow(2,0),tu));
+
+
+                    //addItem(new unmoveSquare(j<<5,i<<5,32,0,(unmoveType)0));
                 }
                 else if(4==n)
                 {
