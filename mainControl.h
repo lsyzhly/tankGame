@@ -63,4 +63,6 @@ void setTankState(bool is,bool is_run);
 void setCapTankState(Tank *theTank,bool stoppable);
 void setBossHome();
 void setAfterBomb();
+void setTankState(Tank *tank,bool is_run);
+void deleteTank(bool type);
 #endif
