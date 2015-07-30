@@ -47,7 +47,7 @@ void OnPlayerTank(bool type){
         Tank *tank;
         Control *b;
         s=new PlayerTankShow(2,type);
-        tank=new Tank(4<<type<<4,12<<4,14,1,up,s,1,0,0,0,0,1);
+        tank=new Tank(4<<type<<4,12<<4,14,1,up,s,1,0,0,0,0,1,false);
         b=new playTankControl(tank,type);
         addControl(b);
         addItem(tank);
@@ -222,6 +222,10 @@ void setTankState(bool is,bool is_run)
             }
         }
     }
+}
+void setCapTankState(Tank *theTank,bool stoppable)
+{
+	theTank->isStoppable=stoppable;
 }
 void setTankState(Tank *tank,bool is_run){
     controls[tank->control]=is_run;

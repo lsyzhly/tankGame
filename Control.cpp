@@ -114,6 +114,7 @@ bool playTankControl::run()
 
 playTankControl::~playTankControl(){
     tank->control=0;
+    OnPlayerTank(type);
 }
 bulletControl::bulletControl(Bullet *a):Control(a->speed)
 {
