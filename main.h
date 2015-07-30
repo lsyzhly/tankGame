@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <d3d9.h>
 //#include <d3dx9.h>
-#define SCREENW 416
-#define SCREENH 416
 void init();
 void flush();
 void destory();

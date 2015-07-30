@@ -23,6 +23,18 @@ void ExplodeShow::move(int x, int y, ...)
 			rec.left=x-10;
 			rec.bottom =rec.top+28;
 			rec.right = rec.left+28;
+            if(rec.right>SCREENW){
+                rec.right=SCREENW;
+            }
+            if(rec.top<0){
+                rec.top=0;
+            }
+            if(rec.left<0){
+                rec.left=0;
+            }
+            if(rec.bottom>SCREENH){
+                rec.bottom=SCREENH;
+            }
 		}
 		else
 		{
@@ -30,6 +42,18 @@ void ExplodeShow::move(int x, int y, ...)
 			rec.left=x-18;
 			rec.bottom =rec.top+64;
 			rec.right = rec.left+64;
+            if(rec.right>SCREENW){
+                rec.right=SCREENW;
+            }
+            if(rec.top<0){
+                rec.top=0;
+            }
+            if(rec.left<0){
+                rec.left=0;
+            }
+            if(rec.bottom>SCREENH){
+                rec.bottom=SCREENH;
+            }
 		}
     }
 }
