@@ -59,5 +59,6 @@ void addTimeFun(unsigned char id,OnTime on,int n,...);
 //设置某阵营坦克状态 is为要设置的坦克阵营
 //is_run为要设置的状态
 void setTankState(bool is,bool is_run);
+void setTankState(Tank *tank,bool is_run);
 
 #endif

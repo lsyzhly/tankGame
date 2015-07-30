@@ -2,6 +2,7 @@
 #include "bumpcheck.h"
 #include "Control.h"
 #include "item.h"
+#include "PlayerTankShow.h"
 #include <list>
 #include <stdarg.h>
 #define ARRAYSIZE 16
@@ -12,6 +13,7 @@ std::map<cpointer,bool> controls;
 std::set<pointer> items;
 bool is_run;
 std::set<pointer> topLevelItem;
+int tanks[2]={3,3};
 bumpchecker *checker;
 void add_to_delete(pointer a, int count)
 {
@@ -32,6 +34,27 @@ void addItem(pointer a,bool isTop)
     {
         checker->add(a);
     }
+}
+
+void OnPlayerTank(bool type){
+    if(tanks[type]==0){
+        return;
+    }else{
+        tanks[type]--;
+        Show *s;
+        Tank *tank;
+        Control *b;
+        s=new PlayerTankShow(2,type);
+        tank=new Tank(4<<type<<4,12<<4,14,1,up,s,1,0,0,0,0,1);
+        b=new playTankControl(tank,type);
+        addControl(b);
+        addItem(tank);
+        return;
+    }
+}
+
+void addTanks(bool type){
+    tanks[type]++;
 }
 
 void addControl(cpointer a)
@@ -160,4 +183,7 @@ void setTankState(bool is,bool is_run)
             }
         }
     }
+}
+void setTankState(Tank *tank,bool is_run){
+    controls[tank]=is_run;
 }
