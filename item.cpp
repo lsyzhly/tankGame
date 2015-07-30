@@ -10,19 +10,22 @@ square::square(int x, int y, int size,Show *draw)
     this->size = size;
     this->draw = draw;
     draw->move(x, y,0);
+    is_bump=true;
 }
 posSet *square::getRange()
 {
     pos_set.clear();
-    for (int i = 0; i < size; i++)
-    {
-        pos_set.insert(std::make_pair(x + i, y));
-        pos_set.insert(std::make_pair(x + i, y + size - 1));
-    }
-    for (int i = 0; i < size; i++)
-    {
-        pos_set.insert(std::make_pair(x, y + i));
-        pos_set.insert(std::make_pair(x + size - 1, y + i));
+        if(is_bump){
+        for (int i = 0; i < size; i++)
+        {
+            pos_set.insert(std::make_pair(x + i, y));
+            pos_set.insert(std::make_pair(x + i, y + size - 1));
+        }
+        for (int i = 0; i < size; i++)
+        {
+            pos_set.insert(std::make_pair(x, y + i));
+            pos_set.insert(std::make_pair(x + size - 1, y + i));
+        }
     }
     return &pos_set;
 }
@@ -59,7 +62,7 @@ void moveSquare::move(direct drt)
 }
 moveSquare::~moveSquare()
 {
-    //	if (control) delete control;
+    //if (control) remove(control);
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {
@@ -80,7 +83,7 @@ unmoveSquare::~unmoveSquare()
 {
 }
 Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
-           int maxbullets,int nowBullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer)
+           int maxbullets,int nowBullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer,bool isStoppable)
     :moveSquare(x,y,size,draw,drt,speed)
 {
     this->maxbullets = maxbullets;
@@ -89,6 +92,7 @@ Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
     this->bullet_speed = bullet_speed;
     this->isPlayer=isPlayer;
     this->nowBullets=nowBullets;
+	this->isStoppable=false;
     draw->move(-1,-1,MOVELEVEL|pvalue);
 }
 bumpType Tank::bump(square *a,direct drt)
@@ -133,18 +137,55 @@ bumpType Tank::bump(square *a,direct drt)
         }
         else if(b->utype==tank)
         {
+
         }
         else if(b->utype==myclock)
         {
+			add_to_delete(a,1);
+			if(this->isPlayer==true)
+			{
+				setTankState(false,false);
+				addTimeFun(0,(OnTime)setTankState,150,false,true);
+                return bumpType::through;
+			}
+			else
+			{
+                setTankState(true,false);
+				addTimeFun(0,(OnTime)setTankState,150,true,true);
+                return bumpType::through;
+			}
         }
         else if(b->utype==cap)
-        {
+        { //缺少通知图片更改的操作
+			add_to_delete(a,1);
+            setCapTankState(this,true);
+            addTimeFun(1,(OnTime)setCapTankState,150,this,false);
+			return bumpType::through;
         }
         else if(b->utype==shovel)
         {
+			if(this->isPlayer==true)
+			{
+			add_to_delete(a,1);
+          //  addTimeFun(3,(OnTime)setBossHome,150);
+			return bumpType::through;
+			}
+			else
+            return bumpType::through;
         }
         else
         {
+			if(this->isPlayer==true)
+			{
+			  deleteTank(false);
+              return bumpType::through;
+			}
+			else
+			{
+			  deleteTank(true);
+              return bumpType::through;
+
+			}
         }
     }
     Tank *c=dynamic_cast<Tank *>(a);//碰撞的为坦克的转换
@@ -152,15 +193,17 @@ bumpType Tank::bump(square *a,direct drt)
     {
         return bumpType::stop;
     }
-    Bullet *d=dynamic_cast<Bullet *>(a);//碰撞为子弹的转换
+    Bullet *d=dynamic_cast<Bullet *>(a);//碰撞为子弹的转换未处理子弹碰到无敌坦克
     if(d)
     {
-        if(d->t->isPlayer==true && this->isPlayer==true)
+        if(d->t->isPlayer==true && this->isPlayer==true && this->isStoppable==false)
         {
             add_to_delete(a,1);
+			setTankState(true,false);
+			addTimeFun(4,(OnTime)setTankState,100,true,true);
             return bumpType::stop;//暂时将己方定位停止
         }
-        if(d->t->isPlayer!=this->isPlayer)
+		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
         {
             //add_to_delete(this,1);
             //add_to_delete(a,1);
@@ -260,11 +303,6 @@ void moveSquare::moveDirect(direct drt,int size)
 }
 Tank::~Tank()
 {
-    for (set<Bullet *>::iterator ai=bullet_set.begin(); ai!=bullet_set.end(); ai++)
-    {
-        Bullet *a=*ai;
-        delete a;
-    }
 }
 Bullet::Bullet(Tank *t, int x, int y, int size, int speed, Show *draw)
     :moveSquare(x, y, size, draw, t->drt, speed)
@@ -312,9 +350,11 @@ bumpType Bullet::bump(square *a,direct drt)
     Tank *c=dynamic_cast<Tank *>(a);//子弹碰到坦克
     if(c)
     {
-        if(this->t->isPlayer==true && c->isPlayer==true)
+		if(this->t->isPlayer==true && c->isPlayer==true && c->isStoppable==false)
         {
             add_to_delete(this,1);
+			setTankState(true,false);
+			addTimeFun(4,(OnTime)setTankState,100,true,true);
             //todo 将坦克的处理不全
             return bumpType::abandonded;
         }
@@ -322,7 +362,7 @@ bumpType Bullet::bump(square *a,direct drt)
         {
             return bumpType::through;
         }
-        if(this->t->isPlayer!=c->isPlayer)// enemy and player reduce HP
+		if(this->t->isPlayer!=c->isPlayer && c->isStoppable==false)// enemy and player reduce HP
         {
             c->pvalue=c->pvalue-1;
             if(c->pvalue==-1)
@@ -336,6 +376,11 @@ bumpType Bullet::bump(square *a,direct drt)
             c->draw->move(-1,-1,MOVELEVEL|c->pvalue);
             return bumpType::abandonded;
         }
+		if(this->t->isPlayer!=c->isPlayer && c->isStoppable==true)
+		{
+           add_to_delete(this,1);
+		   return bumpType::abandonded;
+		}
     }
     Bullet *d=dynamic_cast<Bullet *>(a);
     if(d)

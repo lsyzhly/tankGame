@@ -56,7 +56,7 @@ public:
     {
         if(--count==0)
             func(*this);
-		return 1;
+		return count;
     }
 };
 //注册时间事件
@@ -66,6 +66,7 @@ void addTimeFun(unsigned char id,OnTime on,int n,...);
 //设置某阵营坦克状态 is为要设置的坦克阵营
 //is_run为要设置的状态
 void setTankState(bool is,bool is_run);
-void setTankState(Tank *tank,bool is_run);
-
+void setCapTankState(Tank *theTank,bool stoppable);
+void deleteTank(bool type);
+void OnPlayerTank(bool type);
 #endif
