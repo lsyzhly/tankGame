@@ -4,7 +4,6 @@
 #include "item.h"
 #include <list>
 #include <stdarg.h>
-#include <tuple>
 #define ARRAYSIZE 16
 #define BUFFSIZE 64
 std::map<pointer,int> to_delete;
