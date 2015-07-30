@@ -155,7 +155,7 @@ bumpType Tank::bump(square *a,direct drt)
         { //缺少通知图片更改的操作
 			add_to_delete(a,1);
             setCapTankState(this,true);
-            addTimeFun(0,(OnTime)setCapTankState,150,this,false);
+            addTimeFun(1,(OnTime)setCapTankState,150,this,false);
 			return bumpType::through;
         }
         else if(b->utype==shovel)
@@ -163,8 +163,7 @@ bumpType Tank::bump(square *a,direct drt)
 			if(this->isPlayer==true)
 			{
 			add_to_delete(a,1);
-			setBossHome();
-            addTimeFun(0,(OnTime)setBossHome,150);
+          //  addTimeFun(3,(OnTime)setBossHome,150);
 			return bumpType::through;
 			}
 			else
@@ -172,7 +171,6 @@ bumpType Tank::bump(square *a,direct drt)
         }
         else
         {
-			setAfterBomb();
             return bumpType::through;
         }
     }
@@ -187,6 +185,8 @@ bumpType Tank::bump(square *a,direct drt)
         if(d->t->isPlayer==true && this->isPlayer==true && this->isStoppable==false)
         {
             add_to_delete(a,1);
+			setTankState(true,false);
+			addTimeFun(4,(OnTime)setTankState,100,true,true);
             return bumpType::stop;//暂时将己方定位停止
         }
 		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
