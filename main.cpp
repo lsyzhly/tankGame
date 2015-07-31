@@ -4,15 +4,12 @@
 #include "main.h"
 #include "all.h"
 #include <time.h>
-<<<<<<< HEAD
-=======
 #include <stdio.h>
 #ifndef LSY_GCC
 #include "sound.h"
 #else
 #include "lsy_sound.h"
 #endif // LSY_GCC
->>>>>>> 1d568910e0d51d9e3270aeb02def0d94b6e73bc9
 #include <iostream>
 #define LPCWSTR LPCSTR
 #pragma comment(lib,"dsound.lib")
@@ -155,7 +152,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
         }
         d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         flush();
-		//d3ddev->StretchRect(backbuffer, NULL, backbuffer1,&red , D3DTEXF_NONE);
         d3ddev->Present(NULL, NULL, NULL, NULL);
         clock_t end=clock();
         end-=start;
