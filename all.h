@@ -3,6 +3,7 @@
 #define MOVEDIRECT 0x8000//向某方向移动
 #define MOVESETDIRECT 0x2000//设置方向
 #define MOVELEVEL 0x4000//设置等级
+#define MOVESTATE 0x1000//设置状态
 #define MOVEVALUE 0xfff
 #define MOVEFLAG 0xf000
 #define BULLETSIZE 4

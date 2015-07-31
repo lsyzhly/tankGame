@@ -5,7 +5,11 @@
 #include "all.h"
 #include <time.h>
 #include <stdio.h>
+#ifndef LSY_GCC
 #include "sound.h"
+#else
+#include "lsy_sound.h"
+#endif // LSY_GCC
 
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "Winmm.lib")

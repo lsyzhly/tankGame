@@ -22,10 +22,10 @@ char *newMuchSquare(int x,int y,int size,unmoveType type,int state)
         a=(char *)malloc(4*sizeof(unmoveSquare *)+sizeof(char));
         *a++=4;
         b=(unmoveSquare **)a;
-        *b++=new unmoveSquare(x,y,size,new BlockShow(2,type-1),type);
-        *b++=new unmoveSquare(x+size,y,size,new BlockShow(2,type-1),type);
-        *b++=new unmoveSquare(x+size,y+size,size,new BlockShow(2,type-1),type);
-        *b++=new unmoveSquare(x,y+size,size,new BlockShow(2,type-1),type);
+        *b++=new unmoveSquare(x,y,size,new BlockShow(2),type);
+        *b++=new unmoveSquare(x+size,y,size,new BlockShow(2),type);
+        *b++=new unmoveSquare(x+size,y+size,size,new BlockShow(2),type);
+        *b++=new unmoveSquare(x,y+size,size,new BlockShow(2),type);
     }
     else
     {
@@ -34,20 +34,20 @@ char *newMuchSquare(int x,int y,int size,unmoveType type,int state)
         b=(unmoveSquare **)a;
         if((state&0x1)==0)
         {
-            *b++=new unmoveSquare(x,y,size,new BlockShow(2,type-1),type);
+            *b++=new unmoveSquare(x,y,size,new BlockShow(2),type);
         }
         else
         {
-            *b++=new unmoveSquare(x+size,y+size,size,new BlockShow(2,type-1),type);
+            *b++=new unmoveSquare(x+size,y+size,size,new BlockShow(2),type);
         }
         state++;
         if(state&0x2)
         {
-            *b++=new unmoveSquare(x,y+size,size,new BlockShow(2,type-1),type);
+            *b++=new unmoveSquare(x,y+size,size,new BlockShow(2),type);
         }
         else
         {
-            *b++=new unmoveSquare(x+size,y,size,new BlockShow(2,type-1),type);
+            *b++=new unmoveSquare(x+size,y,size,new BlockShow(2),type);
         }
     }
     return --a;
@@ -84,15 +84,15 @@ void readFile(char *path)
                 {
 					int m=j<<4;
 					int n=i<<4;
-					addHqItems(new unmoveSquare(m,n,32>>1,new HeadquartersShow(2,0),boss));
-					addHqItems(new unmoveSquare(m-8,n+8,16>>1,new BlockShow(2,0),tu));
-					addHqItems(new unmoveSquare(m-8,n,16>>1,new BlockShow(2,0),tu));
-					addHqItems(new unmoveSquare(m-8,n-8,16>>1,new BlockShow(2,0),tu));
-					addHqItems(new unmoveSquare(m,n-8,16>>1,new BlockShow(2,0),tu));
-					addHqItems(new unmoveSquare(m+8,n-8,16>>1,new BlockShow(2,0),tu));
-					addHqItems(new unmoveSquare(m+16,n-8,16>>1,new BlockShow(2,0),tu));
-                    addHqItems(new unmoveSquare(m+16,n,16>>1,new BlockShow(2,0),tu));
-					addHqItems(new unmoveSquare(m+16,n+8,16>>1,new BlockShow(2,0),tu));
+					addHqItems(new unmoveSquare(m,n,32>>1,new HeadquartersShow(2),boss));
+					addHqItems(new unmoveSquare(m-8,n+8,16>>1,new BlockShow(2),tu));
+					addHqItems(new unmoveSquare(m-8,n,16>>1,new BlockShow(2),tu));
+					addHqItems(new unmoveSquare(m-8,n-8,16>>1,new BlockShow(2),tu));
+					addHqItems(new unmoveSquare(m,n-8,16>>1,new BlockShow(2),tu));
+					addHqItems(new unmoveSquare(m+8,n-8,16>>1,new BlockShow(2),tu));
+					addHqItems(new unmoveSquare(m+16,n-8,16>>1,new BlockShow(2),tu));
+                    addHqItems(new unmoveSquare(m+16,n,16>>1,new BlockShow(2),tu));
+					addHqItems(new unmoveSquare(m+16,n+8,16>>1,new BlockShow(2),tu));
 
 
                     //addItem(new unmoveSquare(j<<5,i<<5,32,0,(unmoveType)0));

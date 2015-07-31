@@ -1,7 +1,11 @@
 #include "item.h"
 #include "Control.h"
 #include "maincontrol.h"
+#ifndef LSY_GCC
 #include "sound.h"
+#else
+#include "lsy_sound.h"
+#endif
 namespace item
 {
 square::square(int x, int y, int size,Show *draw)
@@ -162,7 +166,7 @@ bumpType Tank::bump(square *a,direct drt)
 				 playTankControl *b=dynamic_cast<playTankControl *>(this->control);
 			      if(b)
 				  {
-					  int temp=b->type; 
+					  int temp=b->type;
 					  tanks[temp]++;
 				  }
 			  }
@@ -207,7 +211,7 @@ bumpType Tank::bump(square *a,direct drt)
 		    GameSound(hwnd,tempSound);
 			setHqState(1);
             addTimeFun(1,(OnTime)setHqState,250,0);
-			
+
 			return bumpType::through;
 			}
 			else
@@ -414,7 +418,7 @@ bumpType Bullet::bump(square *a,direct drt)
         {
             add_to_delete(this,1);
             add_to_delete(a,1);
-			b->draw->move(-1,-1,1);  
+			b->draw->move(-1,-1,1);
 			std::string tempSound="sound/bang.wav";
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;

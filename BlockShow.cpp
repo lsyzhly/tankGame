@@ -1,13 +1,10 @@
 #include "BlockShow.h"
 #include "stdarg.h"
-int *test_type;
 namespace view
 {
-BlockShow::BlockShow(int rat,int type):Show(rat)
+BlockShow::BlockShow(int rat):Show(rat)
 {
     this->rat = rat ;
-    this->type = type;
-    test_type=&(this->type);
 }
 void BlockShow::move(int x, int y, ...)
 {
