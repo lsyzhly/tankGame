@@ -299,12 +299,6 @@ Bullet *Tank::fire()
 				this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
-<<<<<<< HEAD
-			   
-=======
-
-
->>>>>>> 5111fc5d27832cf0a08e6728773d45325c7df4c8
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
         }
         else if(this->drt==left)
