@@ -84,13 +84,13 @@ unmoveSquare::~unmoveSquare()
 {
 }
 Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
-           int maxbullets, int pvalue, bool isPlayer,bool isStoppable)
+           int maxbullets, int pvalue, bool isPlayer,bool isStoppable,int nowBullets)
     :moveSquare(x,y,size,draw,drt,speed)
 {
     this->maxbullets = maxbullets;
     this->pvalue = pvalue;
     this->isPlayer=isPlayer;
-    this->nowBullets=0;
+    this->nowBullets=nowBullets;
 	this->isStoppable=false;
     draw->move(-1,-1,MOVELEVEL|pvalue);
 }

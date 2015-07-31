@@ -72,7 +72,7 @@ void OnPlayerTank(bool type){
         Tank *tank;
         Control *b;
         s=new PlayerTankShow(2,type);
-        tank=new Tank(4<<type<<4,12<<4,14,1,up,s,1,0,true);
+        tank=new Tank(4<<type<<4,12<<4,14,2,up,s,1,0,true);
         b=new playTankControl(tank,type);
         addControl(b);
         addItem(tank);
@@ -313,13 +313,16 @@ void addEnemyTank(){
             int type=etank[rand_t];
             etank[rand_t]=etank[--ertank];
             int pvalue=0;
+            int speed=2;
             if(type==2){
                 s=new TankBShow(rand_red,2);
                 pvalue=2;
+                speed=1;
             }else{
                 s=new TankAShow(rand_red,2,type);
+                speed+=type;
             }
-            tank=new Tank((n*6)<<4,0,14,1,up,s,1,pvalue,false);
+            tank=new Tank((n*6)<<4,0,14,speed,up,s,1,pvalue,false);
             b=new autoTankControl(tank);
             addControl(b);
             addItem(tank);

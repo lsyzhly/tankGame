@@ -79,7 +79,7 @@ public:
     bool isPlayer;
 	bool isStoppable;//设置坦克是否无敌true为是
     Tank(int x, int y, int size, int speed, direct drt,Show *draw,
-         int maxbullets,int pvalue, bool isPlayer,bool isStoppable=false);
+         int maxbullets,int pvalue, bool isPlayer,bool isStoppable=false,int nowBullets=0);
     //碰撞处理函数
     virtual bumpType bump(square *a,direct drt);
     //开火
