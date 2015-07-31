@@ -313,8 +313,8 @@ void deleteTank(bool type){
         {
             if(b->isPlayer==type)
             {
-                delete b->control;
-                delete b;
+                remove(b);
+                remove(b->control);
             }
         }
     }

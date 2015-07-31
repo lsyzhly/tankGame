@@ -467,7 +467,7 @@ bumpType Bullet::bump(square *a,direct drt)
 			{
 				int tempX=(c->x)-30;
 				int tempY=(c->y)+20;
-				int tempB=rand()%6+6;
+				int tempB=/*rand()%6+6*/bomb;
 				if(tempX<0)
 				{
                     tempX=0;
@@ -496,7 +496,7 @@ bumpType Bullet::bump(square *a,direct drt)
 				    addItem(tempBonus);
 				}
 				}
-				
+
 			}
             c->pvalue=c->pvalue-1;
             if(c->pvalue==-1)
