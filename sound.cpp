@@ -1,4 +1,4 @@
-
+#ifndef LSY_GCC
 #include "sound.h"
 void GameSound(HWND myHwnd,string path)
 {
@@ -12,14 +12,14 @@ void GameSound(HWND myHwnd,string path)
 	hr=lpds->SetCooperativeLevel(myHwnd,DSSCL_PRIORITY );
 	if(hr!=DS_OK)
 	{
-		
+
 	}
 	DSCAPS dscaps;
     dscaps.dwSize = sizeof(DSCAPS);
     hr =lpds->GetCaps(&dscaps);
 	if(hr!=DS_OK)
 	{
-	
+
 	}
     LPDIRECTSOUNDBUFFER pPbuf;//声明主缓存区指针
 	DSBUFFERDESC desc;//描述结构
@@ -31,7 +31,7 @@ void GameSound(HWND myHwnd,string path)
 	hr=lpds->CreateSoundBuffer(&desc,&pPbuf,NULL);
 	if(hr!=DS_OK)
 	{
-		
+
 	}
 		//设置格式
 	WAVEFORMATEX pwfmt;
@@ -45,7 +45,7 @@ void GameSound(HWND myHwnd,string path)
 	hr=pPbuf->SetFormat(&pwfmt);
 	if(hr!=DS_OK)
 	{
-		
+
 	}
 	//read music file
 	WAVEFORMATEX swfmt;
@@ -57,10 +57,10 @@ void GameSound(HWND myHwnd,string path)
 	hmmio=mmioOpen((char*)path.c_str(),NULL,MMIO_ALLOCBUF|MMIO_READ);
 	if(hmmio==NULL)
 	{
-		
+
 	}
 	ckRiff.fccType=mmioFOURCC('W', 'A', 'V', 'E');//设定文件类型
- mmresult = mmioDescend(hmmio, &ckRiff, NULL, MMIO_FINDRIFF); 
+ mmresult = mmioDescend(hmmio, &ckRiff, NULL, MMIO_FINDRIFF);
  if(mmresult != MMSYSERR_NOERROR)
  {
  }
@@ -69,12 +69,12 @@ void GameSound(HWND myHwnd,string path)
  mmresult = mmioDescend(hmmio, &ckInfo, &ckRiff, MMIO_FINDCHUNK);
         if(mmresult != MMSYSERR_NOERROR)
 		{
-			
+
 		}
- 
+
  if(mmioRead(hmmio, (HPSTR)&swfmt, sizeof(swfmt)) == -1)
  {
-            
+
  }
 
  mmresult = mmioAscend(hmmio, &ckInfo, 0);   //跳出子区块
@@ -84,7 +84,7 @@ void GameSound(HWND myHwnd,string path)
  mmresult = mmioDescend(hmmio, &ckInfo, &ckRiff, MMIO_FINDCHUNK);
  if(mmresult != MMSYSERR_NOERROR)
  {
-	
+
  }
 
  size = ckInfo.cksize;
@@ -94,14 +94,14 @@ void GameSound(HWND myHwnd,string path)
  LPDIRECTSOUNDBUFFER pSbuf;
   memset(&desc, 0, sizeof(desc));   //清空结构内容
  desc.dwSize = sizeof(desc);             //配制描述结构大小
- desc.dwFlags = DSBCAPS_STATIC | DSBCAPS_CTRLPAN | 
+ desc.dwFlags = DSBCAPS_STATIC | DSBCAPS_CTRLPAN |
              DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS;   //???
  desc.dwBufferBytes =size;
  desc.lpwfxFormat =&swfmt;
 hr = lpds->CreateSoundBuffer(&desc, &pSbuf, NULL);
  if(hr!= DS_OK)
  {
-	
+
  }
  LPVOID pAudio;
  DWORD  bytesAudio;
@@ -114,19 +114,20 @@ hr= pSbuf->Lock(0,size, &pAudio, &bytesAudio, NULL, NULL, NULL);
 mmresult = mmioRead(hmmio, (HPSTR)pAudio,bytesAudio);
  if(mmresult== -1)
    {
-  
+
  }
 hr = pSbuf->Unlock(pAudio, bytesAudio, NULL, NULL);
 
  if(hr!= DS_OK)
  {
-    
+
  }
 
  mmioClose(hmmio, 0);
   pSbuf->Play(0,0,0);
- 
-	 
- 
- 
+
+
+
+
 }
+#endif

@@ -46,6 +46,9 @@ void TankAShow::move(int x, int y, ...)
     {
         throw n;
     }
+    if(rec.left<0 || rec.top<0){
+        throw rec;
+    }
 }
 void TankAShow::Repaint()
 {
@@ -62,7 +65,9 @@ void TankAShow::Repaint()
     {
         n|=0x4;
     }
-    d3ddev->StretchRect(enemy[drt][n],NULL,backbuffer,&rec,D3DTEXF_NONE);
+    if(FAILED(d3ddev->StretchRect(enemy[drt][n],NULL,backbuffer,&rec,D3DTEXF_NONE))){
+        throw rec;
+    }
     counts++;
 }
 TankBShow::TankBShow(bool is_red, int rat):Show(rat)
@@ -73,6 +78,9 @@ void TankBShow::move(int x, int y,...)
 {
     if(x!=-1&&y!=-1)
     {
+        if(x<0 || y<0){
+            throw x;
+        }
         x*=rat;
         y*=rat;
         rec.left=x;
@@ -108,6 +116,9 @@ void TankBShow::move(int x, int y,...)
     {
         throw n;
     }
+    if(rec.left<0 || rec.top<0){
+        throw rec;
+    }
 }
 void TankBShow::Repaint()
 {
@@ -125,7 +136,9 @@ void TankBShow::Repaint()
     {
         n|=0x1;
     }
-    d3ddev->StretchRect(enemy[drt|0x4][n],NULL,backbuffer,&rec,D3DTEXF_NONE);
+    if(FAILED(d3ddev->StretchRect(enemy[drt|0x4][n],NULL,backbuffer,&rec,D3DTEXF_NONE))){
+        throw rec;
+    }
     counts++;
 }
 }
