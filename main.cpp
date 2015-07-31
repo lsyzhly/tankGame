@@ -6,6 +6,9 @@
 #include <time.h>
 #include <iostream>
 #define LPCWSTR LPCSTR
+#pragma comment(lib,"dsound.lib")
+#pragma comment(lib,"Winmm.lib")
+
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 

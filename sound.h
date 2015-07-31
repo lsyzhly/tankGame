@@ -7,5 +7,4 @@
 #include <d3d9.h>
 #include "main.h"
 using std::string;
-void GameSound(HWND myHwnd,string path);
-
+void GameSound(HWND myHwnd,std::string path);
