@@ -295,6 +295,7 @@ void setTankState(bool is,bool is_run)
 void setCapTankState(Tank *theTank,bool stoppable)
 {
 	theTank->isStoppable=stoppable;
+	//theTank->draw->move(-1,-1,)
 }
 void setTankState(Tank *tank,bool is_run){
     controls[tank->control]=is_run;

@@ -10,8 +10,12 @@ HeadquartersShow::HeadquartersShow(int rat,int type):Show(rat)
 void HeadquartersShow::move(int x, int y, ...)
 {
     if(-1==x&&-1==y)
-    {
-        //
+    {   
+
+        va_list va;
+        va_start(va,y);
+        type=va_arg(va,int);
+        va_end(va);
     }
     else
     {

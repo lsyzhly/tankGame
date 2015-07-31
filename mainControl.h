@@ -9,6 +9,7 @@ using namespace item;
 using namespace view;
 using namespace Controler;
 
+extern int tanks[];
 extern bumpchecker *checker;
 extern int etanks;
 extern unsigned char etank[20];
