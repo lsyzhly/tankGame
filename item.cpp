@@ -163,6 +163,7 @@ bumpType Tank::bump(square *a,direct drt)
         {
               std::string tempSound="sound/Fanfare.wav";
 		      GameSound(hwnd,tempSound);
+			  add_to_delete(a,1);
 			  if(this->isPlayer==true)
 			  {
 				 playTankControl *b=dynamic_cast<playTankControl *>(this->control);
