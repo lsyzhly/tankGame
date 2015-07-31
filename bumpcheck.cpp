@@ -45,14 +45,16 @@ int bumpchecker::move(mpointer a, direct drt)
             }
             continue;
         }
-        pointer pt = bmap[b.second][b.first];
-        //判断是否碰撞
-        while(pt!=0){
-            if(pt!=a){
-                p.insert(pt);
+        sList &pt = bmap[b.second][b.first];
+        for(sList::iterator i=pt.begin();i!=pt.end();i++){
+            if(*i==a){
+                goto st1;
             }
-            pt=pt->next;
         }
+        for(sList::iterator i=pt.begin();i!=pt.end();i++){
+            p.insert(*i);
+        }
+        st1:;
     }
     int n = bumpType::through;
     //检测是否有碰撞
@@ -102,66 +104,28 @@ pointer bumpchecker::add(pointer a)
     {
         posSet::value_type b=*bi;
         if(is_out(b))continue;
-        pointer *c = &bmap[b.second][b.first];
-        fprintf(fpi,"inserting %p to %p\n",a,c);
-        a->next=*c;
-        *c=a;
-        fprintf(fpi,"answer:\n");
-        for(pointer f=bmap[b.second][b.first];f!=0;f=f->next){
-            fprintf(fpi,"%p\n",f);
-        }
-        fflush(fpi);
-        a->occupy.insert(&bmap[b.second][b.first]);
-        for(pointer q=bmap[b.second][b.first];q!=0;q=q->next){
-            if(q==a){
-                goto st1;
-            }
-        }
-        throw a;
-        st1:;
+        sList &c = bmap[b.second][b.first];
+        c.push_front(a);
+        a->occupy.insert(&c);
     }
     return a;
 }
 //从碰撞检测系统中移除该组件
 void bumpchecker::remove(pointer a)
 {
-    for(set<pointer*>::iterator bi=(a->occupy).begin(); bi!=(a->occupy).end(); bi++)
+    for(set<sList *>::iterator bi=(a->occupy).begin(); bi!=(a->occupy).end(); bi++)
     {
-        pointer *b=*bi;
-        int n=b-bmap.ptr;
-        fprintf(fpi,"removing %p from %p\n",a,b);
-        fflush(fpi);
-        if(*b==0){
-            throw a;
-        }else if((*b)->next==0){
-            if(*b==a){
-                *b=0;
-            }else{
-                fprintf(fpi,"in %p:\n",b);
-                for(pointer pa=*b;pa!=0;pa=pa->next){
-                    fprintf(fpi,"%p\n",pa);
-                }
-                fflush(fpi);
-                throw a;
+        sList *b=*bi;
+        sList::iterator bfi=b->before_begin();
+        sList::iterator bbi=bfi++;
+        while(bfi!=b->end()){
+            if(*bfi==a){
+                b->erase_after(bbi);
+                break;
             }
-        }else{
-            pointer c=*b,d=c->next;
-            while(d!=0){
-                if(d==a){
-                    c->next=d->next;
-                    goto st3;
-                }
-                c=d;
-                d=d->next;
-            }
-            throw a;
-            st3:;
+            ++bbi;
+            ++bfi;
         }
-        fprintf(fpi,"answer:\n");
-        for(pointer f=*b;f!=0;f=f->next){
-            fprintf(fpi,"%p\n",f);
-        }
-        fflush(fpi);
     }
     a->occupy.clear();
 }

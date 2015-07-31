@@ -21,6 +21,7 @@ using std::mutex;
 namespace bump
 {
 using item::pointer;
+using item::sList;
 using item::mpointer;
 //二维数组模板类
 template <typename T>
@@ -49,7 +50,7 @@ public:
     mutex lock;
 #endif CPP11
     //二维数组
-    twoarray<pointer> bmap;
+    twoarray<sList> bmap;
     bumpchecker(int width,int hight);
     //判断是否出了边界
     bool is_out(pair<int, int> pos);

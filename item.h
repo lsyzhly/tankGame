@@ -1,6 +1,8 @@
 #ifndef ITEM_H
 #define ITEM_H
 #include <set>
+#include <list>
+#include <forward_list>
 #include "view.h"
 #include "BulletShow.h"
 #include "all.h"
@@ -8,11 +10,11 @@
 using std::set;
 using std::pair;
 using Controler::cpointer;
-typedef set<pair<int, int>> posSet;
 namespace item
 {
 using view::Show;
-class Bullet;
+typedef set<pair<int, int>> posSet;
+typedef std::forward_list<square *> sList;
 //正方形组件,所有组件的基类,抽象类
 class square
 {
@@ -27,9 +29,8 @@ public:
     posSet pos_set;
     //画图器
     Show *draw;
-    square *next;
     //指向轮廓对应点的指针
-    set<square**> occupy;
+    set<sList *> occupy;
 
     square(int x, int y, int size, Show *draw);
     //获取对象轮廓

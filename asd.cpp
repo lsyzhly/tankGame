@@ -30,12 +30,12 @@ void init()
     tank=new Tank(4<<4,12<<4,14,3,up,s,4,0,3,0,0,1);
     playTankControl *b=new playTankControl(tank,0);
     addControl(b);
-    addItem(tank);/*
+    addItem(tank);
     s=new TankBShow(1,2);
     tank=new Tank(8<<4,12<<4,14,1,up,s,1,0,2,0,0,0);
     autoTankControl *bi=new autoTankControl(tank);
     addControl(bi);
-    addItem(tank);*/
+    addItem(tank);
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
     //bs = new BulletShow(2,1);

@@ -11,14 +11,12 @@ square::square(int x, int y, int size,Show *draw)
     this->draw = draw;
     draw->move(x, y,0);
     isBump=true;
-    next=0;
-    fprintf(fpi,"set %p null\n",this);
     fflush(fpi);
 }
 posSet *square::getRange()
 {
     pos_set.clear();
-        if(isBump){
+    if(isBump){
         for (int i = 0; i < size; i++)
         {
             pos_set.insert(std::make_pair(x + i, y));
@@ -259,7 +257,7 @@ Bullet *Tank::fire()
 				this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
-				
+
             tempType=0;
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -273,8 +271,8 @@ Bullet *Tank::fire()
 				this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
-			
-            
+
+
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
         }
         else if(this->drt==left)
@@ -286,7 +284,7 @@ Bullet *Tank::fire()
                this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
-				
+
             tempType=3;
             //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
         }
