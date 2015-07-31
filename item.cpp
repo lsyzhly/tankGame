@@ -1,6 +1,8 @@
 #include "item.h"
 #include "Control.h"
 #include "maincontrol.h"
+#include "enemytankshow.h"
+#include "BonusShow.h"
 #ifndef LSY_GCC
 #include "sound.h"
 #else
@@ -245,10 +247,17 @@ bumpType Tank::bump(square *a,direct drt)
     {
         if(d->t->isPlayer==true && this->isPlayer==true && this->isStoppable==false)
         {
-            add_to_delete(a,1);
+			add_to_delete(a,1);
+			if(this==d->t)
+				return bumpType::through;
+			else
+			{
+			
 			setTankState(true,false);
 			addTimeFun(4,(OnTime)setTankState,100,true,true);
             return bumpType::stop;//暂时将己方定位停止
+			}
+            
         }
 		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
         {
@@ -429,19 +438,26 @@ bumpType Bullet::bump(square *a,direct drt)
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
+		if(b->utype==star||b->utype==tank||b->utype==bomb||b->utype==myclock||b->utype||b->utype==cap||b->utype==shovel)
+			return bumpType::through;
     }
     Tank *c=dynamic_cast<Tank *>(a);//子弹碰到坦克
     if(c)
     {
 		if(this->t->isPlayer==true && c->isPlayer==true && c->isStoppable==false)
         {
-            add_to_delete(this,1);
+			if(this->t!=c)
+			{
+			add_to_delete(this,1);
 			setTankState(true,false);
 			addTimeFun(4,(OnTime)setTankState,100,true,true);
             //todo 将坦克的处理不全
 			std::string tempSound="sound/hit.wav";
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
+
+			}
+            
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
@@ -449,6 +465,43 @@ bumpType Bullet::bump(square *a,direct drt)
         }
 		if(this->t->isPlayer!=c->isPlayer && c->isStoppable==false)// enemy and player reduce HP
         {
+			TankAShow *p1=dynamic_cast<TankAShow *>(c->draw);
+            TankBShow *p2=dynamic_cast<TankBShow *>(c->draw);
+			if(p1||p2)
+			{
+				int tempX=(c->x)-30;
+				int tempY=(c->y)+20;
+				int tempB=/*rand()%6+6*/bomb;
+				if(tempX<0)
+				{
+                    tempX=0;
+				}
+				if(tempY>168)
+				{
+					tempY=168;
+				}
+				if(p1!=0)
+				{
+					if(p1->is_red==true)
+				{
+					p1->is_red=false;
+					BonusShow *tempBonusShow=new BonusShow(2);
+				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
+				    addItem(tempBonus);
+				}
+				}
+				if(p2!=0)
+				{
+				if(p2->is_red==true)
+				{
+					p2->is_red=false;
+					BonusShow *tempBonusShow=new BonusShow(2);
+				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
+				    addItem(tempBonus);
+				}
+				}
+
+			}
             c->pvalue=c->pvalue-1;
             if(c->pvalue==-1)
             {
