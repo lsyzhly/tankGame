@@ -9,7 +9,6 @@ namespace view
 BonusShow::BonusShow(int rat):Show(rat)
 {
     this->rat = rat ;
-	srand(time(NULL));
     type = rand()%6;
 	count =0;
 	maxcount =5;
@@ -19,7 +18,7 @@ void BonusShow::move(int x, int y, ...)
 {
     if(-1==x&&-1==y)
     {
-         //  
+         //
     }
     else
     {
@@ -40,7 +39,7 @@ void BonusShow::Repaint()
 
 	count++;
 
-	
+
 }
 
 }

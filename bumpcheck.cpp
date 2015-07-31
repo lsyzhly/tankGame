@@ -40,6 +40,7 @@ int bumpchecker::move(mpointer a, direct drt)
         sList &pt = bmap[b.second][b.first];
         ignore.insert(pt.begin(),pt.end());
     }
+    ignore.erase(0);
     //先移动一个单位
     a->move(drt);
     set<pointer> p;
