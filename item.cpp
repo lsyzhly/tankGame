@@ -11,12 +11,13 @@ square::square(int x, int y, int size,Show *draw)
     this->size = size;
     this->draw = draw;
     draw->move(x, y,0);
-    is_bump=true;
+    isBump=true;
+    fflush(fpi);
 }
 posSet *square::getRange()
 {
     pos_set.clear();
-        if(is_bump){
+    if(isBump){
         for (int i = 0; i < size; i++)
         {
             pos_set.insert(std::make_pair(x + i, y));
@@ -84,13 +85,11 @@ unmoveSquare::~unmoveSquare()
 {
 }
 Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
-           int maxbullets,int nowBullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer,bool isStoppable)
+           int maxbullets, int pvalue, bool isPlayer,bool isStoppable,int nowBullets)
     :moveSquare(x,y,size,draw,drt,speed)
 {
     this->maxbullets = maxbullets;
     this->pvalue = pvalue;
-    this->bullet_size = bullet_size;
-    this->bullet_speed = bullet_speed;
     this->isPlayer=isPlayer;
     this->nowBullets=nowBullets;
 	this->isStoppable=false;
@@ -286,7 +285,7 @@ Bullet *Tank::fire()
 				this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
-				
+
             tempType=0;
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -300,7 +299,12 @@ Bullet *Tank::fire()
 				this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
+<<<<<<< HEAD
 			   
+=======
+
+
+>>>>>>> 5111fc5d27832cf0a08e6728773d45325c7df4c8
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
         }
         else if(this->drt==left)
@@ -312,7 +316,7 @@ Bullet *Tank::fire()
                this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
-				
+
             tempType=3;
             //  return new Bullet(this,x,y+size/2-BULLETSIZE/2,BULLETSIZE,TempBulletSpeed,temp);
         }
@@ -331,7 +335,7 @@ Bullet *Tank::fire()
         temp=new BulletShow(2);//需要new出一个bulletshow指针
         Bullet *myBullet;
         myBullet=new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
-        addItem(myBullet);
+        addItem(myBullet,true);
         bulletControl *myControl=new bulletControl(myBullet);
         addControl(myControl);
 		std::string tempSound="sound/Gunfire.wav";

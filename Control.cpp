@@ -29,7 +29,6 @@ autoTankControl::autoTankControl(Tank *tank):Control(tank->speed)
     tank->control=this;
     this->tank = tank;
     tank->control = this;
-    printf("starting run%p,%p\n", this,this->tank);
     clo=clock();
 }
 
@@ -38,7 +37,7 @@ bool autoTankControl::run()
     srand(clock());
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
-    unsigned int d=rand()%10;
+    unsigned int d=rand()%5;
     if(d==0)
     {
         tank->fire();
@@ -56,6 +55,7 @@ bool autoTankControl::run()
     return false;
 }
 autoTankControl::~autoTankControl(){
+    etanks--;
     tank->control=0;
 }
 playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
@@ -123,7 +123,7 @@ bulletControl::bulletControl(Bullet *a):Control(a->speed)
 }
 bool bulletControl::run()
 {
-    int sta=checker->move(bul,bul->drt,maxcount<<1);
+    int sta=checker->move(bul,bul->drt,maxcount+3);
     if(sta&bumpType::abandonded)
     {
         return true;

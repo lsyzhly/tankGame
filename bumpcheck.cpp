@@ -4,12 +4,14 @@
 #ifndef bumpchecker_HPP
 #define bumpchecker_HPP
 #include "bumpcheck.h"
+#include "assert.h"
 namespace bump
 {
 bumpchecker::bumpchecker(int width, int hight) :bmap(width,hight)
 {
     this->width = width;
     this->hight = hight;
+    bmap[0][0].push_back(0);
 }
 
 bool bumpchecker::is_out(pair<int, int> pos)
@@ -44,12 +46,16 @@ int bumpchecker::move(mpointer a, direct drt)
             }
             continue;
         }
-        pointer *pt = &bmap[b.second][b.first];
-        //判断是否碰撞
-        if (*pt != 0 && *pt != a)
-        {
-            p.insert((*pt));
+        sList &pt = bmap[b.second][b.first];
+        for(sList::iterator i=pt.begin();i!=pt.end();i++){
+            if(*i==a){
+                goto st1;
+            }
         }
+        for(sList::iterator i=pt.begin();i!=pt.end();i++){
+            p.insert(*i);
+        }
+        st1:;
     }
     int n = bumpType::through;
     //检测是否有碰撞
@@ -65,28 +71,8 @@ int bumpchecker::move(mpointer a, direct drt)
     }
     else
     {
-#ifdef CPP11
-        lock.lock();
-#endif
-        //移除碰撞系统
         remove(a);
-#ifndef CPP11
         add(a);
-#endif // CPP11
-#ifdef CPP11
-        //如果加入失败再退一步重新加入
-        while (add(a) == 0)
-        {
-            for(set<pointer *>::iterator di=(a->occupy).begin(); di!=(a->occupy).end(); di++)
-            {
-                pointer *b=*di;
-                *b = 0;
-            }
-            a->occupy.clear();
-            a->move(!drt);
-        }
-        lock.unlock();
-#endif
     }
     return n;
 }
@@ -114,41 +100,30 @@ pointer bumpchecker::add(pointer a)
 {
     int flag=1;
     posSet *p = a->getRange();
+    a->occupy.clear();
     for(posSet::iterator bi=(*p).begin(); bi!=(*p).end(); bi++)
     {
         posSet::value_type b=*bi;
-        pointer *c = &bmap[b.second][b.first];
-        //如果加入冲突的组件 返回null
-        //不进行错误处理
-        if (*c != 0) flag=0;
-        else
-        {
-            *c = a;
-            a->occupy.insert(c);
-        }
+        if(is_out(b))continue;
+        sList &c = bmap[b.second][b.first];
+        c.push_back(a);
+        a->occupy.insert(&c);
     }
-    if(flag==0)
-        return 0;
     return a;
 }
 //从碰撞检测系统中移除该组件
 void bumpchecker::remove(pointer a)
 {
-    //printf("removeing %p\n");
-    for(set<pointer*>::iterator bi=(a->occupy).begin(); bi!=(a->occupy).end(); bi++)
+    for(set<sList *>::iterator bi=(a->occupy).begin(); bi!=(a->occupy).end(); bi++)
     {
-        pointer *b=*bi;
-        *b = 0;
-    }
-    for (int i = 0; i < hight; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            if (bmap[i][j] == a)
-            {
-                printf("");
-                getchar();
+        sList *b=*bi;
+        sList::iterator bf=b->begin();
+        while(bf!=b->end()){
+            if(*bf==a){
+                b->erase(bf);
+                break;
             }
+            bf++;
         }
     }
     a->occupy.clear();
