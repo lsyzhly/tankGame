@@ -71,6 +71,16 @@ bool playTankControl::run()
     UINT *tmp;
     if(0==type) tmp=player1tank;
     else tmp=player2tank;
+    if(isKeyDown[tmp[4]])
+    {
+        clock_t cloi=clock();
+        int n=cloi-clo;
+        if(n>200)
+        {
+            clo=clock();
+            tank->fire();
+        }
+    }
     if(isKeyDown[tmp[up]])
     {
         dir=up;
@@ -86,16 +96,6 @@ bool playTankControl::run()
     else if(isKeyDown[tmp[right]])
     {
         dir=right;
-    }
-    if(isKeyDown[tmp[4]])
-    {
-        clock_t cloi=clock();
-        int n=cloi-clo;
-        if(n>200)
-        {
-            clo=clock();
-            tank->fire();
-        }
     }
     if(-1!=dir)
     {

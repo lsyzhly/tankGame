@@ -313,8 +313,10 @@ void deleteTank(bool type){
         {
             if(b->isPlayer==type)
             {
-                remove(b);
-                remove(b->control);
+                if(!b->isStoppable){
+                    remove(b);
+                    remove(b->control);
+                }
             }
         }
     }
@@ -353,7 +355,7 @@ void addEnemyTank(){
             Tank *tank;
             Control *b;
             int rand_t=rand()%ertank;
-            int rand_red=!(rand()&0x7);
+            int rand_red=1/*!(rand()&0x7)*/;
             int n=rand()%3;
             int type=etank[rand_t];
             etank[rand_t]=etank[--ertank];
