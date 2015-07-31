@@ -300,7 +300,7 @@ Bullet *Tank::fire()
         if(this->drt==up)
         {
             tempx=x+size/2-BULLETSIZE/2;
-            tempy=y-BULLETSIZE;
+            tempy=y;
 			if(tempy<=0)
 			{
 				this->nowBullets=this->nowBullets-1;
@@ -313,7 +313,7 @@ Bullet *Tank::fire()
         else if(this->drt==down)
         {
             tempx=x+size/2-BULLETSIZE/2;
-            tempy=y+size;
+            tempy=y+size-BULLETSIZE;
 			tempType=2;
 			if(tempy+BULLETSIZE>=207)
 			{
@@ -325,7 +325,7 @@ Bullet *Tank::fire()
         }
         else if(this->drt==left)
         {
-            tempx=x-BULLETSIZE;
+            tempx=x;
             tempy=y+size/2-BULLETSIZE/2;
 			if(tempx<=0)
 			{
@@ -338,7 +338,7 @@ Bullet *Tank::fire()
         }
         else
         {
-            tempx=x+size;
+            tempx=x+size-BULLETSIZE;
             tempy=y+size/2-BULLETSIZE/2;
 			if(tempx+BULLETSIZE>=207)
 			{
