@@ -76,14 +76,10 @@ public:
     int maxbullets;
     int nowBullets;//点钱子弹数量初始为0
     int pvalue;//生命值
-    //子弹大小
-    int bullet_size;
-    //子弹速度
-    int bullet_speed;
     bool isPlayer;
 	bool isStoppable;//设置坦克是否无敌true为是
     Tank(int x, int y, int size, int speed, direct drt,Show *draw,
-         int maxbullets,int nowBullets,int pvalue, int bullet_size, int bullet_speed,bool isPlayer,bool isStoppable=false);
+         int maxbullets,int pvalue, bool isPlayer,bool isStoppable=false);
     //碰撞处理函数
     virtual bumpType bump(square *a,direct drt);
     //开火

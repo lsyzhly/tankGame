@@ -37,7 +37,7 @@ bool autoTankControl::run()
     srand(clock());
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
-    unsigned int d=rand()%100000;
+    unsigned int d=rand()%5;
     if(d==0)
     {
         tank->fire();
@@ -55,6 +55,7 @@ bool autoTankControl::run()
     return false;
 }
 autoTankControl::~autoTankControl(){
+    etanks--;
     tank->control=0;
 }
 playTankControl::playTankControl(item::Tank *tank,int type):Control(tank->speed)
@@ -122,7 +123,7 @@ bulletControl::bulletControl(Bullet *a):Control(a->speed)
 }
 bool bulletControl::run()
 {
-    int sta=checker->move(bul,bul->drt,maxcount<<1);
+    int sta=checker->move(bul,bul->drt,maxcount+3);
     if(sta&bumpType::abandonded)
     {
         return true;

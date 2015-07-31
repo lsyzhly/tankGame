@@ -40,7 +40,9 @@ void TankAShow::move(int x, int y, ...)
     {
         return;
     }
-    else
+    else if(n&MOVELEVEL){
+
+    }else
     {
         throw n;
     }

@@ -4,6 +4,7 @@
 #include "item.h"
 #include "ExplodeShow.h"
 #include "PlayerTankShow.h"
+#include "enemytankshow.h"
 #include <list>
 #include <stdarg.h>
 #define ARRAYSIZE 16
@@ -17,6 +18,10 @@ std::set<pointer> hqitems;
 bool is_run;
 std::set<pointer> topLevelItem;
 int tanks[2]={100,100};
+int etanks=0;
+unsigned char etank[20]={   0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,1,1,1,1,2,2,2};
+int ertank=20;
 bumpchecker *checker;
 void add_to_delete(pointer a, int count)
 {
@@ -67,7 +72,7 @@ void OnPlayerTank(bool type){
         Tank *tank;
         Control *b;
         s=new PlayerTankShow(2,type);
-        tank=new Tank(4<<type<<4,12<<4,14,1,up,s,1,0,0,0,0,1,false);
+        tank=new Tank(4<<type<<4,12<<4,14,1,up,s,1,0,true);
         b=new playTankControl(tank,type);
         addControl(b);
         addItem(tank);
@@ -286,5 +291,40 @@ void deleteTank(bool type){
                 delete b;
             }
         }
+    }
+}
+
+void addEnemyTank(){
+    if(etanks<4){
+        if(ertank==0){
+            //TODO OnWin
+            return;
+        }
+        static clock_t cl=clock();
+        clock_t clo=clock();
+        if(clo-cl>2000){
+            etanks++;
+            Show *s;
+            Tank *tank;
+            Control *b;
+            int rand_t=rand()%ertank;
+            int rand_red=!(rand()&0x7);
+            int n=rand()%3;
+            int type=etank[rand_t];
+            etank[rand_t]=etank[--ertank];
+            int pvalue=0;
+            if(type==2){
+                s=new TankBShow(rand_red,2);
+                pvalue=2;
+            }else{
+                s=new TankAShow(rand_red,2,type);
+            }
+            tank=new Tank((n*6)<<4,0,14,1,up,s,1,pvalue,false);
+            b=new autoTankControl(tank);
+            addControl(b);
+            addItem(tank);
+            cl=clock();
+        }
+        return;
     }
 }

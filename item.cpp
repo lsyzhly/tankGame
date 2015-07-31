@@ -84,15 +84,13 @@ unmoveSquare::~unmoveSquare()
 {
 }
 Tank::Tank(int x, int y, int size, int speed, direct drt, Show *draw,
-           int maxbullets,int nowBullets, int pvalue, int bullet_size, int bullet_speed,bool isPlayer,bool isStoppable)
+           int maxbullets, int pvalue, bool isPlayer,bool isStoppable)
     :moveSquare(x,y,size,draw,drt,speed)
 {
     this->maxbullets = maxbullets;
     this->pvalue = pvalue;
-    this->bullet_size = bullet_size;
-    this->bullet_speed = bullet_speed;
     this->isPlayer=isPlayer;
-    this->nowBullets=nowBullets;
+    this->nowBullets=0;
 	this->isStoppable=false;
     draw->move(-1,-1,MOVELEVEL|pvalue);
 }
@@ -193,7 +191,7 @@ bumpType Tank::bump(square *a,direct drt)
     if(c)
     {
         return bumpType::stop;
-    }/*
+    }
     Bullet *d=dynamic_cast<Bullet *>(a);//碰撞为子弹的转换未处理子弹碰到无敌坦克
     if(d)
     {
@@ -225,7 +223,7 @@ bumpType Tank::bump(square *a,direct drt)
         {
             return bumpType::through;
         }
-    }*/
+    }
     return stop;
 }
 
@@ -303,7 +301,7 @@ Bullet *Tank::fire()
         temp=new BulletShow(2);//需要new出一个bulletshow指针
         Bullet *myBullet;
         myBullet=new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
-        addItem(myBullet);
+        addItem(myBullet,true);
         bulletControl *myControl=new bulletControl(myBullet);
         addControl(myControl);
         // return new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
