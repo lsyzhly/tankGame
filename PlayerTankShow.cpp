@@ -50,9 +50,9 @@ void PlayerTankShow::move(int x,int y,...)
 void PlayerTankShow::Repaint()
 {
     if(0==player)
-        d3ddev->StretchRect(player1[dir][(rank<<1)+count&0x1], NULL, backbuffer, &rec, D3DTEXF_NONE);
+        d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
     else if(1==player)
-        d3ddev->StretchRect(player2[dir][(rank<<1)+count&0x1], NULL, backbuffer, &rec, D3DTEXF_NONE);
+        d3ddev->StretchRect(player2[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
     else
         return;
 

@@ -8,7 +8,9 @@
 #define BULLETSIZE 4
 #define SCREENW 416
 #define SCREENH 416
+#include <stdio.h>
 extern int *test_type;
+extern FILE *fpi;
 enum direct { up=0, down=2, left=3, right=1 };
 
 //不能移动的类型,墙和土

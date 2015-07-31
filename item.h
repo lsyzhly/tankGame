@@ -1,6 +1,8 @@
 #ifndef ITEM_H
 #define ITEM_H
 #include <set>
+#include <list>
+#include <list>
 #include "view.h"
 #include "BulletShow.h"
 #include "all.h"
@@ -8,11 +10,11 @@
 using std::set;
 using std::pair;
 using Controler::cpointer;
-typedef set<pair<int, int>> posSet;
 namespace item
 {
 using view::Show;
-class Bullet;
+typedef set<pair<int, int>> posSet;
+typedef std::list<square *> sList;
 //正方形组件,所有组件的基类,抽象类
 class square
 {
@@ -22,13 +24,13 @@ public:
     int x;
     int y;
     int size;
-    bool is_bump;
+    bool isBump;
     //轮廓集合
     posSet pos_set;
     //画图器
     Show *draw;
     //指向轮廓对应点的指针
-    set<square**> occupy;
+    set<sList *> occupy;
 
     square(int x, int y, int size, Show *draw);
     //获取对象轮廓
@@ -74,14 +76,10 @@ public:
     int maxbullets;
     int nowBullets;//点钱子弹数量初始为0
     int pvalue;//生命值
-    //子弹大小
-    int bullet_size;
-    //子弹速度
-    int bullet_speed;
     bool isPlayer;
 	bool isStoppable;//设置坦克是否无敌true为是
     Tank(int x, int y, int size, int speed, direct drt,Show *draw,
-         int maxbullets,int nowBullets,int pvalue, int bullet_size, int bullet_speed,bool isPlayer,bool isStoppable=false);
+         int maxbullets,int pvalue, bool isPlayer,bool isStoppable=false,int nowBullets=0);
     //碰撞处理函数
     virtual bumpType bump(square *a,direct drt);
     //开火

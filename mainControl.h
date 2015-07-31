@@ -9,7 +9,11 @@ using namespace item;
 using namespace view;
 using namespace Controler;
 
+extern int tanks[];
 extern bumpchecker *checker;
+extern int etanks;
+extern unsigned char etank[20];
+extern int ertank;
 
 //添加组件到删除列表,该组件将会在count次屏幕刷新后删除
 void add_to_delete(pointer a, int count);
@@ -69,4 +73,5 @@ void setTankState(bool is,bool is_run);
 void setCapTankState(Tank *theTank,bool stoppable);
 void deleteTank(bool type);
 void OnPlayerTank(bool type);
+void addEnemyTank();
 #endif
