@@ -152,7 +152,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
         }
         d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         flush();
-		//d3ddev->StretchRect(backbuffer, NULL, backbuffer1,&red , D3DTEXF_NONE);
         d3ddev->Present(NULL, NULL, NULL, NULL);
         clock_t end=clock();
         end-=start;
