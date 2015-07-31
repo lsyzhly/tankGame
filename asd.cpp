@@ -1,5 +1,3 @@
-
-
 #include <windows.h>
 #include "main.h"
 #include "mainControl.h"
@@ -68,3 +66,4 @@ void destory()
 {
 
 }
+
