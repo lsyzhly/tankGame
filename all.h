@@ -15,7 +15,7 @@ extern FILE *fpi;
 enum direct { up=0, down=2, left=3, right=1 };
 
 //不能移动的类型,墙和土
-enum unmoveType { tu=1 ,qiang=2, cao=3,shui=4,boss=5,star=6,tank=7,bomb=8,myclock=9,cap=10,shovel=11};
+enum unmoveType { tu=1 ,qiang=2, cao=3,shui=4,boss=5,tank=6,myclock=7,shovel=8,bomp=9,star=10,cap=11};0坦克，1定时，2铁铲，3炸弹，4星星，5安全帽
 
 //碰撞的类型
 enum bumpType
