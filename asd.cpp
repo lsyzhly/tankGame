@@ -54,9 +54,6 @@ void init()
 
 void flush()
 {
-	//ws->move(-1,-1);
-	//ws->Repaint();
-	aaa->Repaint();
     static int n;
     runControls();
     rePaint();

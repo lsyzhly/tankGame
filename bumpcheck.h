@@ -36,8 +36,11 @@ public:
     }
     twoarray(int length,int width)
     {
-        ptr = (T *)calloc(length*width, sizeof(T));
+        ptr = new T[length*width];
         this->length = length;
+    }
+    ~twoarray(){
+        delete[] ptr;
     }
 };
 

@@ -11,6 +11,7 @@ bumpchecker::bumpchecker(int width, int hight) :bmap(width,hight)
 {
     this->width = width;
     this->hight = hight;
+    bmap[0][0].push_back(0);
 }
 
 bool bumpchecker::is_out(pair<int, int> pos)
@@ -105,7 +106,7 @@ pointer bumpchecker::add(pointer a)
         posSet::value_type b=*bi;
         if(is_out(b))continue;
         sList &c = bmap[b.second][b.first];
-        c.push_front(a);
+        c.push_back(a);
         a->occupy.insert(&c);
     }
     return a;
@@ -116,15 +117,13 @@ void bumpchecker::remove(pointer a)
     for(set<sList *>::iterator bi=(a->occupy).begin(); bi!=(a->occupy).end(); bi++)
     {
         sList *b=*bi;
-        sList::iterator bfi=b->before_begin();
-        sList::iterator bbi=bfi++;
-        while(bfi!=b->end()){
-            if(*bfi==a){
-                b->erase_after(bbi);
+        sList::iterator bf=b->begin();
+        while(bf!=b->end()){
+            if(*bf==a){
+                b->erase(bf);
                 break;
             }
-            ++bbi;
-            ++bfi;
+            bf++;
         }
     }
     a->occupy.clear();

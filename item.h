@@ -2,7 +2,7 @@
 #define ITEM_H
 #include <set>
 #include <list>
-#include <forward_list>
+#include <list>
 #include "view.h"
 #include "BulletShow.h"
 #include "all.h"
@@ -14,7 +14,7 @@ namespace item
 {
 using view::Show;
 typedef set<pair<int, int>> posSet;
-typedef std::forward_list<square *> sList;
+typedef std::list<square *> sList;
 //正方形组件,所有组件的基类,抽象类
 class square
 {
