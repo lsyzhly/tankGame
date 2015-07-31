@@ -431,6 +431,8 @@ bumpType Bullet::bump(square *a,direct drt)
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
+		if(b->utype==star||b->utype==tank||b->utype==bomb||b->utype==myclock||b->utype||b->utype==cap||b->utype==shovel)
+			return bumpType::through;
     }
     Tank *c=dynamic_cast<Tank *>(a);//×Óµ¯Åöµ½Ì¹¿Ë
     if(c)
