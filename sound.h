@@ -8,3 +8,4 @@
 #include "main.h"
 using std::string;
 void GameSound(HWND myHwnd,string path);
+
