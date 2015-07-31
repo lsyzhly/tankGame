@@ -252,12 +252,12 @@ bumpType Tank::bump(square *a,direct drt)
 				return bumpType::through;
 			else
 			{
-			
+
 			setTankState(true,false);
 			addTimeFun(4,(OnTime)setTankState,100,true,true);
             return bumpType::stop;//暂时将己方定位停止
 			}
-            
+
         }
 		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
         {
@@ -438,7 +438,7 @@ bumpType Bullet::bump(square *a,direct drt)
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
-		if(b->utype==star||b->utype==tank||b->utype==bomb||b->utype==myclock||b->utype||b->utype==cap||b->utype==shovel)
+		if(b->utype==star||b->utype==tank||b->utype==bomp||b->utype==myclock||b->utype||b->utype==cap||b->utype==shovel)
 			return bumpType::through;
     }
     Tank *c=dynamic_cast<Tank *>(a);//子弹碰到坦克
@@ -448,16 +448,16 @@ bumpType Bullet::bump(square *a,direct drt)
         {
 			if(this->t!=c)
 			{
-			add_to_delete(this,1);
-			setTankState(true,false);
-			addTimeFun(4,(OnTime)setTankState,100,true,true);
-            //todo 将坦克的处理不全
-			std::string tempSound="sound/hit.wav";
-		    GameSound(hwnd,tempSound);
-            return bumpType::abandonded;
+                add_to_delete(this,1);
+                setTankState(true,false);
+                addTimeFun(4,(OnTime)setTankState,100,true,true);
+                //todo 将坦克的处理不全
+                std::string tempSound="sound/hit.wav";
+                GameSound(hwnd,tempSound);
+                return bumpType::abandonded;
 
 			}
-            
+			return bumpType::through;
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
@@ -471,7 +471,7 @@ bumpType Bullet::bump(square *a,direct drt)
 			{
 				int tempX=(c->x)-30;
 				int tempY=(c->y)+20;
-				int tempB=/*rand()%6+6*/bomb;
+				int tempB=rand()%6+6;
 				if(tempX<0)
 				{
                     tempX=0;
@@ -482,7 +482,7 @@ bumpType Bullet::bump(square *a,direct drt)
 				}
 				if(p1!=0)
 				{
-					if(p1->is_red==true)
+                if(p1->is_red==true)
 				{
 					p1->is_red=false;
 					BonusShow *tempBonusShow=new BonusShow(2);

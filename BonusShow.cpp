@@ -23,7 +23,7 @@ void BonusShow::move(int x, int y, ...)
         va_end(va);
         if(n&MOVELEVEL)
         {
-            type=n&MOVEVALUE-6;
+            type=(n&MOVEVALUE)-6;
         }
 	    else if((n&MOVEFLAG)==0)
         {
