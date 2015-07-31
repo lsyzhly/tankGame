@@ -34,7 +34,6 @@ autoTankControl::autoTankControl(Tank *tank):Control(tank->speed)
 
 bool autoTankControl::run()
 {
-    srand(clock());
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
     unsigned int d=rand()%5;
@@ -88,17 +87,15 @@ bool playTankControl::run()
     {
         dir=right;
     }
-    if(isKeyDown[tmp[4]])
+    else if(isKeyDown[tmp[4]])
     {
         clock_t cloi=clock();
         int n=cloi-clo;
-        if(n<200)
+        if(n>200)
         {
-            return false;
+            clo=clock();
+            tank->fire();
         }
-        clo=clock();
-        tank->fire();
-        return false;
     }
     if(-1!=dir)
     {

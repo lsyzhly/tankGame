@@ -23,33 +23,15 @@ BoreShow *aaa;
 FILE *fpi;
 void init()
 {
+    srand(time(NULL));
     mspf=30;
     int n;
-    Tank *tank;
     fpi=fopen("D:\\asd.txt","w");
     readFile("map\\level1.map");
-    s=new PlayerTankShow(2,0);
-    tank=new Tank(4<<4,12<<4,14,3,up,s,4,0,1);
-    playTankControl *b=new playTankControl(tank,0);
-    addControl(b);
-    addItem(tank);/*
-    s=new TankBShow(1,2);
-    tank=new Tank(8<<4,12<<4,14,1,up,s,1,2,1);
-    autoTankControl *bi=new autoTankControl(tank);
-    addControl(bi);
-    addItem(tank);*/
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
-    //bs = new BulletShow(2,1);
-    //tank->drt=right;
-    //Bullet *ads=new Bullet(tank,0,16,1,2,bs);
-    //bulletControl *qwea=new bulletControl(ads);
-    //addItem(ads);
-    //addControl(qwea);
-	//ws=new WaterShow(2);
-	//ws->move(0,0);
-    aaa = new BoreShow(2);
-	aaa->move(0,0);
+    OnPlayerTank(false);
+    OnPlayerTank(true);
 }
 
 void flush()
@@ -59,7 +41,6 @@ void flush()
     rePaint();
     clean();
     addEnemyTank();
-    n++;
 }
 
 void destory()

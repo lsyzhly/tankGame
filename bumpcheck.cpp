@@ -5,6 +5,7 @@
 #define bumpchecker_HPP
 #include "bumpcheck.h"
 #include "assert.h"
+#include <algorithm>
 namespace bump
 {
 bumpchecker::bumpchecker(int width, int hight) :bmap(width,hight)
@@ -25,13 +26,26 @@ bool bumpchecker::is_out(pair<int, int> pos)
 
 int bumpchecker::move(mpointer a, direct drt)
 {
+    posSet *pp = a->getRange();
+    set<pointer> ignore;
+    bool is_ouf = true;
+    for(posSet::iterator bi=(*pp).begin(); bi!=(*pp).end(); bi++)
+    {
+        posSet::const_reference b=*bi;
+        //判断是否出边界
+        if (is_out(b))
+        {
+            continue;
+        }
+        sList &pt = bmap[b.second][b.first];
+        ignore.insert(pt.begin(),pt.end());
+    }
     //先移动一个单位
     a->move(drt);
     set<pointer> p;
     //获取a的轮廓
-    posSet *pp = a->getRange();
-    pointer pti = 0;
-    bool is_ouf = true;
+    pp = a->getRange();
+    is_ouf = true;
     //遍历轮廓
     for(posSet::iterator bi=(*pp).begin(); bi!=(*pp).end(); bi++)
     {
@@ -49,15 +63,16 @@ int bumpchecker::move(mpointer a, direct drt)
         sList &pt = bmap[b.second][b.first];
         for(sList::iterator i=pt.begin();i!=pt.end();i++){
             if(*i==a){
-                goto st1;
+                break;
             }
-        }
-        for(sList::iterator i=pt.begin();i!=pt.end();i++){
             p.insert(*i);
         }
-        st1:;
     }
     int n = bumpType::through;
+    for(set<pointer>::iterator ci=(ignore).begin(); ci!=(ignore).end(); ci++)
+    {
+        p.erase(*ci);
+    }
     //检测是否有碰撞
     for(set<pointer>::iterator ci=(p).begin(); ci!=(p).end(); ci++)
     {

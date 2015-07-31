@@ -14,7 +14,7 @@ namespace item
 {
 using view::Show;
 typedef set<pair<int, int>> posSet;
-typedef std::list<square *> sList;
+typedef std::list<pointer> sList;
 //正方形组件,所有组件的基类,抽象类
 class square
 {
