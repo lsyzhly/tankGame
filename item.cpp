@@ -224,6 +224,7 @@ bumpType Tank::bump(square *a,direct drt)
         {
 			if(this->isPlayer==true)
 			{
+			  add_to_delete(a,1);
 			  deleteTank(false);
 			  std::string tempSound="sound/bang.wav";
 		      GameSound(hwnd,tempSound);
@@ -231,6 +232,7 @@ bumpType Tank::bump(square *a,direct drt)
 			}
 			else
 			{
+			  add_to_delete(a,1);
 			  deleteTank(true);
 			  std::string tempSound="sound/bang.wav";
 		      GameSound(hwnd,tempSound);
