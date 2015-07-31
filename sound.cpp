@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+
 #include "sound.h"
 void GameSound(HWND myHwnd,string path)
 {
