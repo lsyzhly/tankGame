@@ -466,17 +466,27 @@ bumpType Bullet::bump(square *a,direct drt)
 				{
 					tempY=168;
 				}
-				if(p1->is_red==true)
+				if(p1!=0)
+				{
+					if(p1->is_red==true)
 				{
 					p1->is_red=false;
+					BonusShow *tempBonusShow=new BonusShow(2);
+				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
+				    addItem(tempBonus);
 				}
+				}
+				if(p2!=0)
+				{
 				if(p2->is_red==true)
 				{
 					p2->is_red=false;
+					BonusShow *tempBonusShow=new BonusShow(2);
+				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
+				    addItem(tempBonus);
 				}
-				BonusShow *tempBonusShow=new BonusShow(2);
-				unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
-				addItem(tempBonus);
+				}
+				
 			}
             c->pvalue=c->pvalue-1;
             if(c->pvalue==-1)
