@@ -1,6 +1,8 @@
 #include "item.h"
 #include "Control.h"
 #include "maincontrol.h"
+#include "enemytankshow.h"
+#include "BonusShow.h"
 #ifndef LSY_GCC
 #include "sound.h"
 #else
@@ -449,6 +451,43 @@ bumpType Bullet::bump(square *a,direct drt)
         }
 		if(this->t->isPlayer!=c->isPlayer && c->isStoppable==false)// enemy and player reduce HP
         {
+			TankAShow *p1=dynamic_cast<TankAShow *>(c->draw);
+            TankBShow *p2=dynamic_cast<TankBShow *>(c->draw);
+			if(p1||p2)
+			{
+				int tempX=(c->x)-30;
+				int tempY=(c->y)+20;
+				int tempB=/*rand()%6+6*/bomb;
+				if(tempX<0)
+				{
+                    tempX=0;
+				}
+				if(tempY>168)
+				{
+					tempY=168;
+				}
+				if(p1!=0)
+				{
+					if(p1->is_red==true)
+				{
+					p1->is_red=false;
+					BonusShow *tempBonusShow=new BonusShow(2);
+				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
+				    addItem(tempBonus);
+				}
+				}
+				if(p2!=0)
+				{
+				if(p2->is_red==true)
+				{
+					p2->is_red=false;
+					BonusShow *tempBonusShow=new BonusShow(2);
+				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
+				    addItem(tempBonus);
+				}
+				}
+
+			}
             c->pvalue=c->pvalue-1;
             if(c->pvalue==-1)
             {
