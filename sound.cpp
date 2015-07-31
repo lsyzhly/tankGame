@@ -12,14 +12,14 @@ void GameSound(HWND myHwnd,string path)
 	hr=lpds->SetCooperativeLevel(myHwnd,DSSCL_PRIORITY );
 	if(hr!=DS_OK)
 	{
-		TRACE("set");
+		
 	}
 	DSCAPS dscaps;
     dscaps.dwSize = sizeof(DSCAPS);
     hr =lpds->GetCaps(&dscaps);
 	if(hr!=DS_OK)
 	{
-		TRACE("get");
+		
 	}
     LPDIRECTSOUNDBUFFER pPbuf;//声明主缓存区指针
 	DSBUFFERDESC desc;//描述结构
@@ -31,7 +31,7 @@ void GameSound(HWND myHwnd,string path)
 	hr=lpds->CreateSoundBuffer(&desc,&pPbuf,NULL);
 	if(hr!=DS_OK)
 	{
-		TRACE("creat");
+		
 	}
 		//设置格式
 	WAVEFORMATEX pwfmt;
@@ -45,7 +45,7 @@ void GameSound(HWND myHwnd,string path)
 	hr=pPbuf->SetFormat(&pwfmt);
 	if(hr!=DS_OK)
 	{
-		TRACE("播放格式");
+		
 	}
 	//read music file
 	WAVEFORMATEX swfmt;
@@ -57,25 +57,25 @@ void GameSound(HWND myHwnd,string path)
 	hmmio=mmioOpen((char*)path.c_str(),NULL,MMIO_ALLOCBUF|MMIO_READ);
 	if(hmmio==NULL)
 	{
-		TRACE("NULL NULL NULL ");
+	
 	}
 	ckRiff.fccType=mmioFOURCC('W', 'A', 'V', 'E');//设定文件类型
  mmresult = mmioDescend(hmmio, &ckRiff, NULL, MMIO_FINDRIFF); 
  if(mmresult != MMSYSERR_NOERROR)
  {
-	 TRACE("文件格式错误1");
+	 
  }
         //搜索区块
  ckInfo.ckid = mmioFOURCC('f', 'm', 't', ' ');//设定区块类型
  mmresult = mmioDescend(hmmio, &ckInfo, &ckRiff, MMIO_FINDCHUNK);
         if(mmresult != MMSYSERR_NOERROR)
 		{
-			TRACE("MMRESULT  FAIL");
+	
 		}
  
  if(mmioRead(hmmio, (HPSTR)&swfmt, sizeof(swfmt)) == -1)
  {
-            TRACE("读取格式失败！");
+            
  }
 
  mmresult = mmioAscend(hmmio, &ckInfo, 0);   //跳出子区块
@@ -85,7 +85,7 @@ void GameSound(HWND myHwnd,string path)
  mmresult = mmioDescend(hmmio, &ckInfo, &ckRiff, MMIO_FINDCHUNK);
  if(mmresult != MMSYSERR_NOERROR)
  {
-	 TRACE("文件格式错误2");
+	 
  }
 
  size = ckInfo.cksize;
@@ -102,26 +102,26 @@ void GameSound(HWND myHwnd,string path)
 hr = lpds->CreateSoundBuffer(&desc, &pSbuf, NULL);
  if(hr!= DS_OK)
  {
-	 TRACE("建立次缓冲区失败");
+	 
  }
  LPVOID pAudio;
  DWORD  bytesAudio;
 hr= pSbuf->Lock(0,size, &pAudio, &bytesAudio, NULL, NULL, NULL);
  if(hr != DS_OK)
  {
-   TRACE("锁定缓冲区失败!");
+   
  }
 
 mmresult = mmioRead(hmmio, (HPSTR)pAudio,bytesAudio);
  if(mmresult== -1)
    {
-   TRACE("读取失败!");
+   
  }
 hr = pSbuf->Unlock(pAudio, bytesAudio, NULL, NULL);
 
  if(hr!= DS_OK)
  {
-   TRACE("解除缓冲区失败!");
+   
  }
 
  mmioClose(hmmio, 0);
@@ -130,5 +130,5 @@ hr = pSbuf->Unlock(pAudio, bytesAudio, NULL, NULL);
 	 
  
  
- TRACE("结束 结束 结束 结束!");
+ 
 }
