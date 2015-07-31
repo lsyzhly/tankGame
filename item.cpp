@@ -75,13 +75,13 @@ moveSquare::~moveSquare()
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {
-    draw->move(-1,-1,MOVEVALUE|utype);
+    draw->move(-1,-1,MOVELEVEL|utype);
     this->utype=utype;
 }
 
 void unmoveSquare::reShow(){
     square::reShow();
-    draw->move(-1,-1,MOVEVALUE|utype);
+    draw->move(-1,-1,MOVELEVEL|utype);
 }
 
 posSet *unmoveSquare::getRange()

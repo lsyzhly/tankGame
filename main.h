@@ -8,6 +8,7 @@
 void init();
 void flush();
 void destory();
+void TRACE(LPCTSTR format,...);
 extern bool isKeyDown[];
 extern int fps;
 extern int mspf;

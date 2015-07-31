@@ -14,7 +14,7 @@ void HeadquartersShow::move(int x, int y, ...)
 
         va_list va;
         va_start(va,y);
-        type=va_arg(va,int);
+        type=va_arg(va,int)&MOVEVALUE;
         va_end(va);
     }
     else
@@ -23,7 +23,7 @@ void HeadquartersShow::move(int x, int y, ...)
         y*=rat;
         va_list va;
         va_start(va,y);
-        type=va_arg(va,int);
+        type=va_arg(va,int)&MOVEVALUE;
         va_end(va);
         rec.left=x;
         rec.top=y;
