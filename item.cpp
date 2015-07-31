@@ -1,6 +1,7 @@
 #include "item.h"
 #include "Control.h"
 #include "maincontrol.h"
+#include "sound.h"
 namespace item
 {
 square::square(int x, int y, int size,Show *draw)
@@ -118,6 +119,8 @@ bumpType Tank::bump(square *a,direct drt)
             {
                 this->pvalue=this->pvalue+1;
                 add_to_delete(a,1);
+				std::string tempSound="sound/Fanfare.wav";
+		        GameSound(hwnd,tempSound);
                 this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
                 return bumpType::through;
             }
@@ -126,6 +129,8 @@ bumpType Tank::bump(square *a,direct drt)
                 //加强敌方坦克
                 this->pvalue=this->pvalue+1;
                 add_to_delete(a,1);
+				std::string tempSound="sound/Fanfare.wav";
+		        GameSound(hwnd,tempSound);
                 this->draw->move(-1,-1,MOVELEVEL|this->pvalue);
                 return bumpType::through;
             }
@@ -137,7 +142,18 @@ bumpType Tank::bump(square *a,direct drt)
         }
         else if(b->utype==tank)
         {
-
+              std::string tempSound="sound/Fanfare.wav";
+		      GameSound(hwnd,tempSound);
+			  if(this->isPlayer==true)
+			  {
+				 playTankControl *b=dynamic_cast<playTankControl *>(this->control);
+			      if(b)
+				  {
+					  int temp=b->type; 
+					  tanks[temp]++;
+				  }
+			  }
+			  return bumpType::through;
         }
         else if(b->utype==myclock)
         {
@@ -146,12 +162,16 @@ bumpType Tank::bump(square *a,direct drt)
 			{
 				setTankState(false,false);
 				addTimeFun(0,(OnTime)setTankState,150,false,true);
+				std::string tempSound="sound/Fanfare.wav";
+		        GameSound(hwnd,tempSound);
                 return bumpType::through;
 			}
 			else
 			{
                 setTankState(true,false);
 				addTimeFun(0,(OnTime)setTankState,150,true,true);
+				std::string tempSound="sound/Fanfare.wav";
+		        GameSound(hwnd,tempSound);
                 return bumpType::through;
 			}
         }
@@ -160,6 +180,8 @@ bumpType Tank::bump(square *a,direct drt)
 			add_to_delete(a,1);
             setCapTankState(this,true);
             addTimeFun(1,(OnTime)setCapTankState,150,this,false);
+			std::string tempSound="sound/Fanfare.wav";
+		    GameSound(hwnd,tempSound);
 			return bumpType::through;
         }
         else if(b->utype==shovel)
@@ -168,6 +190,11 @@ bumpType Tank::bump(square *a,direct drt)
 			{
 			add_to_delete(a,1);
           //  addTimeFun(3,(OnTime)setBossHome,150);
+			std::string tempSound="sound/Fanfare.wav";
+		    GameSound(hwnd,tempSound);
+			setHqState(1);
+            addTimeFun(1,(OnTime)setHqState,250,0);
+			
 			return bumpType::through;
 			}
 			else
@@ -178,13 +205,16 @@ bumpType Tank::bump(square *a,direct drt)
 			if(this->isPlayer==true)
 			{
 			  deleteTank(false);
+			  std::string tempSound="sound/bang.wav";
+		      GameSound(hwnd,tempSound);
               return bumpType::through;
 			}
 			else
 			{
 			  deleteTank(true);
+			  std::string tempSound="sound/bang.wav";
+		      GameSound(hwnd,tempSound);
               return bumpType::through;
-
 			}
         }
     }
@@ -270,8 +300,7 @@ Bullet *Tank::fire()
 				this->nowBullets=this->nowBullets-1;
 				return NULL;
 			}
-			
-            
+			   
             //return new Bullet(this,x+size/2-BULLETSIZE/2,y+size,BULLETSIZE,TempBulletSpeed,temp);
         }
         else if(this->drt==left)
@@ -305,6 +334,8 @@ Bullet *Tank::fire()
         addItem(myBullet);
         bulletControl *myControl=new bulletControl(myBullet);
         addControl(myControl);
+		std::string tempSound="sound/Gunfire.wav";
+		GameSound(hwnd,tempSound);
         // return new Bullet(this,tempx,tempy,BULLETSIZE,TempBulletSpeed,temp);
         return myBullet;
     }
@@ -347,12 +378,16 @@ bumpType Bullet::bump(square *a,direct drt)
         {
             add_to_delete(this,1);
             add_to_delete(a,1);
+			std::string tempSound="sound/bang.wav";
+		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
         if(b->utype==qiang && this->t->pvalue==3)//最高等级坦克击中铁
         {
             add_to_delete(this,1);
             add_to_delete(a,1);
+			std::string tempSound="sound/bang.wav";
+		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
         if(b->utype==shui || b->utype==cao)
@@ -363,11 +398,16 @@ bumpType Bullet::bump(square *a,direct drt)
         {
             add_to_delete(this,1);
             add_to_delete(a,1);
+			b->draw->move(-1,-1,1);  
+			std::string tempSound="sound/bang.wav";
+		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
         if(b->utype==qiang && this->t->pvalue!=3)
         {
             add_to_delete(this,1);
+			std::string tempSound="sound/hit.wav";
+		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
     }
@@ -380,6 +420,8 @@ bumpType Bullet::bump(square *a,direct drt)
 			setTankState(true,false);
 			addTimeFun(4,(OnTime)setTankState,100,true,true);
             //todo 将坦克的处理不全
+			std::string tempSound="sound/hit.wav";
+		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
@@ -393,16 +435,22 @@ bumpType Bullet::bump(square *a,direct drt)
             {
                 add_to_delete(this,1);
                 add_to_delete(a,1);
+				std::string tempSound="sound/bang.wav";
+		        GameSound(hwnd,tempSound);
                 return bumpType::abandonded;
             }
 
             add_to_delete(this,1);
+			std::string tempSound="sound/hit.wav";
+		    GameSound(hwnd,tempSound);
             c->draw->move(-1,-1,MOVELEVEL|c->pvalue);
             return bumpType::abandonded;
         }
 		if(this->t->isPlayer!=c->isPlayer && c->isStoppable==true)
 		{
            add_to_delete(this,1);
+		   std::string tempSound="sound/hit.wav";
+		   GameSound(hwnd,tempSound);
 		   return bumpType::abandonded;
 		}
     }

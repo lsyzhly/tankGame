@@ -9,6 +9,7 @@ using namespace item;
 using namespace view;
 using namespace Controler;
 
+extern int tanks[];
 extern bumpchecker *checker;
 
 //添加组件到删除列表,该组件将会在count次屏幕刷新后删除

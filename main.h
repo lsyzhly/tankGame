@@ -2,6 +2,8 @@
 #define MAIN_H_INCLUDED
 #include <stdio.h>
 #include <d3d9.h>
+#include <iostream>
+
 //#include <d3dx9.h>
 void init();
 void flush();
