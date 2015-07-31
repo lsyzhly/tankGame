@@ -446,14 +446,18 @@ bumpType Bullet::bump(square *a,direct drt)
     {
 		if(this->t->isPlayer==true && c->isPlayer==true && c->isStoppable==false)
         {
-			
-            add_to_delete(this,1);
+			if(this->t!=c)
+			{
+			add_to_delete(this,1);
 			setTankState(true,false);
 			addTimeFun(4,(OnTime)setTankState,100,true,true);
             //todo 将坦克的处理不全
 			std::string tempSound="sound/hit.wav";
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
+
+			}
+            
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
