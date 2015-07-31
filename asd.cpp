@@ -11,12 +11,14 @@
 #include "bumpcheck.h"
 #include "BulletShow.h"
 #include "WaterShow.h"
+#include "BoreShow.h"
 using namespace view;
 using namespace item;
 using namespace Controler;
 using namespace bump;
 Show *s;
 BulletShow *bs;
+BoreShow *aaa;
 //WaterShow *ws;
 void init()
 {
@@ -44,13 +46,15 @@ void init()
     //addControl(qwea);
 	//ws=new WaterShow(2);
 	//ws->move(0,0);
-
+    aaa = new BoreShow(2);
+	aaa->move(0,0);
 }
 
 void flush()
 {
 	//ws->move(-1,-1);
 	//ws->Repaint();
+	aaa->Repaint();
     static int n;
     runControls();
     rePaint();
