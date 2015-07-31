@@ -5,12 +5,15 @@
 #include "ExplodeShow.h"
 #include "PlayerTankShow.h"
 #include "enemytankshow.h"
+#include "BoreShow.h"
 #include <list>
 #include <stdarg.h>
-#define ARRAYSIZE 16
+#define ARRAYSIZE 32
 #define BUFFSIZE 64
 std::map<pointer,int> to_delete;
 MEMSTRUCT<BUFFSIZE>*OnTimeMap=(MEMSTRUCT<BUFFSIZE>*)calloc(sizeof(MEMSTRUCT<BUFFSIZE>),ARRAYSIZE);
+typedef list<MEMSTRUCT<BUFFSIZE>*> Mlist;
+Mlist OnTimelist;
 std::map<cpointer,bool> controls;
 std::set<pointer> hasdelete;
 std::set<pointer> items;
@@ -23,6 +26,7 @@ unsigned char etank[20]={   0,0,0,0,0,0,0,0,0,0,
                             0,0,0,1,1,1,1,2,2,2};
 int ertank=20;
 bumpchecker *checker;
+void newTank(Tank *tank,Show *a=0);
 void add_to_delete(pointer a, int count)
 {
     to_delete[a] = count;
@@ -74,8 +78,7 @@ void OnPlayerTank(bool type){
         s=new PlayerTankShow(2,type);
         tank=new Tank(4<<type<<4,12<<4,14,2,up,s,1,0,true);
         b=new playTankControl(tank,type);
-        addControl(b);
-        addItem(tank);
+        newTank(tank);
         return;
     }
 }
@@ -86,6 +89,9 @@ void addTanks(bool type){
 
 void addControl(cpointer a)
 {
+    if(a==0){
+        throw a;
+    }
     controls[a]=true;
 }
 
@@ -143,6 +149,13 @@ void clean()
     {
         if(OnTimeMap[i].count)
             OnTimeMap[i]();
+    }
+    for(Mlist::iterator a=OnTimelist.begin();a!=OnTimelist.end();){
+        if((**a)()){
+            a=OnTimelist.erase(a);
+        }else{
+            ++a;
+        }
     }
 }
 
@@ -215,7 +228,7 @@ void remove(pointer a)
             remove(b->control);
             if(b->control!=0)remove(b->control);
             checker->remove(a);
-            addTimeFun(buid&3|8|4,(OnTime)reremove,10,a);
+            addTimeFun((OnTime)reremove,10,a);
             buid++;
             hasdelete.insert(a);
         }
@@ -226,7 +239,7 @@ void remove(pointer a)
             c->draw->move(c->x,c->y);
             if(c->control!=0)remove(c->control);
             checker->remove(a);
-            addTimeFun(taid&3|8,(OnTime)reremove,5,a);
+            addTimeFun((OnTime)reremove,5,a);
             taid++;
             hasdelete.insert(a);
         }
@@ -256,6 +269,14 @@ void addTimeFun(unsigned char id,OnTime on,int n,...)
     OnTimeMap[id].init(on,va,n);
 }
 
+void addTimeFun(OnTime on,int n,...)
+{
+    va_list va;
+    va_start(va,n);
+    MEMSTRUCT<BUFFSIZE> *a=new MEMSTRUCT<BUFFSIZE>();
+    a->init(on,va,n);
+    OnTimelist.push_back(a);
+}
 void setTankState(bool is,bool is_run)
 {
     for (std::set<pointer>::iterator a = items.begin();
@@ -295,6 +316,25 @@ void deleteTank(bool type){
     }
 }
 
+void newTank(Tank *tank,Show *a){
+    if(a==0){
+        printf("add %p\n",tank);
+        addItem(tank);
+        tank->isStoppable=true;
+        Show *b=tank->draw;
+        tank->draw=new BoreShow(2);
+        tank->reShow();
+        addTimeFun((OnTime)newTank,50,tank,b);
+    }else{
+        tank->isStoppable=false;
+        printf("do %p,%p\n",tank,a);
+        addControl(tank->control);
+        delete tank->draw;
+        tank->draw=a;
+        tank->reShow();
+    }
+}
+
 void addEnemyTank(){
     if(etanks<4){
         if(ertank==0){
@@ -325,8 +365,7 @@ void addEnemyTank(){
             }
             tank=new Tank((n*6)<<4,0,14,speed,up,s,1,pvalue,false);
             b=new autoTankControl(tank);
-            addControl(b);
-            addItem(tank);
+            newTank(tank);
             cl=clock();
         }
         return;
