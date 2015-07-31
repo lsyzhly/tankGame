@@ -8,14 +8,14 @@ BoreShow::BoreShow(int rat):Show(rat)
     this->rat = rat ;
     type = 0;
 	count=0;
-	maxcount=10;
+	maxcount=6;
 
 }
 void BoreShow::move(int x, int y, ...)
 {
     if(-1==x&&-1==y)
     {
-         //  
+         //
     }
     else
     {
