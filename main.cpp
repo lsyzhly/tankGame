@@ -10,10 +10,11 @@
 #else
 #include "lsy_sound.h"
 #endif // LSY_GCC
-
-#pragma comment(lib, "dsound.lib")
-#pragma comment(lib, "Winmm.lib")
+#include <iostream>
 #define LPCWSTR LPCSTR
+#pragma comment(lib,"dsound.lib")
+#pragma comment(lib,"Winmm.lib")
+
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -44,6 +45,15 @@ bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn);
 bool BulletbmpInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
+void TRACE(LPCTSTR format,...)
+{
+	char buf[256];
+	va_list vl;
+	va_start(vl,format);
+	sprintf(buf,format,vl);
+		OutputDebugString(buf);
+		va_end(vl);
+}
 
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
 {

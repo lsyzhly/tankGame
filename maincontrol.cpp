@@ -6,6 +6,7 @@
 #include "PlayerTankShow.h"
 #include "enemytankshow.h"
 #include "BoreShow.h"
+#include "main.h"
 #include <list>
 #include <stdarg.h>
 #define ARRAYSIZE 32
@@ -187,16 +188,19 @@ void rePaint()
             a != items.end(); a++)
     {
         (*a)->draw->Repaint();
+		
     }
     for (std::set<pointer>::iterator a = topLevelItem.begin();
             a != topLevelItem.end(); a++)
     {
         (*a)->draw->Repaint();
+		
     }
 	//*********************
      for (std::set<pointer>::iterator a = hqitems.begin();
             a != hqitems.end(); a++)
     {
+		
         (*a)->draw->Repaint();
     }
 	//*********************
