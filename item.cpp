@@ -30,6 +30,9 @@ posSet *square::getRange()
     }
     return &pos_set;
 }
+void square::reShow(){
+    draw->move(x, y,0);
+}
 square::~square()
 {
     delete draw;
@@ -61,14 +64,25 @@ void moveSquare::move(direct drt)
         break;
     }
 }
+void moveSquare::reShow(){
+    square::reShow();
+    draw->move(-1,-1,MOVESETDIRECT|drt);
+}
 moveSquare::~moveSquare()
 {
     //if (control) remove(control);
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {
+    draw->move(-1,-1,MOVEVALUE|utype);
     this->utype=utype;
 }
+
+void unmoveSquare::reShow(){
+    square::reShow();
+    draw->move(-1,-1,MOVEVALUE|utype);
+}
+
 posSet *unmoveSquare::getRange()
 {
     if(utype==cao)
@@ -226,7 +240,10 @@ bumpType Tank::bump(square *a,direct drt)
     }
     return stop;
 }
-
+void Tank::reShow(){
+    moveSquare::reShow();
+    draw->move(-1,-1,MOVELEVEL|pvalue);
+}
 Bullet *Tank::fire()
 {
     int TempBulletSpeed=0;

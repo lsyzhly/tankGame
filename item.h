@@ -35,6 +35,7 @@ public:
     square(int x, int y, int size, Show *draw);
     //获取对象轮廓
     virtual posSet *getRange();
+    virtual void reShow();
     virtual ~square();
 };
 //可移动正方形
@@ -51,6 +52,7 @@ public:
     virtual void move(direct drt);
     //碰撞处理函数,返回碰撞类型
     virtual bumpType bump(square *a,direct drt) = 0;
+    virtual void reShow();
     virtual void reDirect(direct drt);
     virtual void moveDirect(direct drt,int size=1);
     virtual ~moveSquare();
@@ -62,6 +64,7 @@ public:
     //不可移动类型 可以使tie或tu
     unmoveType utype;
     unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype);
+    virtual void reShow();
     virtual ~unmoveSquare();
     virtual posSet *getRange();
 };
@@ -82,6 +85,7 @@ public:
          int maxbullets,int pvalue, bool isPlayer,bool isStoppable=false,int nowBullets=0);
     //碰撞处理函数
     virtual bumpType bump(square *a,direct drt);
+    virtual void reShow();
     //开火
     Bullet *fire();
     virtual ~Tank();

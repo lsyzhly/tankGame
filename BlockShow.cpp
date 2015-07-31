@@ -15,8 +15,23 @@ void BlockShow::move(int x, int y, ...)
     {
         va_list va;
         va_start(va,y);
-        type=va_arg(va,int);
+        int n=va_arg(va,int);
         va_end(va);
+        if(n&MOVELEVEL)
+        {
+            type=n&MOVEVALUE;
+            if(type<3){
+                type--;
+            }
+        }
+        else if((n&MOVEFLAG)==0)
+        {
+            return;
+        }
+        else
+        {
+            throw n;
+        }
     }
     else
     {
