@@ -396,8 +396,7 @@ bumpType Bullet::bump(square *a,direct drt)
         if(b->utype==boss)
         {
             add_to_delete(this,1);
-            add_to_delete(a,1);
-			b->draw->move(-1,-1,1);  
+			a->draw->move(-1,-1,1);  
 			std::string tempSound="sound/bang.wav";
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;

@@ -4,11 +4,7 @@
 #include "main.h"
 #include "all.h"
 #include <time.h>
-#include <stdio.h>
-#include "sound.h"
-
-#pragma comment(lib, "dsound.lib")
-#pragma comment(lib, "Winmm.lib")
+#include <iostream>
 #define LPCWSTR LPCSTR
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
