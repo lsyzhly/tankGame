@@ -4,12 +4,6 @@
 #include "main.h"
 #include "all.h"
 #include <time.h>
-#include <stdio.h>
-#ifndef LSY_GCC
-#include "sound.h"
-#else
-#include "lsy_sound.h"
-#endif // LSY_GCC
 #include <iostream>
 #define LPCWSTR LPCSTR
 #pragma comment(lib,"dsound.lib")
@@ -45,15 +39,6 @@ bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn);
 bool BulletbmpInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
-void TRACE(LPCTSTR format,...)
-{
-	char buf[256];
-	va_list vl;
-	va_start(vl,format);
-	sprintf(buf,format,vl);
-		OutputDebugString(buf);
-		va_end(vl);
-}
 
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
 {
