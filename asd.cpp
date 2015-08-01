@@ -27,11 +27,13 @@ void init()
     mspf=30;
     int n;
     fpi=fopen("D:\\asd.txt","w");
-    readFile("map\\level1.map");
+	ChooseLevel(2);
+    //readFile("map\\level1.map");
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
     OnPlayerTank(false);
     OnPlayerTank(true);
+	
 }
 
 void flush()

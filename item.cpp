@@ -438,7 +438,7 @@ bumpType Bullet::bump(square *a,direct drt)
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
         }
-		if(b->utype==star||b->utype==tank||b->utype==bomb||b->utype==myclock||b->utype||b->utype==cap||b->utype==shovel)
+		if(b->utype==star||b->utype==tank||b->utype==bomp||b->utype==myclock||b->utype||b->utype==cap||b->utype==shovel)
 			return bumpType::through;
     }
     Tank *c=dynamic_cast<Tank *>(a);//×Óµ¯Åöµ½Ì¹¿Ë
@@ -471,7 +471,7 @@ bumpType Bullet::bump(square *a,direct drt)
 			{
 				int tempX=(c->x)-30;
 				int tempY=(c->y)+20;
-				int tempB=/*rand()%6+6*/bomb;
+				int tempB=/*rand()%6+6*/bomp;
 				if(tempX<0)
 				{
                     tempX=0;
