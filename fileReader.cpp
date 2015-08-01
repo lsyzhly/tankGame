@@ -124,8 +124,9 @@ void ChooseLevel(int lev)
 	char filename[20];
     ifstream f;
     f.open("etank.map",ios::in|ios::binary);
-	f.seekg(20*lev,ios::beg);
+	f.seekg((lev-1)*20);
     f.read((char *)etank, sizeof(char)*20);
+	f.close();
 	sprintf(filename,"map\\level%d.map",lev);
 	readFile(filename);
 }
