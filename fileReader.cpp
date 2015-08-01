@@ -121,9 +121,7 @@ void readFile(char *path)
 }
 void ChooseLevel(int lev)
 {
-<<<<<<< HEAD
     CLevel = lev;
-=======
     if(lev>=20){
         MessageBox(hwnd,"win!","win!",0);
         exit(0);
@@ -136,7 +134,6 @@ void ChooseLevel(int lev)
     freeItem();
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
->>>>>>> 8997fe1e5ee49e11fd3de60d07aa0457edf7c388
 	char filename[20];
     ifstream f;
     ertank=20;

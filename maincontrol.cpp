@@ -25,16 +25,13 @@ bool is_run;
 std::set<pointer> topLevelItem;
 int tanks[2]={100,100};
 int etanks=0;
-<<<<<<< HEAD
 int CLevel;
-unsigned char etank[20]={   0,0,0,0,0,0,0,0,0,0,
-                            0,0,0,1,1,1,1,2,2,2};
+
 int ertank=20;
-=======
-unsigned char etank[20]/*={   0,0,0,0,0,0,0,0,0,0,
+unsigned char etank[20];/*={   0,0,0,0,0,0,0,0,0,0,
                             0,0,0,1,1,1,1,2,2,2}*/;
-int ertank=5;
->>>>>>> 8997fe1e5ee49e11fd3de60d07aa0457edf7c388
+
+
 bumpchecker *checker;
 void newTank(Tank *tank,Show *a=0);
 void add_to_delete(pointer a, int count)

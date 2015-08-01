@@ -343,7 +343,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
         rec1.left=0;
         rec1.right=416;
         d3ddev->Present(&rec1, &rec, NULL, NULL);
-<<<<<<< HEAD
 	    rec1.top=0;
         rec1.bottom=416;
         rec1.left=0;
@@ -357,10 +356,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		drawsidebar();
 		//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
 		d3ddev->Present(&rec1, &rec, NULL, NULL);
-=======
         fprintf(fpi,"fgh\n");
         fflush(fpi);
->>>>>>> 8997fe1e5ee49e11fd3de60d07aa0457edf7c388
         clock_t end=clock();
         end-=start;
         end*=1000;
