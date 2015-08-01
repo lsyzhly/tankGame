@@ -17,8 +17,10 @@ void BlockShow::move(int x, int y, ...)
         if(n&MOVELEVEL)
         {
             type=n&MOVEVALUE;
-            if(type<3){
+            if(type<4){
                 type--;
+            }else{
+                throw n;
             }
         }
         else if((n&MOVEFLAG)==0)
