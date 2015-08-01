@@ -184,27 +184,26 @@ void runControls()
 
 void rePaint()
 {
-    for (std::set<pointer>::iterator a = items.begin();
-            a != items.end(); a++)
-    {
-        (*a)->draw->Repaint();
+        for (std::set<pointer>::iterator a = items.begin();
+                a != items.end(); a++)
+        {
+            (*a)->draw->Repaint();
 
-    }
-    for (std::set<pointer>::iterator a = topLevelItem.begin();
-            a != topLevelItem.end(); a++)
-    {
-        (*a)->draw->Repaint();
+        }
+        for (std::set<pointer>::iterator a = topLevelItem.begin();
+                a != topLevelItem.end(); a++)
+        {
+            (*a)->draw->Repaint();
 
-    }
-	//*********************
-     for (std::set<pointer>::iterator a = hqitems.begin();
-            a != hqitems.end(); a++)
-    {
+        }
+        //*********************
+         for (std::set<pointer>::iterator a = hqitems.begin();
+                a != hqitems.end(); a++)
+        {
 
-        (*a)->draw->Repaint();
-    }
-	//*********************
-
+            (*a)->draw->Repaint();
+        }
+        //*********************
 }
 
 void reremove(pointer a){

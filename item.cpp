@@ -490,7 +490,7 @@ bumpType Bullet::bump(square *a,direct drt)
 					p1->is_red=false;
 					BonusShow *tempBonusShow=new BonusShow(2);
 				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
-				    addItem(tempBonus);
+				    addItem(tempBonus,true);
 				}
 				}
 				if(p2!=0)
