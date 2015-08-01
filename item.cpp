@@ -163,6 +163,7 @@ bumpType Tank::bump(square *a,direct drt)
         {
               std::string tempSound="sound/Fanfare.wav";
 		      GameSound(hwnd,tempSound);
+			  add_to_delete(a,1);
 			  if(this->isPlayer==true)
 			  {
 				 playTankControl *b=dynamic_cast<playTankControl *>(this->control);
@@ -211,8 +212,8 @@ bumpType Tank::bump(square *a,direct drt)
           //  addTimeFun(3,(OnTime)setBossHome,150);
 			std::string tempSound="sound/Fanfare.wav";
 		    GameSound(hwnd,tempSound);
-			setHqState(1);
-            addTimeFun(1,(OnTime)setHqState,250,0);
+			setHqState(qiang);
+            addTimeFun(1,(OnTime)setHqState,250,tu);
 
 			return bumpType::through;
 			}
@@ -223,6 +224,7 @@ bumpType Tank::bump(square *a,direct drt)
         {
 			if(this->isPlayer==true)
 			{
+			  add_to_delete(a,1);
 			  deleteTank(false);
 			  std::string tempSound="sound/bang.wav";
 		      GameSound(hwnd,tempSound);
@@ -230,6 +232,7 @@ bumpType Tank::bump(square *a,direct drt)
 			}
 			else
 			{
+			  add_to_delete(a,1);
 			  deleteTank(true);
 			  std::string tempSound="sound/bang.wav";
 		      GameSound(hwnd,tempSound);
@@ -252,12 +255,12 @@ bumpType Tank::bump(square *a,direct drt)
 				return bumpType::through;
 			else
 			{
-			
+
 			setTankState(true,false);
 			addTimeFun(4,(OnTime)setTankState,100,true,true);
             return bumpType::stop;//暂时将己方定位停止
 			}
-            
+
         }
 		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
         {
@@ -448,16 +451,16 @@ bumpType Bullet::bump(square *a,direct drt)
         {
 			if(this->t!=c)
 			{
-			add_to_delete(this,1);
-			setTankState(true,false);
-			addTimeFun(4,(OnTime)setTankState,100,true,true);
-            //todo 将坦克的处理不全
-			std::string tempSound="sound/hit.wav";
-		    GameSound(hwnd,tempSound);
-            return bumpType::abandonded;
+                add_to_delete(this,1);
+                setTankState(true,false);
+                addTimeFun(4,(OnTime)setTankState,100,true,true);
+                //todo 将坦克的处理不全
+                std::string tempSound="sound/hit.wav";
+                GameSound(hwnd,tempSound);
+                return bumpType::abandonded;
 
 			}
-            
+			return bumpType::through;
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
@@ -471,7 +474,7 @@ bumpType Bullet::bump(square *a,direct drt)
 			{
 				int tempX=(c->x)-30;
 				int tempY=(c->y)+20;
-				int tempB=/*rand()%6+6*/bomp;
+				int tempB=rand()%6+6;
 				if(tempX<0)
 				{
                     tempX=0;
@@ -482,12 +485,12 @@ bumpType Bullet::bump(square *a,direct drt)
 				}
 				if(p1!=0)
 				{
-					if(p1->is_red==true)
+                if(p1->is_red==true)
 				{
 					p1->is_red=false;
 					BonusShow *tempBonusShow=new BonusShow(2);
 				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
-				    addItem(tempBonus);
+				    addItem(tempBonus,true);
 				}
 				}
 				if(p2!=0)

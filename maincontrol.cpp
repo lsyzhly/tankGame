@@ -46,7 +46,7 @@ void setHqState(int state)
 	 for (;ai != hqitems.end(); ai++)
     {
         pointer a = *ai;
-		a->draw->move(-1,-1,state);
+		a->draw->move(-1,-1,state|MOVELEVEL);
 
     }
 
@@ -184,27 +184,26 @@ void runControls()
 
 void rePaint()
 {
-    for (std::set<pointer>::iterator a = items.begin();
-            a != items.end(); a++)
-    {
-        (*a)->draw->Repaint();
+        for (std::set<pointer>::iterator a = items.begin();
+                a != items.end(); a++)
+        {
+            (*a)->draw->Repaint();
 
-    }
-    for (std::set<pointer>::iterator a = topLevelItem.begin();
-            a != topLevelItem.end(); a++)
-    {
-        (*a)->draw->Repaint();
+        }
+        for (std::set<pointer>::iterator a = topLevelItem.begin();
+                a != topLevelItem.end(); a++)
+        {
+            (*a)->draw->Repaint();
 
-    }
-	//*********************
-     for (std::set<pointer>::iterator a = hqitems.begin();
-            a != hqitems.end(); a++)
-    {
+        }
+        //*********************
+         for (std::set<pointer>::iterator a = hqitems.begin();
+                a != hqitems.end(); a++)
+        {
 
-        (*a)->draw->Repaint();
-    }
-	//*********************
-
+            (*a)->draw->Repaint();
+        }
+        //*********************
 }
 
 void reremove(pointer a){
@@ -355,7 +354,7 @@ void addEnemyTank(){
             Tank *tank;
             Control *b;
             int rand_t=rand()%ertank;
-            int rand_red=1/*!(rand()&0x7)*/;
+            int rand_red=!(rand()&0x7);
             int n=rand()%3;
             int type=etank[rand_t];
             etank[rand_t]=etank[--ertank];

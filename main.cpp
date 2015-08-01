@@ -119,8 +119,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
                           WS_OVERLAPPEDWINDOW,
                           CW_USEDEFAULT,
                           CW_USEDEFAULT,
-                          SCREENW,
-                          SCREENH,
+                          640,
+                          480,
                           NULL,
                           NULL,
                           hInstance,
@@ -152,7 +152,17 @@ int WINAPI WinMain(HINSTANCE hInstance,
         }
         d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         flush();
-        d3ddev->Present(NULL, NULL, NULL, NULL);
+        RECT rec;
+        rec.top=16;
+        rec.bottom=432;
+        rec.left=112;
+        rec.right=528;
+        RECT rec1;
+        rec1.top=0;
+        rec1.bottom=416;
+        rec1.left=0;
+        rec1.right=416;
+        d3ddev->Present(&rec1, &rec, NULL, NULL);
         clock_t end=clock();
         end-=start;
         end*=1000;
@@ -209,7 +219,7 @@ bool initdirectx()
 
     //create pointer to the back buffer
     d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
-//	d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer1);
+    //d3ddev->GetRenderTarget(0, &backbuffer);
     TankInit("graphics/player1.bmp",(LPDIRECT3DSURFACE9 *)player1,4,8);
     TankInit("graphics/player2.bmp",(LPDIRECT3DSURFACE9 *)player2,4,8);
     TankInit("graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
