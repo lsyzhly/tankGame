@@ -1,6 +1,7 @@
 #include "maincontrol.h"
 #include "bumpcheck.h"
 #include "Control.h"
+#include "fileReader.h"
 #include "item.h"
 #include "ExplodeShow.h"
 #include "PlayerTankShow.h"
@@ -12,6 +13,7 @@
 #define ARRAYSIZE 32
 #define BUFFSIZE 64
 std::map<pointer,int> to_delete;
+int level=1;
 MEMSTRUCT<BUFFSIZE>*OnTimeMap=(MEMSTRUCT<BUFFSIZE>*)calloc(sizeof(MEMSTRUCT<BUFFSIZE>),ARRAYSIZE);
 typedef list<MEMSTRUCT<BUFFSIZE>*> Mlist;
 Mlist OnTimelist;
@@ -23,9 +25,9 @@ bool is_run;
 std::set<pointer> topLevelItem;
 int tanks[2]={100,100};
 int etanks=0;
-unsigned char etank[20]={   0,0,0,0,0,0,0,0,0,0,
-                            0,0,0,1,1,1,1,2,2,2};
-int ertank=20;
+unsigned char etank[20]/*={   0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,1,1,1,1,2,2,2}*/;
+int ertank=5;
 bumpchecker *checker;
 void newTank(Tank *tank,Show *a=0);
 void add_to_delete(pointer a, int count)
@@ -131,6 +133,8 @@ void bindbumpchecker(bumpchecker *checker)
 
 void clean()
 {
+    fprintf(fpi,"cleanitem\n");
+    fflush(fpi);
     std::list<pointer> pset;
     for (std::map<pointer, int>::iterator it = to_delete.begin();
             it != to_delete.end(); it++)
@@ -146,11 +150,15 @@ void clean()
         to_delete.erase(*it);
         remove(*it);
     }
+    fprintf(fpi,"OnTimeMap\n");
+    fflush(fpi);
     for(int i=0; i<ARRAYSIZE; i++)
     {
         if(OnTimeMap[i].count)
             OnTimeMap[i]();
     }
+    fprintf(fpi,"OnTimelist\n");
+    fflush(fpi);
     for(Mlist::iterator a=OnTimelist.begin();a!=OnTimelist.end();){
         if((**a)()){
             a=OnTimelist.erase(a);
@@ -260,9 +268,30 @@ void remove(cpointer a)
     delete a;
 }
 
-void freeAll()
+void freeItem()
 {
+    for (std::set<pointer>::iterator ai = items.begin(); ai != items.end(); ai++)
+    {
+        delete *ai;
+    }
+    for (std::set<pointer>::iterator ai = topLevelItem.begin();
+            ai != topLevelItem.end(); ai++)
+    {
+        delete *ai;
+    }
+    items.clear();
+    topLevelItem.clear();
     delete checker;
+}
+
+void freeControl()
+{
+    for (std::map<cpointer,bool>::iterator a = controls.begin();
+            a != controls.end(); a++)
+    {
+        delete a->first;
+    }
+    controls.clear();
 }
 
 void addTimeFun(unsigned char id,OnTime on,int n,...)
@@ -323,28 +352,53 @@ void deleteTank(bool type){
 
 void newTank(Tank *tank,Show *a){
     if(a==0){
-        printf("add %p\n",tank);
         addItem(tank);
         tank->isStoppable=true;
         Show *b=tank->draw;
         tank->draw=new BoreShow(2);
         tank->reShow();
-        addTimeFun((OnTime)newTank,50,tank,b);
+        addTimeFun((OnTime)newTank,70,tank,b);
+        ptanks[pcount++&0x1]=tank;
+        fprintf(fpi,"add tank%p,%p\n",tank,tank->control);
+        if(ptanks[0])
+            fprintf(fpi,"ptr:%p,%p\n",ptanks[0],ptanks[0]->control);
+        if(ptanks[1])
+            fprintf(fpi,"ptr:%p,%p\n",ptanks[1],ptanks[1]->control);
+        fflush(fpi);
     }else{
+        fprintf(fpi,"read tank%p\n",tank);
+        fprintf(fpi,"new tanking\n");
+        fflush(fpi);
         tank->isStoppable=false;
-        printf("do %p,%p\n",tank,a);
+        if(tank->control==0){
+            throw tank;
+        }
         addControl(tank->control);
+        fprintf(fpi,"delete draw\n");
+        fflush(fpi);
         delete tank->draw;
         tank->draw=a;
         tank->reShow();
+        fprintf(fpi,"finish tanking\n");
+        fflush(fpi);
     }
 }
 
 void addEnemyTank(){
     if(etanks<4){
+        fprintf(fpi,"etanks:%d,ertanks:%d\n",etanks,ertank);
+        fflush(fpi);
         if(ertank==0){
-            //TODO OnWin
-            return;
+            if(etanks==0){
+                fprintf(fpi,"choosingd\n");
+                fflush(fpi);
+                addTimeFun((OnTime)ChooseLevel,300,++level);
+                etanks=-1;
+                //TODO OnWin
+                return;
+            }else{
+                return;
+            }
         }
         static clock_t cl=clock();
         clock_t clo=clock();
@@ -357,7 +411,7 @@ void addEnemyTank(){
             int rand_red=!(rand()&0x7);
             int n=rand()%3;
             int type=etank[rand_t];
-            etank[rand_t]=etank[--ertank];
+             etank[rand_t]=etank[--ertank];
             int pvalue=0;
             int speed=2;
             if(type==2){

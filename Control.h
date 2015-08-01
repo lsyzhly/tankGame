@@ -37,25 +37,31 @@ protected:
 public:
     //移动一次纯虚方法
     virtual bool run() = 0;
+    virtual void setNull()=0;
     virtual ~Control();
 };
+class TankControl :public Control{
+    public:
+    Tank *tank;
+    TankControl(Tank *tank);
+    virtual void setNull();
+};
+
 //坦克自动控制类,用于控制普通地方坦克
 //TODO 添加开火功能
-class autoTankControl :public Control
+class autoTankControl :public TankControl
 {
 public:
     clock_t clo;
-    Tank *tank;
     autoTankControl(Tank *tank);
     virtual bool run();
     virtual ~autoTankControl();
 };
-class playTankControl:public Control
+class playTankControl:public TankControl
 {
 public:
     //int flg;//用来标志刷新的频率来表示速度
     int type;//0表示player1,1表示player2
-    Tank *tank;
     playTankControl(Tank *tank,int type);
     clock_t clo;
     virtual bool run();
@@ -66,6 +72,7 @@ class bulletControl:public Control
 public:
     Bullet *bul;
     bulletControl(Bullet *bul);
+    virtual void setNull();
     virtual ~bulletControl();
     virtual bool run();
 };

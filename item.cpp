@@ -22,7 +22,9 @@ square::square(int x, int y, int size,Show *draw)
 }
 posSet *square::getRange()
 {
+    fflush(fpi);
     pos_set.clear();
+    fflush(fpi);
     if(isBump){
         for (int i = 0; i < size; i++)
         {
@@ -77,7 +79,7 @@ void moveSquare::reShow(){
 }
 moveSquare::~moveSquare()
 {
-    //if (control) remove(control);
+    if (control) control->setNull();
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {
@@ -296,6 +298,7 @@ Bullet *Tank::fire()
     int tempy=0;
     int tempType=0;
     this->nowBullets=this->nowBullets+1;
+    if(isPlayer) maxbullets=(pvalue>>1)+1;
     if(this->nowBullets<=this->maxbullets)
     {
         if(this->isPlayer==true && this->pvalue!=0)
@@ -549,3 +552,4 @@ Bullet::~Bullet()
     t->nowBullets--;
 }
 }
+Tank *ptanks[2];
