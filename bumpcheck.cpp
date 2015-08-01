@@ -135,6 +135,8 @@ void bumpchecker::remove(pointer a)
         sList *b=*bi;
         sList::iterator bf=b->begin();
         while(bf!=b->end()){
+            fprintf(fpi,"removeing\n");
+            fflush(fpi);
             if(*bf==a){
                 b->erase(bf);
                 break;

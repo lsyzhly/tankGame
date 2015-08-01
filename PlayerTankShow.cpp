@@ -46,6 +46,11 @@ void PlayerTankShow::move(int x,int y,...)
     {
         throw n;
     }
+    if(dir>3){
+        fprintf(fpi,"wrong play move\n");
+        fflush(fpi);
+        throw dir;
+    }
 }
 void PlayerTankShow::Repaint()
 {
