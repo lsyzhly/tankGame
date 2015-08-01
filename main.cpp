@@ -5,6 +5,7 @@
 #include "all.h"
 #include <time.h>
 #include <stdio.h>
+#include "SideBar.h"
 #ifndef LSY_GCC
 #include "sound.h"
 #else
@@ -32,6 +33,11 @@ LPDIRECT3DSURFACE9 bonus[6];//奖励，依次是，0坦克，1定时，2铁铲，3炸弹，4星星，5
 LPDIRECT3DSURFACE9 explode[2];//爆炸，两种规格，0表示28*28,子弹碰到墙，1表示64*64，子弹打到tank{还没开始写show}
 LPDIRECT3DSURFACE9 bulletbmp[4];//子弹，上右下左
 LPDIRECT3DSURFACE9 bore[4];//出生的动画
+LPDIRECT3DSURFACE9 flag;
+LPDIRECT3DSURFACE9 misc[4];
+LPDIRECT3DSURFACE9 gameover;
+LPDIRECT3DSURFACE9 num[10];
+LPDIRECT3DSURFACE9 shield[2];
 bool isKeyDown[256];
 HWND hwnd;
 int mspf=30;//miliseconds per Frame
@@ -45,7 +51,173 @@ bool BonusInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 bool ExplodeInit(LPCWSTR f1,LPCWSTR f2,LPDIRECT3DSURFACE9 *bn);
 bool BulletbmpInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn);
+bool RemainInit();//剩下的资源加载
+bool RemainInit()
+{
+    HRESULT result;
+	result = d3ddev->CreateOffscreenPlainSurface(
+                     32,                //width of the surface
+                     32,                //height of the surface
+                     D3DFMT_X8R8G8B8,    //surface format
+                     D3DPOOL_DEFAULT,    //memory pool to use
+                     (LPDIRECT3DSURFACE9 *)&flag,           //pointer to the surface  bo
+                     NULL);
+        if (!SUCCEEDED(result)) return false;
+        RECT rec;
+        rec.top=0;
+        rec.bottom=rec.top+32;
+        rec.left=0;
+        rec.right=rec.left+32;
+        result=D3DXLoadSurfaceFromFile(
+                   flag,            //destination surface
+                   NULL,               //destination palette
+                   NULL,               //destination rectangle
+                   "graphics/flag.bmp",                  //source filename
+                   &rec,               //source rectangle
+                   D3DX_DEFAULT,       //controls how image is filtered
+                   0,                  //for transparency (0 for none)
+                   NULL);
+  //  d3ddev->StretchRect(flag, NULL, backbuffer, &rec, D3DTEXF_NONE);
+        if (!SUCCEEDED(result)) return false;
+    for(int i=0; i<4; i++)
+	{
+		
+		if(i<2)
+		{
+				result = d3ddev->CreateOffscreenPlainSurface(
+							 14,                //width of the surface
+							 14,                //height of the surface
+							 D3DFMT_X8R8G8B8,    //surface format
+							 D3DPOOL_DEFAULT,    //memory pool to use
+							 misc + i,           //pointer to the surface  bo
+							 NULL);
+				if (!SUCCEEDED(result)) return false;
+				rec.top=0;
+				rec.bottom=rec.top+14;
+				rec.left=i*14;
+				rec.right=rec.left+14;
+				result=D3DXLoadSurfaceFromFile(
+						   *(misc+i),            //destination surface
+						   NULL,               //destination palette
+						   NULL,               //destination rectangle
+						   "graphics/misc.bmp",                  //source filename
+						   &rec,               //source rectangle
+						   D3DX_DEFAULT,       //controls how image is filtered
+						   0,                  //for transparency (0 for none)
+						   NULL);
 
+				if (!SUCCEEDED(result)) return false;
+				//d3ddev->StretchRect(misc[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+		}
+		else
+		{
+			   result = d3ddev->CreateOffscreenPlainSurface(
+							 28,                //width of the surface
+							 14,                //height of the surface
+							 D3DFMT_X8R8G8B8,    //surface format
+							 D3DPOOL_DEFAULT,    //memory pool to use
+							 misc + i,           //pointer to the surface  bo
+							 NULL);
+				if (!SUCCEEDED(result)) return false;
+				rec.top=0;
+				rec.bottom=rec.top+14;
+				rec.left=(i-1)*28;
+				rec.right=rec.left+28;
+				result=D3DXLoadSurfaceFromFile(
+						   *(misc+i),            //destination surface
+						   NULL,               //destination palette
+						   NULL,               //destination rectangle
+						   "graphics/misc.bmp",                  //source filename
+						   &rec,               //source rectangle
+						   D3DX_DEFAULT,       //controls how image is filtered
+						   0,                  //for transparency (0 for none)
+						   NULL);
+
+				if (!SUCCEEDED(result)) return false;
+		}
+  
+    }
+	for(int i=0; i<10; i++)
+    {
+        result = d3ddev->CreateOffscreenPlainSurface(
+                     14,                //width of the surface
+                     14,                //height of the surface
+                     D3DFMT_X8R8G8B8,    //surface format
+                     D3DPOOL_DEFAULT,    //memory pool to use
+                     num + i,           //pointer to the surface  bo
+                     NULL);
+        if (!SUCCEEDED(result)) return false;
+        rec.top=0;
+        rec.bottom=rec.top+14;
+        rec.left=i*14;
+        rec.right=rec.left+14;
+        result=D3DXLoadSurfaceFromFile(
+                   *(num+i),            //destination surface
+                   NULL,               //destination palette
+                   NULL,               //destination rectangle
+                   "graphics/num.bmp",                  //source filename
+                   &rec,               //source rectangle
+                   D3DX_DEFAULT,       //controls how image is filtered
+                   0,                  //for transparency (0 for none)
+                   NULL);
+
+        if (!SUCCEEDED(result)) return false;
+		//d3ddev->StretchRect(num[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    }
+	 result = d3ddev->CreateOffscreenPlainSurface(
+                     248,                //width of the surface
+                     160,                //height of the surface
+                     D3DFMT_X8R8G8B8,    //surface format
+                     D3DPOOL_DEFAULT,    //memory pool to use
+                     &gameover,           //pointer to the surface  bo
+                     NULL);
+        if (!SUCCEEDED(result)) return false;
+        rec.top=0;
+        rec.bottom=rec.top+160;
+        rec.left=0;
+        rec.right=rec.left+248;
+        result=D3DXLoadSurfaceFromFile(
+                   gameover,            //destination surface
+                   NULL,               //destination palette
+                   NULL,               //destination rectangle
+                   "graphics/gameover.bmp",                  //source filename
+                   &rec,               //source rectangle
+                   D3DX_DEFAULT,       //controls how image is filtered
+                   0,                  //for transparency (0 for none)
+                   NULL);
+
+        if (!SUCCEEDED(result)) return false;
+		//d3ddev->StretchRect(gameover, NULL, backbuffer, &rec, D3DTEXF_NONE);
+   
+    for(int i=0; i<2; i++)
+    {
+        result = d3ddev->CreateOffscreenPlainSurface(
+                     32,                //width of the surface
+                     32,                //height of the surface
+                     D3DFMT_X8R8G8B8,    //surface format
+                     D3DPOOL_DEFAULT,    //memory pool to use
+                     shield+i,           //pointer to the surface  bo
+                     NULL);
+        if (!SUCCEEDED(result)) return false;
+        rec.top=i*32;
+        rec.bottom=rec.top+32;
+        rec.left=0;
+        rec.right=rec.left+32;
+        result=D3DXLoadSurfaceFromFile(
+                   *(shield+i),            //destination surface
+                   NULL,               //destination palette
+                   NULL,               //destination rectangle
+                   "graphics/shield.bmp",                  //source filename
+                   &rec,               //source rectangle
+                   D3DX_DEFAULT,       //controls how image is filtered
+                   0,                  //for transparency (0 for none)
+                   NULL);
+
+        if (!SUCCEEDED(result)) return false;
+       // d3ddev->StretchRect(shield[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    }
+    return true;
+}
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
 {
     HRESULT result;
@@ -75,7 +247,7 @@ bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
                    NULL);
 
         if (!SUCCEEDED(result)) return false;
-   //   d3ddev->StretchRect(bore[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+  //  d3ddev->StretchRect(bore[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
     }
     return true;
 }
@@ -171,6 +343,19 @@ int WINAPI WinMain(HINSTANCE hInstance,
         rec1.left=0;
         rec1.right=416;
         d3ddev->Present(&rec1, &rec, NULL, NULL);
+	    rec1.top=0;
+        rec1.bottom=416;
+        rec1.left=0;
+        rec1.right=112;
+		rec.top=16;
+		rec.left=528;
+		rec.right=640;
+		rec.bottom=432;
+		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
+        //d3ddev->Present(&rec1, &rec, NULL, NULL);
+		drawsidebar();
+		//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
+		d3ddev->Present(&rec1, &rec, NULL, NULL);
         fprintf(fpi,"fgh\n");
         fflush(fpi);
         clock_t end=clock();
@@ -239,7 +424,7 @@ bool initdirectx()
     ExplodeInit("graphics/explode1.bmp","graphics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
     BulletbmpInit("graphics/bullet.bmp",(LPDIRECT3DSURFACE9 *)&bulletbmp);
 	BoreInit("graphics/bore.bmp" ,(LPDIRECT3DSURFACE9 *)&bore);
-
+    RemainInit();
 
 
     return true;

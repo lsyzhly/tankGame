@@ -121,6 +121,7 @@ void readFile(char *path)
 }
 void ChooseLevel(int lev)
 {
+    CLevel = lev;
     if(lev>=20){
         MessageBox(hwnd,"win!","win!",0);
         exit(0);

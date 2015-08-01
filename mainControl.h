@@ -14,6 +14,7 @@ extern bumpchecker *checker;
 extern int etanks;
 extern unsigned char etank[20];
 extern int ertank;
+extern int CLevel;
 extern int etanks;
 extern int level;
 
