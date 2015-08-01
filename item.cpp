@@ -382,12 +382,20 @@ Bullet *Tank::fire()
 void moveSquare::reDirect(direct drt)
 {
     this->drt=drt;
+    if(drt>3){
+        fprintf(fpi,"reDirect wrong!%d\n",drt);
+        fflush(fpi);
+    }
     draw->move(-1,-1,MOVESETDIRECT|drt);
 }
 
 void moveSquare::moveDirect(direct drt,int size)
 {
     this->drt=drt;
+    if(drt>3){
+        fprintf(fpi,"moveDirect wrong!%d\n",drt);
+        fflush(fpi);
+    }
     draw->move(-1,-1,MOVEDIRECT|drt|(size<<4));
 }
 Tank::~Tank()

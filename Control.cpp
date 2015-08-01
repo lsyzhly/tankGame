@@ -42,7 +42,7 @@ bool autoTankControl::run()
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
     unsigned int d=rand()%5;
-    if(d==0)
+    if(d=1)
     {
         tank->fire();
     }

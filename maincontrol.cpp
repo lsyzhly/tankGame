@@ -161,8 +161,10 @@ void clean()
     fflush(fpi);
     for(Mlist::iterator a=OnTimelist.begin();a!=OnTimelist.end();){
         if((**a)()){
+            printf("runed\n");
             a=OnTimelist.erase(a);
         }else{
+            printf("pass\n");
             ++a;
         }
     }
@@ -170,6 +172,8 @@ void clean()
 
 void runControls()
 {
+    fprintf(fpi,"start run control\n");
+    fflush(fpi);
     std::list<cpointer> pset;
     for (std::map<cpointer,bool>::iterator a = controls.begin();
             a != controls.end(); a++)
@@ -179,31 +183,47 @@ void runControls()
             cpointer ai=a->first;
             if(ai->run())
             {
+                fprintf(fpi,"runControls:remove %p\n",ai);
+                fflush(fpi);
                 pset.push_back(ai);
             }
         }
     }
+    fprintf(fpi,"runControls:removing\n");
+    fflush(fpi);
     for (std::list<cpointer>::iterator it = pset.begin();
             it != pset.end(); it++)
     {
+        fprintf(fpi,"runControls:removing %p\n",*it);
+        fflush(fpi);
         remove(*it);
+        fprintf(fpi,"runControls:removed %p\n",*it);
+        fflush(fpi);
     }
+    fprintf(fpi,"finish runcontrol\n");
+    fflush(fpi);
 }
 
 void rePaint()
 {
+    fprintf(fpi,"paint n\n");
+    fflush(fpi);
         for (std::set<pointer>::iterator a = items.begin();
                 a != items.end(); a++)
         {
             (*a)->draw->Repaint();
 
         }
+    fprintf(fpi,"paint top\n");
+    fflush(fpi);
         for (std::set<pointer>::iterator a = topLevelItem.begin();
                 a != topLevelItem.end(); a++)
         {
             (*a)->draw->Repaint();
 
         }
+    fprintf(fpi,"paint hq\n");
+    fflush(fpi);
         //*********************
          for (std::set<pointer>::iterator a = hqitems.begin();
                 a != hqitems.end(); a++)
@@ -281,6 +301,7 @@ void freeItem()
     }
     items.clear();
     topLevelItem.clear();
+    OnTimelist.clear();
     delete checker;
 }
 
@@ -392,7 +413,7 @@ void addEnemyTank(){
             if(etanks==0){
                 fprintf(fpi,"choosingd\n");
                 fflush(fpi);
-                addTimeFun((OnTime)ChooseLevel,300,++level);
+                addTimeFun(8,(OnTime)ChooseLevel,300,++level);
                 etanks=-1;
                 //TODO OnWin
                 return;
@@ -411,7 +432,7 @@ void addEnemyTank(){
             int rand_red=!(rand()&0x7);
             int n=rand()%3;
             int type=etank[rand_t];
-             etank[rand_t]=etank[--ertank];
+            etank[rand_t]=etank[--ertank];
             int pvalue=0;
             int speed=2;
             if(type==2){
