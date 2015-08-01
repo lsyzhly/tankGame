@@ -14,7 +14,13 @@ extern bumpchecker *checker;
 extern int etanks;
 extern unsigned char etank[20];
 extern int ertank;
+<<<<<<< HEAD
 extern int CLevel;
+=======
+extern int etanks;
+extern int level;
+
+>>>>>>> 8997fe1e5ee49e11fd3de60d07aa0457edf7c388
 //添加组件到删除列表,该组件将会在count次屏幕刷新后删除
 void add_to_delete(pointer a, int count);
 //添加组件
@@ -39,7 +45,8 @@ void rePaint();
 void remove(pointer a);
 void remove(cpointer a);
 
-void freeAll();
+void freeControl();
+void freeItem();
 
 typedef void (*OnTime)(...);
 

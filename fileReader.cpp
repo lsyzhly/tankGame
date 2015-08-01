@@ -121,14 +121,32 @@ void readFile(char *path)
 }
 void ChooseLevel(int lev)
 {
+<<<<<<< HEAD
     CLevel = lev;
+=======
+    if(lev>=20){
+        MessageBox(hwnd,"win!","win!",0);
+        exit(0);
+        //TODO GAME OVER
+        return ;
+    }
+    fflush(fpi);
+    tanks[0]++;
+    tanks[1]++;
+    freeItem();
+    bumpchecker *a=new bumpchecker(13<<4,13<<4);
+    bindbumpchecker(a);
+>>>>>>> 8997fe1e5ee49e11fd3de60d07aa0457edf7c388
 	char filename[20];
     ifstream f;
+    ertank=20;
+    etanks=0;
     f.open("etank.map",ios::in|ios::binary);
 	f.seekg((lev-1)*20);
     f.read((char *)etank, sizeof(char)*20);
 	f.close();
 	sprintf(filename,"map\\level%d.map",lev);
 	readFile(filename);
+	freeControl();
 }
 

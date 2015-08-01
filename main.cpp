@@ -307,6 +307,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* program main loop */
     while (true)
     {
+        fprintf(fpi,"asd\n");
+        fflush(fpi);
         clock_t start=clock();
         /* check for messages */
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -322,8 +324,14 @@ int WINAPI WinMain(HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
+        fprintf(fpi,"qwe\n");
+        fflush(fpi);
         d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
+        fprintf(fpi,"flush\n");
+        fflush(fpi);
         flush();
+        fprintf(fpi,"zxc\n");
+        fflush(fpi);
         RECT rec;
         rec.top=16;
         rec.bottom=432;
@@ -335,6 +343,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         rec1.left=0;
         rec1.right=416;
         d3ddev->Present(&rec1, &rec, NULL, NULL);
+<<<<<<< HEAD
 	    rec1.top=0;
         rec1.bottom=416;
         rec1.left=0;
@@ -348,6 +357,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		drawsidebar();
 		//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
 		d3ddev->Present(&rec1, &rec, NULL, NULL);
+=======
+        fprintf(fpi,"fgh\n");
+        fflush(fpi);
+>>>>>>> 8997fe1e5ee49e11fd3de60d07aa0457edf7c388
         clock_t end=clock();
         end-=start;
         end*=1000;

@@ -19,3 +19,5 @@ direct operator!(direct drt)
         break;
     }
 }
+
+int pcount=0;
