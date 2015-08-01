@@ -250,15 +250,14 @@ bumpType Tank::bump(square *a,direct drt)
     {
         if(d->t->isPlayer==true && this->isPlayer==true && this->isStoppable==false)
         {
-			add_to_delete(a,1);
 			if(this==d->t)
 				return bumpType::through;
 			else
 			{
-
-			setTankState(true,false);
-			addTimeFun(4,(OnTime)setTankState,100,true,true);
-            return bumpType::stop;//暂时将己方定位停止
+                add_to_delete(a,1);
+                setTankState(true,false);
+                addTimeFun(4,(OnTime)setTankState,100,true,true);
+                return bumpType::stop;//暂时将己方定位停止
 			}
 
         }
@@ -447,20 +446,19 @@ bumpType Bullet::bump(square *a,direct drt)
     Tank *c=dynamic_cast<Tank *>(a);//子弹碰到坦克
     if(c)
     {
-		if(this->t->isPlayer==true && c->isPlayer==true && c->isStoppable==false)
+		if(this->t->isPlayer==true && c->isPlayer==true)
         {
 			if(this->t!=c)
 			{
                 add_to_delete(this,1);
                 setTankState(true,false);
                 addTimeFun(4,(OnTime)setTankState,100,true,true);
-                //todo 将坦克的处理不全
                 std::string tempSound="sound/hit.wav";
                 GameSound(hwnd,tempSound);
                 return bumpType::abandonded;
 
-			}
-			return bumpType::through;
+			}else
+                  return bumpType::through;
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
