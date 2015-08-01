@@ -212,8 +212,8 @@ bumpType Tank::bump(square *a,direct drt)
           //  addTimeFun(3,(OnTime)setBossHome,150);
 			std::string tempSound="sound/Fanfare.wav";
 		    GameSound(hwnd,tempSound);
-			setHqState(1);
-            addTimeFun(1,(OnTime)setHqState,250,0);
+			setHqState(qiang);
+            addTimeFun(1,(OnTime)setHqState,250,tu);
 
 			return bumpType::through;
 			}
