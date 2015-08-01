@@ -121,6 +121,7 @@ void readFile(char *path)
 }
 void ChooseLevel(int lev)
 {
+    CLevel = lev;
 	char filename[20];
     ifstream f;
     f.open("etank.map",ios::in|ios::binary);

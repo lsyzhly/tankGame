@@ -23,6 +23,7 @@ bool is_run;
 std::set<pointer> topLevelItem;
 int tanks[2]={100,100};
 int etanks=0;
+int CLevel;
 unsigned char etank[20]={   0,0,0,0,0,0,0,0,0,0,
                             0,0,0,1,1,1,1,2,2,2};
 int ertank=20;
