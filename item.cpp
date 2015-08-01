@@ -255,12 +255,12 @@ bumpType Tank::bump(square *a,direct drt)
 				return bumpType::through;
 			else
 			{
-			
+
 			setTankState(true,false);
 			addTimeFun(4,(OnTime)setTankState,100,true,true);
             return bumpType::stop;//暂时将己方定位停止
 			}
-            
+
         }
 		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
         {
@@ -451,16 +451,16 @@ bumpType Bullet::bump(square *a,direct drt)
         {
 			if(this->t!=c)
 			{
-			add_to_delete(this,1);
-			setTankState(true,false);
-			addTimeFun(4,(OnTime)setTankState,100,true,true);
-            //todo 将坦克的处理不全
-			std::string tempSound="sound/hit.wav";
-		    GameSound(hwnd,tempSound);
-            return bumpType::abandonded;
+                add_to_delete(this,1);
+                setTankState(true,false);
+                addTimeFun(4,(OnTime)setTankState,100,true,true);
+                //todo 将坦克的处理不全
+                std::string tempSound="sound/hit.wav";
+                GameSound(hwnd,tempSound);
+                return bumpType::abandonded;
 
 			}
-            
+			return bumpType::through;
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
@@ -485,7 +485,7 @@ bumpType Bullet::bump(square *a,direct drt)
 				}
 				if(p1!=0)
 				{
-					if(p1->is_red==true)
+                if(p1->is_red==true)
 				{
 					p1->is_red=false;
 					BonusShow *tempBonusShow=new BonusShow(2);
