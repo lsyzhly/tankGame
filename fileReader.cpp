@@ -6,9 +6,12 @@
 #include "BlockShow.h"
 #include "WaterShow.h"
 #include "HeadquartersShow.h"
+#include <fstream>
+#include <iostream>
 using namespace	view;
 using namespace item;
 using namespace Controler;
+using namespace std;
 
 char *newMuchSquare(int x,int y,int size,unmoveType type,int state)
 {
@@ -116,3 +119,31 @@ void readFile(char *path)
         }
     }
 }
+void ChooseLevel(int lev)
+{
+    CLevel = lev;
+    if(lev>=20){
+        MessageBox(hwnd,"win!","win!",0);
+        exit(0);
+        //TODO GAME OVER
+        return ;
+    }
+    fflush(fpi);
+    tanks[0]++;
+    tanks[1]++;
+    freeItem();
+    bumpchecker *a=new bumpchecker(13<<4,13<<4);
+    bindbumpchecker(a);
+	char filename[20];
+    ifstream f;
+    ertank=20;
+    etanks=0;
+    f.open("etank.map",ios::in|ios::binary);
+	f.seekg((lev-1)*20);
+    f.read((char *)etank, sizeof(char)*20);
+	f.close();
+	sprintf(filename,"map\\level%d.map",lev);
+	readFile(filename);
+	freeControl();
+}
+

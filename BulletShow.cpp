@@ -43,6 +43,10 @@ void BulletShow::move(int x, int y, ...)
 }
 void BulletShow::Repaint()
 {
-    d3ddev->StretchRect(bulletbmp[type], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    if(FAILED(d3ddev->StretchRect(bulletbmp[type], NULL, backbuffer, &rec, D3DTEXF_NONE))){
+        fprintf(fpi,"BulletShow:%d,%d,%d,%d,%d\n",type,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
+        throw rec;
+    }
 }
 }

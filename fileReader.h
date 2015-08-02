@@ -6,3 +6,4 @@ void readFile(char *path);
 char *newMuchSquare(int x,int y,int size,unmoveType type,int state);
 //add the Suqare to the MainControl
 void addSqares(char *a,bool isTop=false);
+void ChooseLevel(int level);

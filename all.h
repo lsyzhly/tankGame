@@ -55,6 +55,8 @@ namespace view
 class Show;
 }
 
+extern item::Tank *ptanks[2];
+extern int pcount;
 #define movedrt(drt,rect,size) {\
 	switch(drt){\
 		case up:\

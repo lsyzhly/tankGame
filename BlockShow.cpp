@@ -17,8 +17,10 @@ void BlockShow::move(int x, int y, ...)
         if(n&MOVELEVEL)
         {
             type=n&MOVEVALUE;
-            if(type<3){
+            if(type<4){
                 type--;
+            }else{
+                throw n;
             }
         }
         else if((n&MOVEFLAG)==0)
@@ -42,7 +44,11 @@ void BlockShow::move(int x, int y, ...)
 }
 void BlockShow::Repaint()
 {
-    d3ddev->StretchRect(block[type], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    if(FAILED(d3ddev->StretchRect(block[type], NULL, backbuffer, &rec, D3DTEXF_NONE))){
+        fprintf(fpi,"BlockShow:%d,%d,%d,%d,%d\n",type,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
+        throw rec;
+    }
 }
 
 }

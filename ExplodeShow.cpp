@@ -59,7 +59,11 @@ void ExplodeShow::move(int x, int y, ...)
 }
 void ExplodeShow::Repaint()
 {
-    d3ddev->StretchRect(explode[type], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    if(FAILED(d3ddev->StretchRect(explode[type], NULL, backbuffer, &rec, D3DTEXF_NONE))){
+        fprintf(fpi,"ExplodeShow:%d,%d,%d,%d,%d\n",type,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
+        throw rec;
+    }
 }
 
 }

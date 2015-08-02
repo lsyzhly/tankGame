@@ -64,7 +64,11 @@ void moveSquare::reShow(){
 }
 moveSquare::~moveSquare()
 {
-    //if (control) remove(control);
+    Control *a=control;
+    if (a) {
+        a->setNull();
+        remove(a);
+    }
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {
@@ -199,8 +203,8 @@ bumpType Tank::bump(square *a,direct drt)
           //  addTimeFun(3,(OnTime)setBossHome,150);
 			std::string tempSound="sound/Fanfare.wav";
 		    GameSound(hwnd,tempSound);
-			setHqState(1);
-            addTimeFun(1,(OnTime)setHqState,250,0);
+			setHqState(qiang);
+            addTimeFun(1,(OnTime)setHqState,250,tu);
 
 			return bumpType::through;
 			}
@@ -232,38 +236,26 @@ bumpType Tank::bump(square *a,direct drt)
     {
         return bumpType::stop;
     }
+    //此部分只判断类型不处理碰撞
     Bullet *d=dynamic_cast<Bullet *>(a);//碰撞为子弹的转换未处理子弹碰到无敌坦克
     if(d)
     {
-        if(d->t->isPlayer==true && this->isPlayer==true && this->isStoppable==false)
+        if(d->t->isPlayer==true && this->isPlayer==true)
         {
-			add_to_delete(a,1);
 			if(this==d->t)
 				return bumpType::through;
 			else
 			{
-
-			setTankState(true,false);
-			addTimeFun(4,(OnTime)setTankState,100,true,true);
-            return bumpType::stop;//暂时将己方定位停止
+                return bumpType::stop;//暂时将己方定位停止
 			}
 
         }
 		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
         {
-            //add_to_delete(this,1);
-            //add_to_delete(a,1);
-            this->pvalue=this->pvalue-1;
-            if(this->pvalue==-1)
-            {
-                add_to_delete(this,1);
-                add_to_delete(a,1);
-                return bumpType::abandonded;//消失
-            }
-            else
-            {
-                add_to_delete(a,1);
-                return bumpType::stop;//降级
+            if(pvalue>0){
+                return bumpType::stop;
+            }else{
+                return bumpType::abandonded;
             }
         }
         if(d->t->isPlayer==false && this->isPlayer==false)
@@ -284,6 +276,7 @@ Bullet *Tank::fire()
     int tempy=0;
     int tempType=0;
     this->nowBullets=this->nowBullets+1;
+    if(isPlayer) maxbullets=(pvalue>>1)+1;
     if(this->nowBullets<=this->maxbullets)
     {
         if(this->isPlayer==true && this->pvalue!=0)
@@ -367,12 +360,20 @@ Bullet *Tank::fire()
 void moveSquare::reDirect(direct drt)
 {
     this->drt=drt;
+    if(drt>3){
+        fprintf(fpi,"reDirect wrong!%d\n",drt);
+        fflush(fpi);
+    }
     draw->move(-1,-1,MOVESETDIRECT|drt);
 }
 
 void moveSquare::moveDirect(direct drt,int size)
 {
     this->drt=drt;
+    if(drt>3){
+        fprintf(fpi,"moveDirect wrong!%d\n",drt);
+        fflush(fpi);
+    }
     draw->move(-1,-1,MOVEDIRECT|drt|(size<<4));
 }
 Tank::~Tank()
@@ -434,20 +435,18 @@ bumpType Bullet::bump(square *a,direct drt)
     Tank *c=dynamic_cast<Tank *>(a);//子弹碰到坦克
     if(c)
     {
-		if(this->t->isPlayer==true && c->isPlayer==true && c->isStoppable==false)
+		if(this->t->isPlayer==true && c->isPlayer==true)
         {
 			if(this->t!=c)
 			{
                 add_to_delete(this,1);
                 setTankState(true,false);
                 addTimeFun(4,(OnTime)setTankState,100,true,true);
-                //todo 将坦克的处理不全
                 std::string tempSound="sound/hit.wav";
                 GameSound(hwnd,tempSound);
                 return bumpType::abandonded;
-
-			}
-			return bumpType::through;
+			}else
+                return bumpType::through;
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
@@ -477,7 +476,7 @@ bumpType Bullet::bump(square *a,direct drt)
 					p1->is_red=false;
 					BonusShow *tempBonusShow=new BonusShow(2);
 				    unmoveSquare *tempBonus=new unmoveSquare (tempX,tempY,16,tempBonusShow,(unmoveType)tempB);
-				    addItem(tempBonus);
+				    addItem(tempBonus,true);
 				}
 				}
 				if(p2!=0)
@@ -493,7 +492,7 @@ bumpType Bullet::bump(square *a,direct drt)
 
 			}
             c->pvalue=c->pvalue-1;
-            if(c->pvalue==-1)
+            if(c->pvalue<0)
             {
                 add_to_delete(this,1);
                 add_to_delete(a,1);
@@ -538,3 +537,4 @@ Bullet::~Bullet()
     t->nowBullets--;
 }
 }
+Tank *ptanks[2];

@@ -1,6 +1,7 @@
 #include "maincontrol.h"
 #include "nbumpchecker.h"
 #include "Control.h"
+#include "fileReader.h"
 #include "item.h"
 #include "ExplodeShow.h"
 #include "PlayerTankShow.h"
@@ -12,6 +13,7 @@
 #define ARRAYSIZE 32
 #define BUFFSIZE 64
 std::map<pointer,int> to_delete;
+int level=1;
 MEMSTRUCT<BUFFSIZE>*OnTimeMap=(MEMSTRUCT<BUFFSIZE>*)calloc(sizeof(MEMSTRUCT<BUFFSIZE>),ARRAYSIZE);
 typedef list<MEMSTRUCT<BUFFSIZE>*> Mlist;
 Mlist OnTimelist;
@@ -23,9 +25,13 @@ bool is_run;
 std::set<pointer> topLevelItem;
 int tanks[2]={100,100};
 int etanks=0;
-unsigned char etank[20]={   0,0,0,0,0,0,0,0,0,0,
-                            0,0,0,1,1,1,1,2,2,2};
+int CLevel;
+
 int ertank=20;
+unsigned char etank[20];/*={   0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,1,1,1,1,2,2,2}*/;
+
+
 bumpchecker *checker;
 void newTank(Tank *tank,Show *a=0);
 void add_to_delete(pointer a, int count)
@@ -43,10 +49,10 @@ void setHqState(int state)
 {
 	std::set<pointer>::iterator ai = hqitems.begin();
 	ai++;
-	 for (;ai != hqitems.end(); ai++)
+    for (;ai != hqitems.end(); ai++)
     {
         pointer a = *ai;
-		a->draw->move(-1,-1,state);
+		a->draw->move(-1,-1,state|MOVELEVEL);
 
     }
 
@@ -121,6 +127,8 @@ void bindbumpchecker(bumpchecker *checker)
 
 void clean()
 {
+    fprintf(fpi,"cleanitem\n");
+    fflush(fpi);
     std::list<pointer> pset;
     for (std::map<pointer, int>::iterator it = to_delete.begin();
             it != to_delete.end(); it++)
@@ -136,22 +144,34 @@ void clean()
         to_delete.erase(*it);
         remove(*it);
     }
+    fprintf(fpi,"OnTimeMap\n");
+    fflush(fpi);
     for(int i=0; i<ARRAYSIZE; i++)
     {
         if(OnTimeMap[i].count)
             OnTimeMap[i]();
     }
+    fprintf(fpi,"OnTimelist\n");
+    fflush(fpi);
     for(Mlist::iterator a=OnTimelist.begin();a!=OnTimelist.end();){
         if((**a)()){
+            fprintf(fpi,"runed\n");
+            fflush(fpi);
             a=OnTimelist.erase(a);
         }else{
+            fprintf(fpi,"pass\n");
+            fflush(fpi);
             ++a;
         }
     }
+    fprintf(fpi,"clean fin\n");
+    fflush(fpi);
 }
 
 void runControls()
 {
+    fprintf(fpi,"start run control\n");
+    fflush(fpi);
     std::list<cpointer> pset;
     for (std::map<cpointer,bool>::iterator a = controls.begin();
             a != controls.end(); a++)
@@ -159,42 +179,70 @@ void runControls()
         if(a->second)
         {
             cpointer ai=a->first;
+            TankControl *t=dynamic_cast<TankControl*>(ai);
+            if(t){
+                fprintf(fpi,"tankcontrol\n");
+                fflush(fpi);
+            }
+            bulletControl *ti=dynamic_cast<bulletControl *>(ai);
+            if(ti){
+                fprintf(fpi,"BulletControl\n");
+                fflush(fpi);
+            }
+            if(ai==0){
+                continue;
+            }
             if(ai->run())
             {
+                fprintf(fpi,"runControls:remove %p\n",ai);
+                fflush(fpi);
                 pset.push_back(ai);
             }
         }
     }
+    fprintf(fpi,"runControls:removing\n");
+    fflush(fpi);
     for (std::list<cpointer>::iterator it = pset.begin();
             it != pset.end(); it++)
     {
+        fprintf(fpi,"runControls:removing %p\n",*it);
+        fflush(fpi);
         remove(*it);
+        fprintf(fpi,"runControls:removed %p\n",*it);
+        fflush(fpi);
     }
+    fprintf(fpi,"finish runcontrol\n");
+    fflush(fpi);
 }
 
 void rePaint()
 {
-    for (std::set<pointer>::iterator a = items.begin();
-            a != items.end(); a++)
-    {
-        (*a)->draw->Repaint();
+    fprintf(fpi,"paint n\n");
+    fflush(fpi);
+        for (std::set<pointer>::iterator a = items.begin();
+                a != items.end(); a++)
+        {
+            (*a)->draw->Repaint();
 
-    }
-    for (std::set<pointer>::iterator a = topLevelItem.begin();
-            a != topLevelItem.end(); a++)
-    {
-        (*a)->draw->Repaint();
+        }
+    fprintf(fpi,"paint top\n");
+    fflush(fpi);
+        for (std::set<pointer>::iterator a = topLevelItem.begin();
+                a != topLevelItem.end(); a++)
+        {
+            (*a)->draw->Repaint();
 
-    }
-	//*********************
-     for (std::set<pointer>::iterator a = hqitems.begin();
-            a != hqitems.end(); a++)
-    {
+        }
+    fprintf(fpi,"paint hq\n");
+    fflush(fpi);
+        //*********************
+         for (std::set<pointer>::iterator a = hqitems.begin();
+                a != hqitems.end(); a++)
+        {
 
-        (*a)->draw->Repaint();
-    }
-	//*********************
-
+            (*a)->draw->Repaint();
+        }
+        //*********************
 }
 
 void reremove(pointer a){
@@ -202,7 +250,6 @@ void reremove(pointer a){
     topLevelItem.erase(a);
 	//*********************
 	//*********************
-    checker->remove(a);
     delete a;
     hasdelete.erase(a);
 }
@@ -219,12 +266,14 @@ void remove(pointer a)
             delete b->draw;
             b->draw=new ExplodeShow(2,1);
             b->draw->move(b->x,b->y);
-            remove(b->control);
             if(b->control!=0)remove(b->control);
+            b->control=0;
             checker->remove(a);
             addTimeFun((OnTime)reremove,10,a);
             buid++;
             hasdelete.insert(a);
+        }else{
+            //throw a;
         }
     }else if(c){
         if(hasdelete.find(a)==hasdelete.end()){
@@ -232,10 +281,13 @@ void remove(pointer a)
             c->draw=new ExplodeShow(2,0);
             c->draw->move(c->x,c->y);
             if(c->control!=0)remove(c->control);
+            c->control=0;
             checker->remove(a);
             addTimeFun((OnTime)reremove,5,a);
             taid++;
             hasdelete.insert(a);
+        }else{
+            //throw a;
         }
     }else{
         items.erase(a);
@@ -251,9 +303,31 @@ void remove(cpointer a)
     delete a;
 }
 
-void freeAll()
+void freeItem()
 {
+    for (std::set<pointer>::iterator ai = items.begin(); ai != items.end(); ai++)
+    {
+        delete *ai;
+    }
+    for (std::set<pointer>::iterator ai = topLevelItem.begin();
+            ai != topLevelItem.end(); ai++)
+    {
+        delete *ai;
+    }
+    items.clear();
+    topLevelItem.clear();
+    OnTimelist.clear();
     delete checker;
+}
+
+void freeControl()
+{
+    for (std::map<cpointer,bool>::iterator a = controls.begin();
+            a != controls.end(); a++)
+    {
+        delete a->first;
+    }
+    controls.clear();
 }
 
 void addTimeFun(unsigned char id,OnTime on,int n,...)
@@ -314,28 +388,53 @@ void deleteTank(bool type){
 
 void newTank(Tank *tank,Show *a){
     if(a==0){
-        printf("add %p\n",tank);
         addItem(tank);
         tank->isStoppable=true;
         Show *b=tank->draw;
         tank->draw=new BoreShow(2);
         tank->reShow();
-        addTimeFun((OnTime)newTank,50,tank,b);
+        addTimeFun((OnTime)newTank,70,tank,b);
+        ptanks[pcount++&0x1]=tank;
+        fprintf(fpi,"add tank%p,%p\n",tank,tank->control);
+        if(ptanks[0])
+            fprintf(fpi,"ptr:%p,%p\n",ptanks[0],ptanks[0]->control);
+        if(ptanks[1])
+            fprintf(fpi,"ptr:%p,%p\n",ptanks[1],ptanks[1]->control);
+        fflush(fpi);
     }else{
+        fprintf(fpi,"read tank%p\n",tank);
+        fprintf(fpi,"new tanking\n");
+        fflush(fpi);
         tank->isStoppable=false;
-        printf("do %p,%p\n",tank,a);
+        if(tank->control==0){
+            throw tank;
+        }
         addControl(tank->control);
+        fprintf(fpi,"delete draw\n");
+        fflush(fpi);
         delete tank->draw;
         tank->draw=a;
         tank->reShow();
+        fprintf(fpi,"finish tanking\n");
+        fflush(fpi);
     }
 }
 
 void addEnemyTank(){
     if(etanks<4){
+        fprintf(fpi,"etanks:%d,ertanks:%d\n",etanks,ertank);
+        fflush(fpi);
         if(ertank==0){
-            //TODO OnWin
-            return;
+            if(etanks==0){
+                fprintf(fpi,"choosingd\n");
+                fflush(fpi);
+                addTimeFun(8,(OnTime)ChooseLevel,300,++level);
+                etanks=-1;
+                //TODO OnWin
+                return;
+            }else{
+                return;
+            }
         }
         static clock_t cl=clock();
         clock_t clo=clock();
@@ -344,7 +443,7 @@ void addEnemyTank(){
             Show *s;
             Tank *tank;
             int rand_t=rand()%ertank;
-            int rand_red=1/*!(rand()&0x7)*/;
+            int rand_red=!(rand()&0x7);
             int n=rand()%3;
             int type=etank[rand_t];
             etank[rand_t]=etank[--ertank];
