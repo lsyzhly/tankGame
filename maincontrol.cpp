@@ -1,5 +1,5 @@
 #include "maincontrol.h"
-#include "bumpcheck.h"
+#include "nbumpchecker.h"
 #include "Control.h"
 #include "item.h"
 #include "ExplodeShow.h"
@@ -75,10 +75,9 @@ void OnPlayerTank(bool type){
         tanks[type]--;
         Show *s;
         Tank *tank;
-        Control *b;
         s=new PlayerTankShow(2,type);
         tank=new Tank(4<<type<<4,12<<4,14,2,up,s,1,0,true);
-        b=new playTankControl(tank,type);
+        new playTankControl(tank,type);
         newTank(tank);
         return;
     }
@@ -102,29 +101,20 @@ void bindbumpchecker(bumpchecker *checker)
     for (std::set<pointer>::iterator ai = items.begin(); ai != items.end(); ai++)
     {
         pointer a = *ai;
-        if(!checker->add(a))
-        {
-            throw a;
-        }
+        checker->add(a);
     }
     for (std::set<pointer>::iterator ai = topLevelItem.begin();
             ai != topLevelItem.end(); ai++)
     {
         pointer a = *ai;
-        if(!checker->add(a))
-        {
-            throw a;
-        }
+        checker->add(a);
     }
 	//*********************
 	 for (std::set<pointer>::iterator ai = hqitems.begin();
             ai != hqitems.end(); ai++)
     {
         pointer a = *ai;
-        if(!checker->add(a))
-        {
-            throw a;
-        }
+        checker->add(a);
     }
    //*********************
 }
@@ -353,7 +343,6 @@ void addEnemyTank(){
             etanks++;
             Show *s;
             Tank *tank;
-            Control *b;
             int rand_t=rand()%ertank;
             int rand_red=1/*!(rand()&0x7)*/;
             int n=rand()%3;
@@ -370,7 +359,7 @@ void addEnemyTank(){
                 speed+=type;
             }
             tank=new Tank((n*6)<<4,0,14,speed,up,s,1,pvalue,false);
-            b=new autoTankControl(tank);
+            new autoTankControl(tank);
             newTank(tank);
             cl=clock();
         }

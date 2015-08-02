@@ -12,7 +12,7 @@
 #include <stdio.h>
 extern int *test_type;
 extern FILE *fpi;
-enum direct { up=0, down=2, left=3, right=1 };
+enum direct { up=0, down=2, left=3, right=1 ,wrong};
 
 //不能移动的类型,墙和土
 enum unmoveType { tu=1 ,qiang=2, cao=3,shui=4,boss=5,tank=6,myclock=7,shovel=8,bomp=9,star=10,cap=11};
@@ -25,9 +25,6 @@ enum bumpType
     through = 4,//碰撞后穿过
     astop = 3
 };
-
-//方向取反
-direct operator!(direct);
 
 namespace bump
 {
@@ -42,6 +39,7 @@ typedef Control* cpointer;
 
 namespace item
 {
+class pos;
 class square;
 class moveSquare;
 class unmoveSquare;

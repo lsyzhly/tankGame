@@ -1,12 +1,15 @@
 #include "nbumpchecker.h"
 #include <list>
 #include <algorithm>
-using namespace std;
-
-pos::pos(int x,int y){
-    this->x=x;
-    this->y=x;
-}
+using std::list;
+using std::vector;
+using std::max;
+using std::min;
+using std::unique;
+using std::pair;
+using std::make_pair;
+using namespace item;
+namespace bump{
 bool bumphandle(mpointer a,pointer b,bumpchecker *){
     static int n=1;
     printf("%d\n",n++);
@@ -21,6 +24,10 @@ Cmd::Cmd(mpointer target){
     this->drt=wrong;
     this->size=0;
     isVaild=false;
+}
+
+inline void Cmd::run(){
+    target->moveDirect(drt,rsize);
 }
 
 #define addPos(target,x,y,z)\
@@ -53,7 +60,6 @@ Cmd::Cmd(mpointer target){
     }\
 
 void Cmd::complie(){
-    if(isVaild) return;
     rsize=msize;
     reSize(msize);
     int i;
@@ -66,11 +72,19 @@ void Cmd::complie(){
     }else if(drt==right){
         addPos(target,x,y,++);
     }
-    isVaild=true;
 }
 
-void bumpchecker::run_deque(){
-    deleteIndex.clear();
+Cmd &bumpchecker::operator[](mpointer pointer){
+    cmds[pointer->cmdIndex].isVaild=false;
+    return cmds[pointer->cmdIndex];
+}
+void bumpchecker::complie(){
+    printf("%d,%d\n",cmds[0].msize,cmds[1].msize);
+    for(int i=0;i<cmds.size();i++){
+        cmds[i].complie();
+    }
+}
+void bumpchecker::RunMcmd(){
     int vsize=cmds.size();
     for(int z=0;z<vsize;z++){
         Cmd &cmd=cmds[z];
@@ -96,13 +110,20 @@ void bumpchecker::run_deque(){
                         if(n==false){
                             n=true;
                             if(bumphandle(cmd.target,ocmd.target,this)){
+                                if(cmd.drt==wrong){
+                                    ocmd.rsize=min(ocmd.rsize,omcmd.index);
+                                }else if(cmd.drt==wrong){
+                                    cmd.rsize=min(cmd.rsize,mcmd.index);
+                                }
+                                //同一方向,有bug
                                 if(cmd.drt==ocmd.drt){
                                     if(mcmd.index<omcmd.index){
                                         ocmd.rsize=min(ocmd.rsize,cmd.msize);
                                     }else{
                                         cmd.rsize=min(cmd.rsize,ocmd.msize);
                                     }
-                                }else if((cmd.drt&0x2)==(ocmd.drt&0x2)){
+                                //相反方向 不完美
+                                }else if((cmd.drt&0x1)==(ocmd.drt&0x1)){
                                     int len=mcmd.index+omcmd.index;
                                     int allsize=cmd.msize+ocmd.msize;
                                     unsigned int mlen=len*(cmd.msize)/allsize;
@@ -121,36 +142,37 @@ void bumpchecker::run_deque(){
                 }
             }
         }
-        sort(deleteIndex.begin(),deleteIndex.end());
-        vector<int>::iterator end=unique(deleteIndex.begin(),deleteIndex.end());
-        for(vector<int>::iterator it=deleteIndex.begin();it<end;it++){
-            cmds[*it]=cmds.back();
-            cmds[*it].target->cmdIndex=*it;
-            cmds.pop_back();
-        }
-        for(int i=0;i<blockList.size();i++){
-
-        }
     }
     bumpdata.clear();
 }
 
-
-
-void bumpchecker::add_to_deque(mpointer a){
-    a->cmdIndex=cmds.size();
-    cmds.push_back(Cmd(a));
-}
-
-Cmd &bumpchecker::operator[](mpointer pointer){
-    cmds[pointer->cmdIndex].isVaild=false;
-    return cmds[pointer->cmdIndex];
-}
-void bumpchecker::complie(){
-    printf("%d,%d\n",cmds[0].msize,cmds[1].msize);
+void bumpchecker::runCmd(){
     for(int i=0;i<cmds.size();i++){
-        cmds[i].complie();
+        cmds[i].run();
+        cmds[i].drt=wrong;
     }
 }
+
 bumpchecker::bumpchecker(int width,int length):blockmap(width,length),movemap(width,length){
+}
+
+void bumpchecker::add(pointer a){
+    posSet *b=a->getRange();
+    for(posSet::iterator c=b->begin();c!=b->end();c++){
+        blockmap[*c]=a;
+    }
+    delete b;
+}
+void bumpchecker::remove(pointer a){
+    posSet *b=a->getRange();
+    for(posSet::iterator a=b->begin();a!=b->end();a++){
+        blockmap[*a]=0;
+    }
+    delete b;
+}
+void bumpchecker::remove(mpointer a){
+    cmds[a->cmdIndex]=cmds.back();
+    cmds.pop_back();
+    cmds[a->cmdIndex].target->cmdIndex=a->cmdIndex;
+}
 }

@@ -8,7 +8,7 @@
 #include "control.h"
 #include "item.h"
 #include "PlayerTankShow.h"
-#include "bumpcheck.h"
+#include "nbumpchecker.h"
 #include "BulletShow.h"
 #include "WaterShow.h"
 #include "BoreShow.h"
@@ -25,7 +25,6 @@ void init()
 {
     srand(time(NULL));
     mspf=30;
-    int n;
     fpi=fopen("D:\\asd.txt","w");
     readFile("map\\level1.map");
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
@@ -36,7 +35,6 @@ void init()
 
 void flush()
 {
-    static int n;
     runControls();
     rePaint();
     clean();

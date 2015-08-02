@@ -2,7 +2,7 @@
 #define ITEM_H
 #include <set>
 #include <list>
-#include <list>
+#include <vector>
 #include "view.h"
 #include "BulletShow.h"
 #include "all.h"
@@ -13,9 +13,15 @@ using Controler::cpointer;
 namespace item
 {
 using view::Show;
-typedef set<pair<int, int>> posSet;
+typedef std::vector<pos> posSet;
 typedef std::list<pointer> sList;
 //正方形组件,所有组件的基类,抽象类
+class pos{
+public:
+    int x:16;
+    int y:16;
+    pos(int x,int y);
+};
 class square
 {
 protected:
@@ -25,12 +31,8 @@ public:
     int y;
     int size;
     bool isBump;
-    //轮廓集合
-    posSet pos_set;
     //画图器
     Show *draw;
-    //指向轮廓对应点的指针
-    set<sList *> occupy;
 
     square(int x, int y, int size, Show *draw);
     //获取对象轮廓
@@ -47,9 +49,10 @@ public:
     //移动速度
     int speed;
     cpointer control;
+    int cmdIndex;
     moveSquare(int x, int y, int size, Show *draw, direct drt, int speed);
     //向drt方向移动一个单位
-    virtual void move(direct drt);
+    virtual void move(direct drt,int size);
     //碰撞处理函数,返回碰撞类型
     virtual bumpType bump(square *a,direct drt) = 0;
     virtual void reShow();

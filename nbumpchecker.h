@@ -9,12 +9,7 @@
 #include "all.h"
 #include "item.h"
 using namespace item;
-class pos{
-public:
-    int x:16;
-    int y:16;
-    pos(int x,int y);
-};
+namespace bump{
 class Cmd;
 //微指令类
 class Mcmd :public std::vector<pos>{
@@ -67,6 +62,7 @@ public:
     bool isVaild;
     Cmd(mpointer target);
     void complie();
+    void run();
 };
 template <typename T>
 class twoarray
@@ -108,18 +104,19 @@ private:
     std::map<std::pair<mpointer,pointer>,bool> bumpdata;
 public:
     bumpchecker(int width,int length);
-    //执行指令队列
-    void run_deque();
     //编译指令队列
     void complie();
-    //添加到指令队列
-    void add_to_deque(mpointer );
-    //删除队列
-    std::vector<int> deleteIndex;
+    //执行微指令
+    void RunMcmd();
+    //执行指令
+    void runCmd();
     //获取
     Cmd &operator[](mpointer pointer);
-    std::vector<pointer> blockList;
+    void remove(pointer );
+    void remove(mpointer );
+    void add(pointer );
+    void add(mpointer );
 };
 bool bumphandle(mpointer,pointer,bumpchecker *);
-
+}
 #endif // NBUMPCHECKER_H_INCLUDED
