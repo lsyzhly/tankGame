@@ -86,8 +86,7 @@ public:
         this->width=width;
     }
     void clear(){
-        delete[] ptr;
-        ptr = new T[length*width];
+        memset(ptr,0,sizeof(T)*length*width);
     }
     ~twoarray(){
         delete[] ptr;

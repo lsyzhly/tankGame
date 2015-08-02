@@ -73,7 +73,7 @@ autoPlayTankControl::autoPlayTankControl(item::Tank *tank,int type):playTankCont
 {
 }
 bool autoPlayTankControl::run()
-{
+{/*
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
     unsigned int d=rand()%5;
@@ -89,11 +89,11 @@ bool autoPlayTankControl::run()
     if(c&bumpType::abandonded)
     {
         return true;
-    }
+    }*/
     return false;
 }
 bool playTankControl::run()
-{
+{/*
     direct dir=(direct)-1;
     UINT *tmp;
     if(0==type) tmp=player1tank;
@@ -126,13 +126,13 @@ bool playTankControl::run()
     }
     if(-1!=dir)
     {
-        int sta/*=checker->move(tank,dir,maxcount)*/;
+        int sta=checker->move(tank,dir,maxcount);
         if(sta&bumpType::abandonded)
         {
             return true;
         }
         return false;
-    }
+    }*/
     return false;
 }
 

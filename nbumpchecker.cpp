@@ -61,6 +61,13 @@ inline void Cmd::run(){
 
 void Cmd::complie(){
     rsize=msize;
+    if(drt==wrong){
+        posSet *a=target->getRange();
+        reSize(1);
+        (*this)[0].assign(a->begin(),a->end());
+        delete a;
+        return;
+    }
     reSize(msize);
     int i;
     if(drt==up){
@@ -71,6 +78,8 @@ void Cmd::complie(){
         addPos(target,x,y,--);
     }else if(drt==right){
         addPos(target,x,y,++);
+    }else {
+        ;
     }
 }
 
@@ -111,8 +120,12 @@ void bumpchecker::RunMcmd(){
                             n=true;
                             if(bumphandle(cmd.target,ocmd.target,this)){
                                 if(cmd.drt==wrong){
-                                    ocmd.rsize=min(ocmd.rsize,omcmd.index);
-                                }else if(cmd.drt==wrong){
+                                    if(ocmd.drt==wrong){
+                                        return;
+                                    }else{
+                                        ocmd.rsize=min(ocmd.rsize,omcmd.index);
+                                    }
+                                }else if(ocmd.drt==wrong){
                                     cmd.rsize=min(cmd.rsize,mcmd.index);
                                 }
                                 //同一方向,有bug
@@ -144,6 +157,7 @@ void bumpchecker::RunMcmd(){
         }
     }
     bumpdata.clear();
+    movemap.clear();
 }
 
 void bumpchecker::runCmd(){
