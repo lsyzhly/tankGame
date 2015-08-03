@@ -79,7 +79,11 @@ void moveSquare::reShow(){
 }
 moveSquare::~moveSquare()
 {
-    if (control) control->setNull();
+    Control *a=control;
+    if (a) {
+        a->setNull();
+        remove(a);
+    }
 }
 unmoveSquare::unmoveSquare(int x, int y, int size,Show *draw, unmoveType utype):square(x,y,size,draw)
 {
@@ -247,37 +251,26 @@ bumpType Tank::bump(square *a,direct drt)
     {
         return bumpType::stop;
     }
+    //此部分只判断类型不处理碰撞
     Bullet *d=dynamic_cast<Bullet *>(a);//碰撞为子弹的转换未处理子弹碰到无敌坦克
     if(d)
     {
-        if(d->t->isPlayer==true && this->isPlayer==true && this->isStoppable==false)
+        if(d->t->isPlayer==true && this->isPlayer==true)
         {
 			if(this==d->t)
 				return bumpType::through;
 			else
 			{
-                add_to_delete(a,1);
-                setTankState(true,false);
-                addTimeFun(4,(OnTime)setTankState,100,true,true);
                 return bumpType::stop;//暂时将己方定位停止
 			}
 
         }
 		if(d->t->isPlayer!=this->isPlayer && this->isStoppable==false)
         {
-            //add_to_delete(this,1);
-            //add_to_delete(a,1);
-            this->pvalue=this->pvalue-1;
-            if(this->pvalue==-1)
-            {
-                add_to_delete(this,1);
-                add_to_delete(a,1);
-                return bumpType::abandonded;//消失
-            }
-            else
-            {
-                add_to_delete(a,1);
-                return bumpType::stop;//降级
+            if(pvalue>0){
+                return bumpType::stop;
+            }else{
+                return bumpType::abandonded;
             }
         }
         if(d->t->isPlayer==false && this->isPlayer==false)
@@ -382,12 +375,20 @@ Bullet *Tank::fire()
 void moveSquare::reDirect(direct drt)
 {
     this->drt=drt;
+    if(drt>3){
+        fprintf(fpi,"reDirect wrong!%d\n",drt);
+        fflush(fpi);
+    }
     draw->move(-1,-1,MOVESETDIRECT|drt);
 }
 
 void moveSquare::moveDirect(direct drt,int size)
 {
     this->drt=drt;
+    if(drt>3){
+        fprintf(fpi,"moveDirect wrong!%d\n",drt);
+        fflush(fpi);
+    }
     draw->move(-1,-1,MOVEDIRECT|drt|(size<<4));
 }
 Tank::~Tank()
@@ -459,9 +460,8 @@ bumpType Bullet::bump(square *a,direct drt)
                 std::string tempSound="sound/hit.wav";
                 GameSound(hwnd,tempSound);
                 return bumpType::abandonded;
-
 			}else
-                  return bumpType::through;
+                return bumpType::through;
         }
         if(this->t->isPlayer==false && c->isPlayer==false)
         {
@@ -507,7 +507,7 @@ bumpType Bullet::bump(square *a,direct drt)
 
 			}
             c->pvalue=c->pvalue-1;
-            if(c->pvalue==-1)
+            if(c->pvalue<0)
             {
                 add_to_delete(this,1);
                 add_to_delete(a,1);

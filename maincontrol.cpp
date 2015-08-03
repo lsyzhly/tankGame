@@ -49,7 +49,7 @@ void setHqState(int state)
 {
 	std::set<pointer>::iterator ai = hqitems.begin();
 	ai++;
-	 for (;ai != hqitems.end(); ai++)
+    for (;ai != hqitems.end(); ai++)
     {
         pointer a = *ai;
 		a->draw->move(-1,-1,state|MOVELEVEL);
@@ -108,29 +108,17 @@ void bindbumpchecker(bumpchecker *checker)
     for (std::set<pointer>::iterator ai = items.begin(); ai != items.end(); ai++)
     {
         pointer a = *ai;
-        if(!checker->add(a))
-        {
-            throw a;
-        }
     }
     for (std::set<pointer>::iterator ai = topLevelItem.begin();
             ai != topLevelItem.end(); ai++)
     {
         pointer a = *ai;
-        if(!checker->add(a))
-        {
-            throw a;
-        }
     }
 	//*********************
 	 for (std::set<pointer>::iterator ai = hqitems.begin();
             ai != hqitems.end(); ai++)
     {
         pointer a = *ai;
-        if(!checker->add(a))
-        {
-            throw a;
-        }
     }
    //*********************
 }
@@ -165,15 +153,23 @@ void clean()
     fflush(fpi);
     for(Mlist::iterator a=OnTimelist.begin();a!=OnTimelist.end();){
         if((**a)()){
+            fprintf(fpi,"runed\n");
+            fflush(fpi);
             a=OnTimelist.erase(a);
         }else{
+            fprintf(fpi,"pass\n");
+            fflush(fpi);
             ++a;
         }
     }
+    fprintf(fpi,"clean fin\n");
+    fflush(fpi);
 }
 
 void runControls()
 {
+    fprintf(fpi,"start run control\n");
+    fflush(fpi);
     std::list<cpointer> pset;
     for (std::map<cpointer,bool>::iterator a = controls.begin();
             a != controls.end(); a++)
@@ -181,33 +177,62 @@ void runControls()
         if(a->second)
         {
             cpointer ai=a->first;
+            TankControl *t=dynamic_cast<TankControl*>(ai);
+            if(t){
+                fprintf(fpi,"tankcontrol\n");
+                fflush(fpi);
+            }
+            bulletControl *ti=dynamic_cast<bulletControl *>(ai);
+            if(ti){
+                fprintf(fpi,"BulletControl\n");
+                fflush(fpi);
+            }
+            if(ai==0){
+                continue;
+            }
             if(ai->run())
             {
+                fprintf(fpi,"runControls:remove %p\n",ai);
+                fflush(fpi);
                 pset.push_back(ai);
             }
         }
     }
+    fprintf(fpi,"runControls:removing\n");
+    fflush(fpi);
     for (std::list<cpointer>::iterator it = pset.begin();
             it != pset.end(); it++)
     {
+        fprintf(fpi,"runControls:removing %p\n",*it);
+        fflush(fpi);
         remove(*it);
+        fprintf(fpi,"runControls:removed %p\n",*it);
+        fflush(fpi);
     }
+    fprintf(fpi,"finish runcontrol\n");
+    fflush(fpi);
 }
 
 void rePaint()
 {
+    fprintf(fpi,"paint n\n");
+    fflush(fpi);
         for (std::set<pointer>::iterator a = items.begin();
                 a != items.end(); a++)
         {
             (*a)->draw->Repaint();
 
         }
+    fprintf(fpi,"paint top\n");
+    fflush(fpi);
         for (std::set<pointer>::iterator a = topLevelItem.begin();
                 a != topLevelItem.end(); a++)
         {
             (*a)->draw->Repaint();
 
         }
+    fprintf(fpi,"paint hq\n");
+    fflush(fpi);
         //*********************
          for (std::set<pointer>::iterator a = hqitems.begin();
                 a != hqitems.end(); a++)
@@ -223,7 +248,6 @@ void reremove(pointer a){
     topLevelItem.erase(a);
 	//*********************
 	//*********************
-    checker->remove(a);
     delete a;
     hasdelete.erase(a);
 }
@@ -240,12 +264,14 @@ void remove(pointer a)
             delete b->draw;
             b->draw=new ExplodeShow(2,1);
             b->draw->move(b->x,b->y);
-            remove(b->control);
             if(b->control!=0)remove(b->control);
+            b->control=0;
             checker->remove(a);
             addTimeFun((OnTime)reremove,10,a);
             buid++;
             hasdelete.insert(a);
+        }else{
+            //throw a;
         }
     }else if(c){
         if(hasdelete.find(a)==hasdelete.end()){
@@ -253,10 +279,13 @@ void remove(pointer a)
             c->draw=new ExplodeShow(2,0);
             c->draw->move(c->x,c->y);
             if(c->control!=0)remove(c->control);
+            c->control=0;
             checker->remove(a);
             addTimeFun((OnTime)reremove,5,a);
             taid++;
             hasdelete.insert(a);
+        }else{
+            //throw a;
         }
     }else{
         items.erase(a);
@@ -285,6 +314,7 @@ void freeItem()
     }
     items.clear();
     topLevelItem.clear();
+    OnTimelist.clear();
     delete checker;
 }
 
@@ -396,7 +426,7 @@ void addEnemyTank(){
             if(etanks==0){
                 fprintf(fpi,"choosingd\n");
                 fflush(fpi);
-                addTimeFun((OnTime)ChooseLevel,300,++level);
+                addTimeFun(8,(OnTime)ChooseLevel,300,++level);
                 etanks=-1;
                 //TODO OnWin
                 return;
@@ -415,7 +445,7 @@ void addEnemyTank(){
             int rand_red=!(rand()&0x7);
             int n=rand()%3;
             int type=etank[rand_t];
-             etank[rand_t]=etank[--ertank];
+            etank[rand_t]=etank[--ertank];
             int pvalue=0;
             int speed=2;
             if(type==2){

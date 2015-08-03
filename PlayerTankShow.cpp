@@ -52,9 +52,15 @@ void PlayerTankShow::move(int x,int y,...)
     {
         throw n;
     }
+    if(dir>3){
+        fprintf(fpi,"wrong play move\n");
+        fflush(fpi);
+        throw dir;
+    }
 }
 void PlayerTankShow::Repaint()
 {
+<<<<<<< HEAD
 	if(isshield==0)
 	{
 		if(0==player)
@@ -73,6 +79,20 @@ void PlayerTankShow::Repaint()
 		cc++;
 	}
 
+=======
+    HRESULT res;
+    if(0==player)
+        res=d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    else if(1==player)
+        res=d3ddev->StretchRect(player2[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    else
+        return;
+    if(FAILED(res)){
+        fprintf(fpi,"PlayerTankShow:%d,%d,%d,%d,%d,%d\n",dir,rank,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
+        throw rec;
+    }
+>>>>>>> 1a581431cf7a2b3c5da6a9769658be9c7f8b4135
 
 }
 }

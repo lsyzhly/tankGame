@@ -42,7 +42,7 @@ bool autoTankControl::run()
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
     unsigned int d=rand()%5;
-    if(d==0)
+    if(d=1)
     {
         tank->fire();
     }
@@ -59,12 +59,38 @@ bool autoTankControl::run()
 }
 autoTankControl::~autoTankControl(){
     etanks--;
-    tank->control=0;
+    if(tank) {
+        tank->control=0;
+        add_to_delete(tank,1);
+    }
 }
 playTankControl::playTankControl(item::Tank *tank,int type):TankControl(tank)
 {
     this->type=type;
     clo=clock();
+}
+autoPlayTankControl::autoPlayTankControl(item::Tank *tank,int type):playTankControl(tank,type)
+{
+}
+bool autoPlayTankControl::run()
+{
+    unsigned int a = rand()%4;
+    unsigned int b = rand() % 500;
+    unsigned int d=rand()%5;
+    if(d=1)
+    {
+        tank->fire();
+    }
+    int c = checker->move(tank, tank->drt,maxcount);
+    if (c&bumpType::astop || b==0)
+    {
+        c=checker->move(tank, (direct)a,maxcount);
+    }
+    if(c&bumpType::abandonded)
+    {
+        return true;
+    }
+    return false;
 }
 bool playTankControl::run()
 {
@@ -112,9 +138,12 @@ bool playTankControl::run()
 }
 
 playTankControl::~playTankControl(){
-    if(tank) tank->control=0;
+    if(tank) {
+        tank->control=0;
+        add_to_delete(tank,1);
+    }
     fflush(fpi);
-    OnPlayerTank(type);
+    addTimeFun((OnTime)OnPlayerTank,1,type);
 }
 bulletControl::bulletControl(Bullet *a):Control(a->speed)
 {
@@ -138,6 +167,9 @@ bool bulletControl::run()
 }
 bulletControl::~bulletControl()
 {
-    bul->control=0;
+    if(bul) {
+        bul->control=0;
+        add_to_delete(bul,1);
+    }
 }
 }

@@ -42,7 +42,11 @@ void HeadquartersShow::move(int x, int y, ...)
 }
 void HeadquartersShow::Repaint()
 {
-    d3ddev->StretchRect(headquarters[type], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    if(FAILED(d3ddev->StretchRect(headquarters[type], NULL, backbuffer, &rec, D3DTEXF_NONE))){
+        fprintf(fpi,"HeadquartersShow:%d,%d,%d,%d,%d\n",type,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
+        throw rec;
+    }
 }
 
 }
