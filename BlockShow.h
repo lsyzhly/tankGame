@@ -4,6 +4,7 @@ namespace view
 class BlockShow:public Show
 {
 public:
+	RECT rec;
     BlockShow(int rat);
     int type;                           //type表示block种类，0表示砖头，1表示铁块，2表示草丛
     virtual void Repaint() ;

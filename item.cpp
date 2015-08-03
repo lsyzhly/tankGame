@@ -206,6 +206,7 @@ bumpType Tank::bump(square *a,direct drt)
 			add_to_delete(a,1);
             setCapTankState(this,true);
             addTimeFun(1,(OnTime)setCapTankState,150,this,false);
+         
 			std::string tempSound="sound/Fanfare.wav";
 		    GameSound(hwnd,tempSound);
 			return bumpType::through;
