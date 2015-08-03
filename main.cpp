@@ -307,7 +307,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* program main loop */
     while (true)
     {
-        fprintf(fpi,"asd\n");
+    
         fflush(fpi);
         clock_t start=clock();
         /* check for messages */

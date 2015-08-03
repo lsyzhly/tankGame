@@ -393,11 +393,6 @@ void newTank(Tank *tank,Show *a){
         tank->reShow();
         addTimeFun((OnTime)newTank,70,tank,b);
         ptanks[pcount++&0x1]=tank;
-        fprintf(fpi,"add tank%p,%p\n",tank,tank->control);
-        if(ptanks[0])
-            fprintf(fpi,"ptr:%p,%p\n",ptanks[0],ptanks[0]->control);
-        if(ptanks[1])
-            fprintf(fpi,"ptr:%p,%p\n",ptanks[1],ptanks[1]->control);
         fflush(fpi);
     }else{
         fprintf(fpi,"read tank%p\n",tank);
