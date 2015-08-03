@@ -143,7 +143,7 @@ playTankControl::~playTankControl(){
         add_to_delete(tank,1);
     }
     fflush(fpi);
-    OnPlayerTank(type);
+    addTimeFun((OnTime)OnPlayerTank,1,type);
 }
 bulletControl::bulletControl(Bullet *a):Control(a->speed)
 {
