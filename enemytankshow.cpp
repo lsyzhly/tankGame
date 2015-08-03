@@ -29,12 +29,18 @@ void TankAShow::move(int x, int y, ...)
         countss++;
         int m=(n&MOVEVALUE);
         drt=m&0xf;
+        if(drt>3){
+            throw drt;
+        }
         m>>=4;
         movedrt(drt,rec,(rat*m));
     }
     else if(n&MOVESETDIRECT)
     {
         drt=(direct)(n&MOVEVALUE);
+        if(drt>3){
+            throw drt;
+        }
     }
     else if((n&MOVEFLAG)==0)
     {
@@ -66,6 +72,8 @@ void TankAShow::Repaint()
         n|=0x4;
     }
     if(FAILED(d3ddev->StretchRect(enemy[drt][n],NULL,backbuffer,&rec,D3DTEXF_NONE))){
+        fprintf(fpi,"TankAShow:%d,%d,%d,%d,%d,%d\n",drt,n,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
         throw rec;
     }
     counts++;
@@ -99,6 +107,9 @@ void TankBShow::move(int x, int y,...)
         drt=m&0xf;
         m>>=4;
         movedrt(drt,rec,(rat*m));
+        if(drt>3){
+            throw drt;
+        }
     }
     else if(n&MOVELEVEL)
     {
@@ -107,6 +118,9 @@ void TankBShow::move(int x, int y,...)
     else if(n&MOVESETDIRECT)
     {
         drt=(direct)(n&MOVEVALUE);
+        if(drt>3){
+            throw drt;
+        }
     }
     else if((n&MOVEFLAG)==0)
     {
@@ -137,6 +151,8 @@ void TankBShow::Repaint()
         n|=0x1;
     }
     if(FAILED(d3ddev->StretchRect(enemy[drt|0x4][n],NULL,backbuffer,&rec,D3DTEXF_NONE))){
+        fprintf(fpi,"TankBShow:%d,%d,%d,%d,%d,%d\n",drt,n,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
         throw rec;
     }
     counts++;

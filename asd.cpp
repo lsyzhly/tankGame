@@ -26,7 +26,9 @@ void init()
     srand(time(NULL));
     mspf=30;
     int n;
-    fpi=fopen("D:\\asd.txt","w");
+    char path[100];
+    sprintf(path,"D:\\log\\asd%d.txt",rand());
+    fpi=fopen(path,"w");
 	ChooseLevel(level);
 	//readFile("map\\level1.map");
     OnPlayerTank(false);

@@ -76,5 +76,10 @@ public:
     virtual ~bulletControl();
     virtual bool run();
 };
+class autoPlayTankControl:public playTankControl{
+    public:
+    autoPlayTankControl(Tank *tank,int type);
+    virtual bool run();
+};
 }
 #endif
