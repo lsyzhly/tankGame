@@ -6,6 +6,8 @@ PlayerTankShow::PlayerTankShow(int rat,int player):Show(rat)
 {
     this->rat = rat;
     this->player=player;
+	cc=0;
+	isshield=0;
 }
 void PlayerTankShow::move(int x,int y,...)
 {
@@ -42,6 +44,10 @@ void PlayerTankShow::move(int x,int y,...)
     {
         return;
     }
+	else if(n&MOVESTATE)
+	{
+		isshield=n&MOVESTATE;
+	}
     else
     {
         throw n;
@@ -54,6 +60,34 @@ void PlayerTankShow::move(int x,int y,...)
 }
 void PlayerTankShow::Repaint()
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 89f44b592c2dbe7952e34bc37620a68234b5a430
+	if(isshield==0)
+	{
+		if(0==player)
+            d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
+        else if(1==player)
+            d3ddev->StretchRect(player2[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
+        else
+            return;
+	}
+	else
+	{
+		if(cc&0x8)
+			d3ddev->StretchRect(shield[0], NULL, backbuffer, &rec, D3DTEXF_NONE);
+		else
+			d3ddev->StretchRect(shield[1], NULL, backbuffer, &rec, D3DTEXF_NONE);
+		cc++;
+	}
+
+<<<<<<< HEAD
+
+}
+}
+=======
+=======
     HRESULT res;
     if(0==player)
         res=d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
@@ -66,6 +100,8 @@ void PlayerTankShow::Repaint()
         fflush(fpi);
         throw rec;
     }
+>>>>>>> 1a581431cf7a2b3c5da6a9769658be9c7f8b4135
 
 }
 }
+>>>>>>> 89f44b592c2dbe7952e34bc37620a68234b5a430
