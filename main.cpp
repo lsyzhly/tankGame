@@ -35,9 +35,11 @@ LPDIRECT3DSURFACE9 bulletbmp[4];//子弹，上右下左
 LPDIRECT3DSURFACE9 bore[4];//出生的动画
 LPDIRECT3DSURFACE9 flag;
 LPDIRECT3DSURFACE9 misc[4];
-LPDIRECT3DSURFACE9 gameover;
+LPDIRECT3DSURFACE9 gameover;//用来表示游戏是否结束
 LPDIRECT3DSURFACE9 num[10];
 LPDIRECT3DSURFACE9 shield[2];
+LPDIRECT3DSURFACE9 splash;
+bool isgameover=false;    //splash中要设置成false
 bool isKeyDown[256];
 HWND hwnd;
 int mspf=30;//miliseconds per Frame
@@ -216,6 +218,29 @@ bool RemainInit()
         if (!SUCCEEDED(result)) return false;
        // d3ddev->StretchRect(shield[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
     }
+	result = d3ddev->CreateOffscreenPlainSurface(
+                     376,                //width of the surface
+                     222,                //height of the surface
+                     D3DFMT_X8R8G8B8,    //surface format
+                     D3DPOOL_DEFAULT,    //memory pool to use
+                     (LPDIRECT3DSURFACE9 *)&splash,           //pointer to the surface  bo
+                     NULL);
+        if (!SUCCEEDED(result)) return false;
+        rec.top=0;
+        rec.bottom=rec.top+376;
+        rec.left=0;
+        rec.right=rec.left+222;
+        result=D3DXLoadSurfaceFromFile(
+                   splash,            //destination surface
+                   NULL,               //destination palette
+                   NULL,               //destination rectangle
+                   "graphics/splash.bmp",                  //source filename
+                   &rec,               //source rectangle
+                   D3DX_DEFAULT,       //controls how image is filtered
+                   0,                  //for transparency (0 for none)
+                   NULL);
+//d3ddev->StretchRect(splash, NULL, backbuffer, &rec, D3DTEXF_NONE);
+        if (!SUCCEEDED(result)) return false;
     return true;
 }
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
@@ -329,7 +354,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         fprintf(fpi,"flush\n");
         fflush(fpi);
-        flush();
+       flush();
         fprintf(fpi,"zxc\n");
         fflush(fpi);
         RECT rec;
@@ -342,6 +367,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         rec1.bottom=416;
         rec1.left=0;
         rec1.right=416;
+		if(isgameover)
+			ongameover();
         d3ddev->Present(&rec1, &rec, NULL, NULL);
 	    rec1.top=0;
         rec1.bottom=416;
@@ -352,9 +379,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		rec.right=640;
 		rec.bottom=432;
 		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
-        //d3ddev->Present(&rec1, &rec, NULL, NULL);
 		drawsidebar();
-		//d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
 		d3ddev->Present(&rec1, &rec, NULL, NULL);
         fprintf(fpi,"fgh\n");
         fflush(fpi);

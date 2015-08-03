@@ -76,6 +76,11 @@ void addItem(pointer a,bool isTop)
 
 void OnPlayerTank(bool type){
     if(tanks[type]==0){
+		if(tanks[1-type]==0)
+		{
+			setTankState(true,false);
+			isgameover=true;
+		}
         return;
     }else{
         tanks[type]--;
@@ -428,7 +433,6 @@ void addEnemyTank(){
                 fflush(fpi);
                 addTimeFun(8,(OnTime)ChooseLevel,300,++level);
                 etanks=-1;
-                //TODO OnWin
                 return;
             }else{
                 return;

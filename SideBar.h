@@ -8,4 +8,6 @@
 #include <stdio.h>
 void drawsidebar();
 void shownum(int n,RECT rec);
+void ongameover();
+void onsplash(int players);
 #endif

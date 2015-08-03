@@ -433,6 +433,8 @@ bumpType Bullet::bump(square *a,direct drt)
         {
             add_to_delete(this,1);
 			b->draw->move(-1,-1,1|MOVESTATE);
+			isgameover=true;
+			setTankState(true,false);
 			std::string tempSound="sound/bang.wav";
 		    GameSound(hwnd,tempSound);
             return bumpType::abandonded;
