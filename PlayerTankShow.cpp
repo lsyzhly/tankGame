@@ -60,10 +60,6 @@ void PlayerTankShow::move(int x,int y,...)
 }
 void PlayerTankShow::Repaint()
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 89f44b592c2dbe7952e34bc37620a68234b5a430
 	if(isshield==0)
 	{
 		if(0==player)
@@ -81,13 +77,6 @@ void PlayerTankShow::Repaint()
 			d3ddev->StretchRect(shield[1], NULL, backbuffer, &rec, D3DTEXF_NONE);
 		cc++;
 	}
-
-<<<<<<< HEAD
-
-}
-}
-=======
-=======
     HRESULT res;
     if(0==player)
         res=d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
@@ -100,8 +89,5 @@ void PlayerTankShow::Repaint()
         fflush(fpi);
         throw rec;
     }
->>>>>>> 1a581431cf7a2b3c5da6a9769658be9c7f8b4135
-
 }
 }
->>>>>>> 89f44b592c2dbe7952e34bc37620a68234b5a430

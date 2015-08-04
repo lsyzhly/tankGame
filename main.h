@@ -31,9 +31,5 @@ extern LPDIRECT3DSURFACE9 flag;
 extern LPDIRECT3DSURFACE9 misc[4];
 extern LPDIRECT3DSURFACE9 gameover;
 extern LPDIRECT3DSURFACE9 num[10];
-<<<<<<< HEAD
-extern LPDIRECT3DSURFACE9 shield[2]
-=======
 extern LPDIRECT3DSURFACE9 shield[2];
->>>>>>> 89f44b592c2dbe7952e34bc37620a68234b5a430
 #endif // MAIN_H_INCLUDED

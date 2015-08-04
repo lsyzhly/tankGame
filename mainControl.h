@@ -11,6 +11,7 @@ using namespace Controler;
 
 extern int tanks[];
 extern bumpchecker *checker;
+extern int score[];
 extern int etanks;
 extern unsigned char etank[20];
 extern int ertank;

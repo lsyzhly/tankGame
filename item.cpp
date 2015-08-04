@@ -469,6 +469,13 @@ bumpType Bullet::bump(square *a,direct drt)
         }
 		if(this->t->isPlayer!=c->isPlayer && c->isStoppable==false)// enemy and player reduce HP
         {
+            if(t->isPlayer==true){
+                playTankControl *b=dynamic_cast<playTankControl *>(t->control);
+                if(b==0) throw t;
+                else{
+                    score[b->type]+=100;
+                }
+            }
 			TankAShow *p1=dynamic_cast<TankAShow *>(c->draw);
             TankBShow *p2=dynamic_cast<TankBShow *>(c->draw);
 			if(p1||p2)
