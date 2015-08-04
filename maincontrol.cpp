@@ -16,6 +16,7 @@ std::map<pointer,int> to_delete;
 int level=1;
 MEMSTRUCT<BUFFSIZE>*OnTimeMap=(MEMSTRUCT<BUFFSIZE>*)calloc(sizeof(MEMSTRUCT<BUFFSIZE>),ARRAYSIZE);
 typedef list<MEMSTRUCT<BUFFSIZE>*> Mlist;
+int score[2];
 Mlist OnTimelist;
 std::map<cpointer,bool> controls;
 std::set<pointer> hasdelete;
@@ -76,6 +77,11 @@ void addItem(pointer a,bool isTop)
 
 void OnPlayerTank(bool type){
     if(tanks[type]==0){
+		if(tanks[1-type]==0)
+		{
+			setTankState(true,false);
+			isgameover=true;
+		}
         return;
     }else{
         tanks[type]--;
@@ -423,7 +429,6 @@ void addEnemyTank(){
                 fflush(fpi);
                 addTimeFun(8,(OnTime)ChooseLevel,300,++level);
                 etanks=-1;
-                //TODO OnWin
                 return;
             }else{
                 return;
@@ -437,7 +442,7 @@ void addEnemyTank(){
             Tank *tank;
             Control *b;
             int rand_t=rand()%ertank;
-            int rand_red=!(rand()&0x7);
+            int rand_red=!(rand()&0x1);
             int n=rand()%3;
             int type=etank[rand_t];
             etank[rand_t]=etank[--ertank];
