@@ -442,7 +442,7 @@ void addEnemyTank(){
             Tank *tank;
             Control *b;
             int rand_t=rand()%ertank;
-            int rand_red=!(rand()&0x1);
+            int rand_red=!(rand()&0x7);
             int n=rand()%3;
             int type=etank[rand_t];
             etank[rand_t]=etank[--ertank];
