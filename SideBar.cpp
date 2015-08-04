@@ -73,5 +73,31 @@ void drawsidebar()
 	rec.top=396;
 	shownum(CLevel,rec);
 
-
+}
+void ongameover()
+{
+	RECT rec;
+	rec.top=128;
+	rec.bottom=288;
+	rec.left=84;
+	rec.right=332;
+    d3ddev->StretchRect(gameover, NULL, backbuffer, &rec, D3DTEXF_NONE);
+}
+void onsplash(int playernum)
+{
+	RECT rec;
+	rec.left=40;
+	rec.right=72;
+	rec.top=325;
+	rec.bottom=357;
+	if(1==playernum)
+	{rec.top=384;rec.bottom=416;}
+	RECT rec1;
+	rec1.left =0;
+	rec1.right=376;
+	rec1.top=0;
+	rec1.bottom=222;
+	d3ddev->StretchRect(splash, NULL, backbuffer, NULL, D3DTEXF_NONE);
+	d3ddev->StretchRect(player1[1][1], NULL, backbuffer, &rec, D3DTEXF_NONE);
+     
 }

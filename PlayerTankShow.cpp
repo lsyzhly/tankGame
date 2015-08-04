@@ -62,12 +62,18 @@ void PlayerTankShow::Repaint()
 {
 	if(isshield==0)
 	{
+		HRESULT res;
 		if(0==player)
-            d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
+            res=d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
         else if(1==player)
-            d3ddev->StretchRect(player2[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
+            res=d3ddev->StretchRect(player2[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
         else
             return;
+        if(FAILED(res)){
+        fprintf(fpi,"PlayerTankShow:%d,%d,%d,%d,%d,%d\n",dir,rank,rec.bottom,rec.left,rec.right,rec.top);
+        fflush(fpi);
+        throw rec;
+		}
 	}
 	else
 	{
@@ -77,17 +83,6 @@ void PlayerTankShow::Repaint()
 			d3ddev->StretchRect(shield[1], NULL, backbuffer, &rec, D3DTEXF_NONE);
 		cc++;
 	}
-    HRESULT res;
-    if(0==player)
-        res=d3ddev->StretchRect(player1[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
-    else if(1==player)
-        res=d3ddev->StretchRect(player2[dir][(rank<<1)+(count&0x1)], NULL, backbuffer, &rec, D3DTEXF_NONE);
-    else
-        return;
-    if(FAILED(res)){
-        fprintf(fpi,"PlayerTankShow:%d,%d,%d,%d,%d,%d\n",dir,rank,rec.bottom,rec.left,rec.right,rec.top);
-        fflush(fpi);
-        throw rec;
-    }
+
 }
 }

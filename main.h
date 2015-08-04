@@ -32,4 +32,6 @@ extern LPDIRECT3DSURFACE9 misc[4];
 extern LPDIRECT3DSURFACE9 gameover;
 extern LPDIRECT3DSURFACE9 num[10];
 extern LPDIRECT3DSURFACE9 shield[2];
+extern LPDIRECT3DSURFACE9 splash;
+extern bool isgameover;
 #endif // MAIN_H_INCLUDED
