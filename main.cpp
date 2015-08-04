@@ -355,7 +355,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
         fprintf(fpi,"flush\n");
         fflush(fpi);
-       flush();
+        flush();
         fprintf(fpi,"zxc\n");
         fflush(fpi);
         RECT rec;
