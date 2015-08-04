@@ -217,7 +217,8 @@ bool RemainInit()
 
         if (!SUCCEEDED(result)) return false;
        // d3ddev->StretchRect(shield[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
-    }
+	}
+
 	result = d3ddev->CreateOffscreenPlainSurface(
                      376,                //width of the surface
                      222,                //height of the surface
@@ -227,9 +228,9 @@ bool RemainInit()
                      NULL);
         if (!SUCCEEDED(result)) return false;
         rec.top=0;
-        rec.bottom=rec.top+376;
+        rec.bottom=222;
         rec.left=0;
-        rec.right=rec.left+222;
+        rec.right=376;
         result=D3DXLoadSurfaceFromFile(
                    splash,            //destination surface
                    NULL,               //destination palette

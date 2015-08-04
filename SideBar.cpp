@@ -86,15 +86,17 @@ void ongameover()
 void onsplash(int playernum)
 {
 	RECT rec;
-	rec.left=0;
-	rec.right=32;
-	rec.top=250;
-	rec.bottom=282;
+	rec.left=40;
+	rec.right=72;
+	rec.top=325;
+	rec.bottom=357;
+	if(1==playernum)
+	{rec.top=384;rec.bottom=416;}
 	RECT rec1;
 	rec1.left =0;
-	rec1.right=222;
+	rec1.right=376;
 	rec1.top=0;
-	rec1.bottom=376;
+	rec1.bottom=222;
 	d3ddev->StretchRect(splash, NULL, backbuffer, NULL, D3DTEXF_NONE);
 	d3ddev->StretchRect(player1[1][1], NULL, backbuffer, &rec, D3DTEXF_NONE);
      
