@@ -44,7 +44,7 @@ void PlayerTankShow::move(int x,int y,...)
     {
         return;
     }
-	else if(n&MOVESTATE)
+	else if(n&MOVESTATE==0||n&MOVESTATE==1)
 	{
 		isshield=n&MOVESTATE;
 	}
