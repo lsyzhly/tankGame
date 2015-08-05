@@ -16,7 +16,7 @@
 #pragma comment(lib,"dsound.lib")
 #pragma comment(lib,"Winmm.lib")
 
-
+static bool p=1;
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
 LPDIRECT3D9 d3d = NULL;
@@ -83,7 +83,7 @@ bool RemainInit()
         if (!SUCCEEDED(result)) return false;
     for(int i=0; i<4; i++)
 	{
-		
+
 		if(i<2)
 		{
 				result = d3ddev->CreateOffscreenPlainSurface(
@@ -137,7 +137,7 @@ bool RemainInit()
 
 				if (!SUCCEEDED(result)) return false;
 		}
-  
+
     }
 	for(int i=0; i<10; i++)
     {
@@ -190,7 +190,7 @@ bool RemainInit()
 
         if (!SUCCEEDED(result)) return false;
 		//d3ddev->StretchRect(gameover, NULL, backbuffer, &rec, D3DTEXF_NONE);
-   
+
     for(int i=0; i<2; i++)
     {
         result = d3ddev->CreateOffscreenPlainSurface(
@@ -313,7 +313,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* create main window */
     hwnd = CreateWindowEx(0,
                           "GLSample",
-                          "press w",
+                          "tank game",
                           WS_OVERLAPPEDWINDOW,
                           CW_USEDEFAULT,
                           CW_USEDEFAULT,
@@ -350,6 +350,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
+        if(p){
         fprintf(fpi,"qwe\n");
         fflush(fpi);
         d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
@@ -397,6 +398,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
             fps=1000/end;
         else
             fps=0;
+        }
     }
     freedirectx();
     destory();
@@ -733,6 +735,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
         case VK_ESCAPE:
             PostQuitMessage(0);
+            break;
+        case 'P':
+            p=!p;
             break;
         default:
             isKeyDown[wParam]=true;
