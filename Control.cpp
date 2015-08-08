@@ -46,10 +46,10 @@ bool autoTankControl::run()
     {
         tank->fire();
     }
-    int c = checker->move(tank, tank->drt,maxcount);
+    int c /*= checker->move(tank, tank->drt,maxcount)*/;
     if (c&bumpType::astop || b==0)
     {
-        c=checker->move(tank, (direct)a,maxcount);
+        //c=checker->move(tank, (direct)a,maxcount);
     }
     if(c&bumpType::abandonded)
     {
@@ -73,7 +73,7 @@ autoPlayTankControl::autoPlayTankControl(item::Tank *tank,int type):playTankCont
 {
 }
 bool autoPlayTankControl::run()
-{
+{/*
     unsigned int a = rand()%4;
     unsigned int b = rand() % 500;
     unsigned int d=rand()%5;
@@ -89,13 +89,12 @@ bool autoPlayTankControl::run()
     if(c&bumpType::abandonded)
     {
         return true;
-    }
+    }*/
     return false;
 }
 bool playTankControl::run()
-{
+{/*
     direct dir=(direct)-1;
-    bool re=false;
     UINT *tmp;
     if(0==type) tmp=player1tank;
     else tmp=player2tank;
@@ -133,7 +132,7 @@ bool playTankControl::run()
             return true;
         }
         return false;
-    }
+    }*/
     return false;
 }
 
@@ -159,7 +158,7 @@ void bulletControl::setNull(){
 
 bool bulletControl::run()
 {
-    int sta=checker->move(bul,bul->drt,maxcount+3);
+    int sta/*=checker->move(bul,bul->drt,maxcount+3)*/;
     if(sta&bumpType::abandonded)
     {
         return true;

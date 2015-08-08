@@ -10,6 +10,10 @@
 #endif
 namespace item
 {
+pos::pos(int x,int y){
+    this->x=x;
+    this->y=x;
+}
 square::square(int x, int y, int size,Show *draw)
 {
     this->x = x;
@@ -22,19 +26,17 @@ square::square(int x, int y, int size,Show *draw)
 }
 posSet *square::getRange()
 {
-    fflush(fpi);
-    pos_set.clear();
-    fflush(fpi);
+    posSet &pos_set=*new posSet();
     if(isBump){
         for (int i = 0; i < size; i++)
         {
-            pos_set.insert(std::make_pair(x + i, y));
-            pos_set.insert(std::make_pair(x + i, y + size - 1));
+            pos_set.push_back(pos(x + i, y));
+            pos_set.push_back(pos(x + i, y + size - 1));
         }
         for (int i = 0; i < size; i++)
         {
-            pos_set.insert(std::make_pair(x, y + i));
-            pos_set.insert(std::make_pair(x + size - 1, y + i));
+            pos_set.push_back(pos(x, y + i));
+            pos_set.push_back(pos(x + size - 1, y + i));
         }
     }
     return &pos_set;
@@ -53,25 +55,8 @@ moveSquare::moveSquare(int x, int y, int size,Show *draw, direct drt, int speed)
     this->control = 0;
     draw->move(-1,-1,MOVESETDIRECT|drt);
 }
-void moveSquare::move(direct drt)
+void moveSquare::move(direct drt,int size)
 {
-    switch (drt)
-    {
-    case up:
-        y--;
-        break;
-    case down:
-        y++;
-        break;
-    case left:
-        x--;
-        break;
-    case right:
-        x++;
-        break;
-    default:
-        break;
-    }
 }
 void moveSquare::reShow(){
     square::reShow();
@@ -100,7 +85,7 @@ posSet *unmoveSquare::getRange()
 {
     if(utype==cao)
     {
-        return &pos_set;
+        return new posSet();
     }
     else
     {

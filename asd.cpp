@@ -8,7 +8,7 @@
 #include "control.h"
 #include "item.h"
 #include "PlayerTankShow.h"
-#include "bumpcheck.h"
+#include "nbumpchecker.h"
 #include "BulletShow.h"
 #include "WaterShow.h"
 #include "BoreShow.h"
@@ -25,12 +25,14 @@ void init()
 {
     srand(time(NULL));
     mspf=30;
+    readFile("map\\level1.map");
+    bumpchecker *a=new bumpchecker(13<<4,13<<4);
+    bindbumpchecker(a);
     int n;
     char path[100];
     sprintf(path,"D:\\log\\asd%d.txt",rand());
     fpi=fopen(path,"w");
 	ChooseLevel(level);
-	//readFile("map\\level1.map");
     OnPlayerTank(false);
     OnPlayerTank(true);
 

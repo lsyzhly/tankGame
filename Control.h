@@ -12,7 +12,7 @@ using std::mutex;
 #include <vector>
 #include <set>
 #include "item.h"
-#include "bumpcheck.h"
+#include "nbumpchecker.h"
 extern UINT player1tank[5];//表示player1的上下左右,fire的虚拟键值
 extern UINT player2tank[5];//表示player2的上下左右,fire的虚拟键值
 namespace Controler
