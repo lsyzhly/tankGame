@@ -12,7 +12,6 @@
 #include "lsy_sound.h"
 #endif // LSY_GCC
 #include <iostream>
-#define LPCWSTR LPCSTR
 #pragma comment(lib,"dsound.lib")
 #pragma comment(lib,"Winmm.lib")
 
@@ -74,7 +73,7 @@ bool RemainInit()
                    flag,            //destination surface
                    NULL,               //destination palette
                    NULL,               //destination rectangle
-                   "graphics/flag.bmp",                  //source filename
+                   L"graphics/flag.bmp",                  //source filename
                    &rec,               //source rectangle
                    D3DX_DEFAULT,       //controls how image is filtered
                    0,                  //for transparency (0 for none)
@@ -102,7 +101,7 @@ bool RemainInit()
 						   *(misc+i),            //destination surface
 						   NULL,               //destination palette
 						   NULL,               //destination rectangle
-						   "graphics/misc.bmp",                  //source filename
+						   L"graphics/misc.bmp",                  //source filename
 						   &rec,               //source rectangle
 						   D3DX_DEFAULT,       //controls how image is filtered
 						   0,                  //for transparency (0 for none)
@@ -129,7 +128,7 @@ bool RemainInit()
 						   *(misc+i),            //destination surface
 						   NULL,               //destination palette
 						   NULL,               //destination rectangle
-						   "graphics/misc.bmp",                  //source filename
+						   L"graphics/misc.bmp",                  //source filename
 						   &rec,               //source rectangle
 						   D3DX_DEFAULT,       //controls how image is filtered
 						   0,                  //for transparency (0 for none)
@@ -157,7 +156,7 @@ bool RemainInit()
                    *(num+i),            //destination surface
                    NULL,               //destination palette
                    NULL,               //destination rectangle
-                   "graphics/num.bmp",                  //source filename
+                   L"graphics/num.bmp",                  //source filename
                    &rec,               //source rectangle
                    D3DX_DEFAULT,       //controls how image is filtered
                    0,                  //for transparency (0 for none)
@@ -182,7 +181,7 @@ bool RemainInit()
                    gameover,            //destination surface
                    NULL,               //destination palette
                    NULL,               //destination rectangle
-                   "graphics/gameover.bmp",                  //source filename
+                   L"graphics/gameover.bmp",                  //source filename
                    &rec,               //source rectangle
                    D3DX_DEFAULT,       //controls how image is filtered
                    0,                  //for transparency (0 for none)
@@ -209,7 +208,7 @@ bool RemainInit()
                    *(shield+i),            //destination surface
                    NULL,               //destination palette
                    NULL,               //destination rectangle
-                   "graphics/shield.bmp",                  //source filename
+                   L"graphics/shield.bmp",                  //source filename
                    &rec,               //source rectangle
                    D3DX_DEFAULT,       //controls how image is filtered
                    0,                  //for transparency (0 for none)
@@ -235,7 +234,7 @@ bool RemainInit()
                    splash,            //destination surface
                    NULL,               //destination palette
                    NULL,               //destination rectangle
-                   "graphics/splash.bmp",                  //source filename
+                   L"graphics/splash.bmp",                  //source filename
                    &rec,               //source rectangle
                    D3DX_DEFAULT,       //controls how image is filtered
                    0,                  //for transparency (0 for none)
@@ -304,7 +303,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wcex.lpszMenuName = NULL;
-    wcex.lpszClassName = "GLSample";
+    wcex.lpszClassName = L"GLSample";
     wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);;
 
 
@@ -312,8 +311,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         return 0;
     /* create main window */
     hwnd = CreateWindowEx(0,
-                          "GLSample",
-                          "tank game",
+                          L"GLSample",
+                          L"tank game",
                           WS_OVERLAPPEDWINDOW,
                           CW_USEDEFAULT,
                           CW_USEDEFAULT,
@@ -333,7 +332,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* program main loop */
     while (true)
     {
-    
+
         fflush(fpi);
         clock_t start=clock();
         /* check for messages */
@@ -443,15 +442,15 @@ bool initdirectx()
     //create pointer to the back buffer
     d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backbuffer);
     //d3ddev->GetRenderTarget(0, &backbuffer);
-    TankInit("graphics/player1.bmp",(LPDIRECT3DSURFACE9 *)player1,4,8);
-    TankInit("graphics/player2.bmp",(LPDIRECT3DSURFACE9 *)player2,4,8);
-    TankInit("graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
-    BlockInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
-    WaterAndHeadquartersInit("graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
-    BonusInit("graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
-    ExplodeInit("graphics/explode1.bmp","graphics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
-    BulletbmpInit("graphics/bullet.bmp",(LPDIRECT3DSURFACE9 *)&bulletbmp);
-	BoreInit("graphics/bore.bmp" ,(LPDIRECT3DSURFACE9 *)&bore);
+    TankInit(L"graphics/player1.bmp",(LPDIRECT3DSURFACE9 *)player1,4,8);
+    TankInit(L"graphics/player2.bmp",(LPDIRECT3DSURFACE9 *)player2,4,8);
+    TankInit(L"graphics/enemy.bmp",(LPDIRECT3DSURFACE9 *)enemy,8,8);
+    BlockInit(L"graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&block);
+    WaterAndHeadquartersInit(L"graphics/tile.bmp",(LPDIRECT3DSURFACE9 *)&water,(LPDIRECT3DSURFACE9 *)&headquarters);
+    BonusInit(L"graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
+    ExplodeInit(L"graphics/explode1.bmp",L"graphics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
+    BulletbmpInit(L"graphics/bullet.bmp",(LPDIRECT3DSURFACE9 *)&bulletbmp);
+	BoreInit(L"graphics/bore.bmp" ,(LPDIRECT3DSURFACE9 *)&bore);
     RemainInit();
 
 

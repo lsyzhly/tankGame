@@ -123,7 +123,7 @@ void ChooseLevel(int lev)
 {
     CLevel = lev;
     if(lev>=20){
-        MessageBox(hwnd,"win!","win!",0);
+        MessageBox(hwnd,L"win!",L"win!",0);
         exit(0);
         //TODO GAME OVER
         return ;

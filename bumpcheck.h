@@ -49,9 +49,6 @@ class bumpchecker
 public:
     int width;
     int hight;
-#ifdef CPP11
-    mutex lock;
-#endif CPP11
     //ถþฮฌสýื้
     twoarray<sList> bmap;
     bumpchecker(int width,int hight);
