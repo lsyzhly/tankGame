@@ -55,6 +55,12 @@ namespace view
 class Show;
 }
 
+template <class T>
+void deletef(T a)
+{
+    delete a;
+}
+
 extern item::Tank *ptanks[2];
 extern int pcount;
 #define movedrt(drt,rect,size) {\

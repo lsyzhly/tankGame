@@ -18,7 +18,7 @@ public:
     //在制定位置绘制图像
     virtual void Repaint() = 0;
     //设置位置和方向
-    virtual void move(int x, int y,...)=0;
+        virtual void move(int x, int y,int type)=0;
     virtual ~Show();
 };
 class moveShow:public Show

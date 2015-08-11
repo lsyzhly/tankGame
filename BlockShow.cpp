@@ -6,20 +6,19 @@ BlockShow::BlockShow(int rat):Show(rat)
 {
     this->rat = rat ;
 }
-void BlockShow::move(int x, int y, ...)
+void BlockShow::move(int x, int y, int n)
 {
     if(-1==x&&-1==y)
     {
-        va_list va;
-        va_start(va,y);
-        int n=va_arg(va,int);
-        va_end(va);
         if(n&MOVELEVEL)
         {
             type=n&MOVEVALUE;
-            if(type<4){
+            if(type<4)
+            {
                 type--;
-            }else{
+            }
+            else
+            {
                 throw n;
             }
         }
@@ -44,9 +43,8 @@ void BlockShow::move(int x, int y, ...)
 }
 void BlockShow::Repaint()
 {
-    if(FAILED(d3ddev->StretchRect(block[type], NULL, backbuffer, &rec, D3DTEXF_NONE))){
-        fprintf(fpi,"BlockShow:%d,%d,%d,%d,%d\n",type,rec.bottom,rec.left,rec.right,rec.top);
-        fflush(fpi);
+    if(FAILED(d3ddev->StretchRect(block[type], NULL, backbuffer, &rec, D3DTEXF_NONE)))
+    {
         throw rec;
     }
 }

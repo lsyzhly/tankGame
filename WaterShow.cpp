@@ -7,20 +7,18 @@ WaterShow::WaterShow(int rat):Show(rat)
     this->rat = rat ;
     this->type = 0;
 }
-void WaterShow::move(int x, int y, ...)
+void WaterShow::move(int x, int y, int n)
 {
     if(-1==x&&-1==y)
     {
-        //
+#ifndef NDEBUG
+        assert(n==0);
+#endif // NDEBUG
     }
     else
     {
         x*=rat;
         y*=rat;
-        /*va_list va;
-        va_start(va,y);
-        type=va_arg(va,int);
-        va_end(va);*/
         rec.left=x;
         rec.top=y;
         rec.bottom=y+32;

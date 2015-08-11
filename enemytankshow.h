@@ -15,7 +15,7 @@ public:
     TankAShow(bool is_red,int rat,bool is_fast);
     virtual void Repaint();
     //...is the direct of tank(int)
-    virtual void move(int x, int y,...);
+    virtual void move(int x, int y,int n);
 };
 class TankBShow:public Show
 {
@@ -29,7 +29,7 @@ public:
     virtual void Repaint();
     //... is int the first 4 bits is direct
     //and the second 4 bits is level
-    virtual void move(int x, int y,...);
+    virtual void move(int x, int y,int n);
 };
 }
 #endif

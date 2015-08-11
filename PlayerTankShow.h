@@ -13,9 +13,9 @@ public:
     int player;//tank所属玩家，0表示玩家一，1表示玩家二
     PlayerTankShow(int rat,int player);
     virtual void Repaint() ;
-    virtual void move(int x, int y,...);//需要传进来的参数有资源的x,y,tank移动的方向,tank等级
-	int isshield;
-	int cc;//用来表示盾的闪烁
+    virtual void move(int x, int y,int n);//需要传进来的参数有资源的x,y,tank移动的方向,tank等级
+    int isshield;
+    int cc;//用来表示盾的闪烁
 
 };
 

@@ -9,48 +9,61 @@
 #include "all.h"
 #include "item.h"
 using namespace item;
-namespace bump{
+namespace bump
+{
 class Cmd;
 //微指令类
-class Mcmd :public std::vector<pos>{
+class Mcmd :public std::vector<pos>
+{
 public:
     //微指令在指令中的位置
     unsigned int index;
+#ifndef NDEBUG
+    bool is_valid;
+#endif
     //对应的指令
     Cmd *fatherCmd;
     Mcmd();
 };
 //边长数组
 template<typename T>
-class varArray{
+class varArray
+{
 protected:
     int size;
     T *ptr;
-    varArray(){
+    varArray()
+    {
         ptr=0;
     }
-    varArray(int size){
+    varArray(int size)
+    {
         this->size=size;
         ptr=new T[size];
     }
-    void reSize(int size){
+    void reSize(int size)
+    {
         this->size=size;
         if(ptr) delete[] ptr;
         ptr=new T[size];
     }
-    ~varArray(){
+    ~varArray()
+    {
         if(ptr) delete[] ptr;
     }
 public:
-    T &operator[](int n){
-        if(n>=size){
+    T &operator[](int n)
+    {
+        if(n>=size)
+        {
             throw n;
         }
         return ptr[n];
     }
 };
 //指令
-class Cmd:public varArray<Mcmd>{
+class Cmd:public varArray<Mcmd>
+{
 public:
     //操作目标
     mpointer target;
@@ -61,9 +74,14 @@ public:
     unsigned int rsize:12;
     bool isVaild;
     Cmd(mpointer target);
+    //准备移动
+    void move();
+    //编译移动指令
     void complie();
+    //运行移动指令
     void run();
 };
+
 template <typename T>
 class twoarray
 {
@@ -85,14 +103,17 @@ public:
         this->length = length;
         this->width=width;
     }
-    void clear(){
+    void clear()
+    {
         memset(ptr,0,sizeof(T)*length*width);
     }
-    ~twoarray(){
+    ~twoarray()
+    {
         delete[] ptr;
     }
 };
-class bumpchecker{
+class bumpchecker
+{
 private:
     //指令队列
     std::vector<Cmd> cmds;
@@ -101,18 +122,31 @@ private:
     twoarray<Mcmd *> movemap;
     //碰撞缓存
     std::map<std::pair<mpointer,pointer>,bool> bumpdata;
+    std::set<mpointer > md_list;
+    std::set<pointer > d_list;
 public:
     bumpchecker(int width,int length);
+    //初始化指令队列
+    void init();
     //编译指令队列
     void complie();
-    //执行微指令
+    //链接指令队列
     void RunMcmd();
-    //执行指令
+    //执行指令队列
     void runCmd();
-    //获取
+
+    //安全移动指令队列中的元素
+    void checker_move();
+
+    //获取对应指令
     Cmd &operator[](mpointer pointer);
+
     void remove(pointer );
     void remove(mpointer );
+
+    void rdremove(pointer );
+    void rdremove(mpointer );
+
     void add(pointer );
     void add(mpointer );
 };

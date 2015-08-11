@@ -56,89 +56,89 @@ bool RemainInit();//剩下的资源加载
 bool RemainInit()
 {
     HRESULT result;
-	result = d3ddev->CreateOffscreenPlainSurface(
-                     32,                //width of the surface
-                     32,                //height of the surface
-                     D3DFMT_X8R8G8B8,    //surface format
-                     D3DPOOL_DEFAULT,    //memory pool to use
-                     (LPDIRECT3DSURFACE9 *)&flag,           //pointer to the surface  bo
-                     NULL);
-        if (!SUCCEEDED(result)) return false;
-        RECT rec;
-        rec.top=0;
-        rec.bottom=rec.top+32;
-        rec.left=0;
-        rec.right=rec.left+32;
-        result=D3DXLoadSurfaceFromFile(
-                   flag,            //destination surface
-                   NULL,               //destination palette
-                   NULL,               //destination rectangle
-                   L"graphics/flag.bmp",                  //source filename
-                   &rec,               //source rectangle
-                   D3DX_DEFAULT,       //controls how image is filtered
-                   0,                  //for transparency (0 for none)
-                   NULL);
-  //  d3ddev->StretchRect(flag, NULL, backbuffer, &rec, D3DTEXF_NONE);
-        if (!SUCCEEDED(result)) return false;
+    result = d3ddev->CreateOffscreenPlainSurface(
+                 32,                //width of the surface
+                 32,                //height of the surface
+                 D3DFMT_X8R8G8B8,    //surface format
+                 D3DPOOL_DEFAULT,    //memory pool to use
+                 (LPDIRECT3DSURFACE9 *)&flag,           //pointer to the surface  bo
+                 NULL);
+    if (!SUCCEEDED(result)) return false;
+    RECT rec;
+    rec.top=0;
+    rec.bottom=rec.top+32;
+    rec.left=0;
+    rec.right=rec.left+32;
+    result=D3DXLoadSurfaceFromFile(
+               flag,            //destination surface
+               NULL,               //destination palette
+               NULL,               //destination rectangle
+               L"graphics/flag.bmp",                  //source filename
+               &rec,               //source rectangle
+               D3DX_DEFAULT,       //controls how image is filtered
+               0,                  //for transparency (0 for none)
+               NULL);
+    //  d3ddev->StretchRect(flag, NULL, backbuffer, &rec, D3DTEXF_NONE);
+    if (!SUCCEEDED(result)) return false;
     for(int i=0; i<4; i++)
-	{
+    {
 
-		if(i<2)
-		{
-				result = d3ddev->CreateOffscreenPlainSurface(
-							 14,                //width of the surface
-							 14,                //height of the surface
-							 D3DFMT_X8R8G8B8,    //surface format
-							 D3DPOOL_DEFAULT,    //memory pool to use
-							 misc + i,           //pointer to the surface  bo
-							 NULL);
-				if (!SUCCEEDED(result)) return false;
-				rec.top=0;
-				rec.bottom=rec.top+14;
-				rec.left=i*14;
-				rec.right=rec.left+14;
-				result=D3DXLoadSurfaceFromFile(
-						   *(misc+i),            //destination surface
-						   NULL,               //destination palette
-						   NULL,               //destination rectangle
-						   L"graphics/misc.bmp",                  //source filename
-						   &rec,               //source rectangle
-						   D3DX_DEFAULT,       //controls how image is filtered
-						   0,                  //for transparency (0 for none)
-						   NULL);
+        if(i<2)
+        {
+            result = d3ddev->CreateOffscreenPlainSurface(
+                         14,                //width of the surface
+                         14,                //height of the surface
+                         D3DFMT_X8R8G8B8,    //surface format
+                         D3DPOOL_DEFAULT,    //memory pool to use
+                         misc + i,           //pointer to the surface  bo
+                         NULL);
+            if (!SUCCEEDED(result)) return false;
+            rec.top=0;
+            rec.bottom=rec.top+14;
+            rec.left=i*14;
+            rec.right=rec.left+14;
+            result=D3DXLoadSurfaceFromFile(
+                       *(misc+i),            //destination surface
+                       NULL,               //destination palette
+                       NULL,               //destination rectangle
+                       L"graphics/misc.bmp",                  //source filename
+                       &rec,               //source rectangle
+                       D3DX_DEFAULT,       //controls how image is filtered
+                       0,                  //for transparency (0 for none)
+                       NULL);
 
-				if (!SUCCEEDED(result)) return false;
-				//d3ddev->StretchRect(misc[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
-		}
-		else
-		{
-			   result = d3ddev->CreateOffscreenPlainSurface(
-							 28,                //width of the surface
-							 14,                //height of the surface
-							 D3DFMT_X8R8G8B8,    //surface format
-							 D3DPOOL_DEFAULT,    //memory pool to use
-							 misc + i,           //pointer to the surface  bo
-							 NULL);
-				if (!SUCCEEDED(result)) return false;
-				rec.top=0;
-				rec.bottom=rec.top+14;
-				rec.left=(i-1)*28;
-				rec.right=rec.left+28;
-				result=D3DXLoadSurfaceFromFile(
-						   *(misc+i),            //destination surface
-						   NULL,               //destination palette
-						   NULL,               //destination rectangle
-						   L"graphics/misc.bmp",                  //source filename
-						   &rec,               //source rectangle
-						   D3DX_DEFAULT,       //controls how image is filtered
-						   0,                  //for transparency (0 for none)
-						   NULL);
+            if (!SUCCEEDED(result)) return false;
+            //d3ddev->StretchRect(misc[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+        }
+        else
+        {
+            result = d3ddev->CreateOffscreenPlainSurface(
+                         28,                //width of the surface
+                         14,                //height of the surface
+                         D3DFMT_X8R8G8B8,    //surface format
+                         D3DPOOL_DEFAULT,    //memory pool to use
+                         misc + i,           //pointer to the surface  bo
+                         NULL);
+            if (!SUCCEEDED(result)) return false;
+            rec.top=0;
+            rec.bottom=rec.top+14;
+            rec.left=(i-1)*28;
+            rec.right=rec.left+28;
+            result=D3DXLoadSurfaceFromFile(
+                       *(misc+i),            //destination surface
+                       NULL,               //destination palette
+                       NULL,               //destination rectangle
+                       L"graphics/misc.bmp",                  //source filename
+                       &rec,               //source rectangle
+                       D3DX_DEFAULT,       //controls how image is filtered
+                       0,                  //for transparency (0 for none)
+                       NULL);
 
-				if (!SUCCEEDED(result)) return false;
-		}
+            if (!SUCCEEDED(result)) return false;
+        }
 
     }
-	for(int i=0; i<10; i++)
+    for(int i=0; i<10; i++)
     {
         result = d3ddev->CreateOffscreenPlainSurface(
                      14,                //width of the surface
@@ -163,32 +163,32 @@ bool RemainInit()
                    NULL);
 
         if (!SUCCEEDED(result)) return false;
-		//d3ddev->StretchRect(num[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+        //d3ddev->StretchRect(num[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
     }
-	 result = d3ddev->CreateOffscreenPlainSurface(
-                     248,                //width of the surface
-                     160,                //height of the surface
-                     D3DFMT_X8R8G8B8,    //surface format
-                     D3DPOOL_DEFAULT,    //memory pool to use
-                     &gameover,           //pointer to the surface  bo
-                     NULL);
-        if (!SUCCEEDED(result)) return false;
-        rec.top=0;
-        rec.bottom=rec.top+160;
-        rec.left=0;
-        rec.right=rec.left+248;
-        result=D3DXLoadSurfaceFromFile(
-                   gameover,            //destination surface
-                   NULL,               //destination palette
-                   NULL,               //destination rectangle
-                   L"graphics/gameover.bmp",                  //source filename
-                   &rec,               //source rectangle
-                   D3DX_DEFAULT,       //controls how image is filtered
-                   0,                  //for transparency (0 for none)
-                   NULL);
+    result = d3ddev->CreateOffscreenPlainSurface(
+                 248,                //width of the surface
+                 160,                //height of the surface
+                 D3DFMT_X8R8G8B8,    //surface format
+                 D3DPOOL_DEFAULT,    //memory pool to use
+                 &gameover,           //pointer to the surface  bo
+                 NULL);
+    if (!SUCCEEDED(result)) return false;
+    rec.top=0;
+    rec.bottom=rec.top+160;
+    rec.left=0;
+    rec.right=rec.left+248;
+    result=D3DXLoadSurfaceFromFile(
+               gameover,            //destination surface
+               NULL,               //destination palette
+               NULL,               //destination rectangle
+               L"graphics/gameover.bmp",                  //source filename
+               &rec,               //source rectangle
+               D3DX_DEFAULT,       //controls how image is filtered
+               0,                  //for transparency (0 for none)
+               NULL);
 
-        if (!SUCCEEDED(result)) return false;
-		//d3ddev->StretchRect(gameover, NULL, backbuffer, &rec, D3DTEXF_NONE);
+    if (!SUCCEEDED(result)) return false;
+    //d3ddev->StretchRect(gameover, NULL, backbuffer, &rec, D3DTEXF_NONE);
 
     for(int i=0; i<2; i++)
     {
@@ -215,32 +215,32 @@ bool RemainInit()
                    NULL);
 
         if (!SUCCEEDED(result)) return false;
-       // d3ddev->StretchRect(shield[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
-	}
+        // d3ddev->StretchRect(shield[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    }
 
-	result = d3ddev->CreateOffscreenPlainSurface(
-                     376,                //width of the surface
-                     222,                //height of the surface
-                     D3DFMT_X8R8G8B8,    //surface format
-                     D3DPOOL_DEFAULT,    //memory pool to use
-                     (LPDIRECT3DSURFACE9 *)&splash,           //pointer to the surface  bo
-                     NULL);
-        if (!SUCCEEDED(result)) return false;
-        rec.top=0;
-        rec.bottom=222;
-        rec.left=0;
-        rec.right=376;
-        result=D3DXLoadSurfaceFromFile(
-                   splash,            //destination surface
-                   NULL,               //destination palette
-                   NULL,               //destination rectangle
-                   L"graphics/splash.bmp",                  //source filename
-                   &rec,               //source rectangle
-                   D3DX_DEFAULT,       //controls how image is filtered
-                   0,                  //for transparency (0 for none)
-                   NULL);
+    result = d3ddev->CreateOffscreenPlainSurface(
+                 376,                //width of the surface
+                 222,                //height of the surface
+                 D3DFMT_X8R8G8B8,    //surface format
+                 D3DPOOL_DEFAULT,    //memory pool to use
+                 (LPDIRECT3DSURFACE9 *)&splash,           //pointer to the surface  bo
+                 NULL);
+    if (!SUCCEEDED(result)) return false;
+    rec.top=0;
+    rec.bottom=222;
+    rec.left=0;
+    rec.right=376;
+    result=D3DXLoadSurfaceFromFile(
+               splash,            //destination surface
+               NULL,               //destination palette
+               NULL,               //destination rectangle
+               L"graphics/splash.bmp",                  //source filename
+               &rec,               //source rectangle
+               D3DX_DEFAULT,       //controls how image is filtered
+               0,                  //for transparency (0 for none)
+               NULL);
 //d3ddev->StretchRect(splash, NULL, backbuffer, &rec, D3DTEXF_NONE);
-        if (!SUCCEEDED(result)) return false;
+    if (!SUCCEEDED(result)) return false;
     return true;
 }
 bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
@@ -272,7 +272,7 @@ bool BoreInit(LPCWSTR f,LPDIRECT3DSURFACE9 *bn)
                    NULL);
 
         if (!SUCCEEDED(result)) return false;
-  //  d3ddev->StretchRect(bore[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
+        //  d3ddev->StretchRect(bore[i], NULL, backbuffer, &rec, D3DTEXF_NONE);
     }
     return true;
 }
@@ -332,8 +332,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* program main loop */
     while (true)
     {
-
-        fflush(fpi);
         clock_t start=clock();
         /* check for messages */
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -349,54 +347,47 @@ int WINAPI WinMain(HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
-        if(p){
-        fprintf(fpi,"qwe\n");
-        fflush(fpi);
-        d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
-        fprintf(fpi,"flush\n");
-        fflush(fpi);
-        flush();
-        fprintf(fpi,"zxc\n");
-        fflush(fpi);
-        RECT rec;
-        rec.top=16;
-        rec.bottom=432;
-        rec.left=112;
-        rec.right=528;
-        RECT rec1;
-        rec1.top=0;
-        rec1.bottom=416;
-        rec1.left=0;
-        rec1.right=416;
-		if(isgameover)
-			ongameover();
-        d3ddev->Present(&rec1, &rec, NULL, NULL);
-	    rec1.top=0;
-        rec1.bottom=416;
-        rec1.left=0;
-        rec1.right=112;
-		rec.top=16;
-		rec.left=528;
-		rec.right=640;
-		rec.bottom=432;
-		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
-		drawsidebar();
-		d3ddev->Present(&rec1, &rec, NULL, NULL);
-        fprintf(fpi,"fgh\n");
-        fflush(fpi);
-        clock_t end=clock();
-        end-=start;
-        end*=1000;
-        end/=CLOCKS_PER_SEC;
-        if(end<mspf)
+        if(p)
         {
-            Sleep(mspf-end);
-            end=mspf;
-        }
-        if(end)
-            fps=1000/end;
-        else
-            fps=0;
+            d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
+            flush();
+            RECT rec;
+            rec.top=16;
+            rec.bottom=432;
+            rec.left=112;
+            rec.right=528;
+            RECT rec1;
+            rec1.top=0;
+            rec1.bottom=416;
+            rec1.left=0;
+            rec1.right=416;
+            if(isgameover)
+                ongameover();
+            d3ddev->Present(&rec1, &rec, NULL, NULL);
+            rec1.top=0;
+            rec1.bottom=416;
+            rec1.left=0;
+            rec1.right=112;
+            rec.top=16;
+            rec.left=528;
+            rec.right=640;
+            rec.bottom=432;
+            d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(96,96,96), 1.0f, 0);
+            drawsidebar();
+            d3ddev->Present(&rec1, &rec, NULL, NULL);
+            clock_t end=clock();
+            end-=start;
+            end*=1000;
+            end/=CLOCKS_PER_SEC;
+            if(end<mspf)
+            {
+                Sleep(mspf-end);
+                end=mspf;
+            }
+            if(end)
+                fps=1000/end;
+            else
+                fps=0;
         }
     }
     freedirectx();
@@ -450,7 +441,7 @@ bool initdirectx()
     BonusInit(L"graphics/bonus.bmp",(LPDIRECT3DSURFACE9 *)&bonus);
     ExplodeInit(L"graphics/explode1.bmp",L"graphics/explode2.bmp",(LPDIRECT3DSURFACE9 *)&explode);
     BulletbmpInit(L"graphics/bullet.bmp",(LPDIRECT3DSURFACE9 *)&bulletbmp);
-	BoreInit(L"graphics/bore.bmp" ,(LPDIRECT3DSURFACE9 *)&bore);
+    BoreInit(L"graphics/bore.bmp" ,(LPDIRECT3DSURFACE9 *)&bore);
     RemainInit();
 
 

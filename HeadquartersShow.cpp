@@ -7,18 +7,15 @@ HeadquartersShow::HeadquartersShow(int rat):Show(rat)
     this->rat = rat ;
     this->type=0;
 }
-void HeadquartersShow::move(int x, int y, ...)
+void HeadquartersShow::move(int x, int y, int n)
 {
     if(-1==x&&-1==y)
     {
-        va_list va;
-        va_start(va,y);
-        int n=va_arg(va,int);
-        va_end(va);
         if(n&MOVELEVEL)
         {
         }
-        else if((n&MOVESTATE)){
+        else if((n&MOVESTATE))
+        {
             type=n&MOVEVALUE;
         }
         else if((n&MOVEFLAG)==0)
@@ -32,6 +29,9 @@ void HeadquartersShow::move(int x, int y, ...)
     }
     else
     {
+#ifndef NDEBUG
+        assert(n==0);
+#endif // NDEBUG
         x*=rat;
         y*=rat;
         rec.left=x;
@@ -42,9 +42,8 @@ void HeadquartersShow::move(int x, int y, ...)
 }
 void HeadquartersShow::Repaint()
 {
-    if(FAILED(d3ddev->StretchRect(headquarters[type], NULL, backbuffer, &rec, D3DTEXF_NONE))){
-        fprintf(fpi,"HeadquartersShow:%d,%d,%d,%d,%d\n",type,rec.bottom,rec.left,rec.right,rec.top);
-        fflush(fpi);
+    if(FAILED(d3ddev->StretchRect(headquarters[type], NULL, backbuffer, &rec, D3DTEXF_NONE)))
+    {
         throw rec;
     }
 }

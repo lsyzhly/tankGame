@@ -58,13 +58,7 @@ char *newMuchSquare(int x,int y,int size,unmoveType type,int state)
 
 void addSqares(char *a,bool isTop)
 {
-    int n=*a++;
-    unmoveSquare **b=(unmoveSquare **)a;
-    while(n--)
-    {
-        addItem(*b++,isTop);
-    }
-    free(--a);
+    free(a);
 }
 
 void readFile(char *path)
@@ -85,24 +79,24 @@ void readFile(char *path)
             {
                 if(n==6)
                 {
-					int m=j<<4;
-					int n=i<<4;
-					addHqItems(new unmoveSquare(m,n,32>>1,new HeadquartersShow(2),boss));
-					addHqItems(new unmoveSquare(m-8,n+8,16>>1,new BlockShow(2),tu));
-					addHqItems(new unmoveSquare(m-8,n,16>>1,new BlockShow(2),tu));
-					addHqItems(new unmoveSquare(m-8,n-8,16>>1,new BlockShow(2),tu));
-					addHqItems(new unmoveSquare(m,n-8,16>>1,new BlockShow(2),tu));
-					addHqItems(new unmoveSquare(m+8,n-8,16>>1,new BlockShow(2),tu));
-					addHqItems(new unmoveSquare(m+16,n-8,16>>1,new BlockShow(2),tu));
-                    addHqItems(new unmoveSquare(m+16,n,16>>1,new BlockShow(2),tu));
-					addHqItems(new unmoveSquare(m+16,n+8,16>>1,new BlockShow(2),tu));
+                    int m=j<<4;
+                    int n=i<<4;
+                    new unmoveSquare(m,n,32>>1,new HeadquartersShow(2),boss);
+                    new unmoveSquare(m-8,n+8,16>>1,new BlockShow(2),tu);
+                    new unmoveSquare(m-8,n,16>>1,new BlockShow(2),tu);
+                    new unmoveSquare(m-8,n-8,16>>1,new BlockShow(2),tu);
+                    new unmoveSquare(m,n-8,16>>1,new BlockShow(2),tu);
+                    new unmoveSquare(m+8,n-8,16>>1,new BlockShow(2),tu);
+                    new unmoveSquare(m+16,n-8,16>>1,new BlockShow(2),tu);
+                    new unmoveSquare(m+16,n,16>>1,new BlockShow(2),tu);
+                    new unmoveSquare(m+16,n+8,16>>1,new BlockShow(2),tu);
 
 
                     //addItem(new unmoveSquare(j<<5,i<<5,32,0,(unmoveType)0));
                 }
                 else if(4==n)
                 {
-                    addItem(new unmoveSquare(j<<4,i<<4,32>>1,new WaterShow(2),(unmoveType)n));
+                    new unmoveSquare(j<<4,i<<4,32>>1,new WaterShow(2),(unmoveType)n);
                 }
                 else if(3==n)
                 {
@@ -122,28 +116,26 @@ void readFile(char *path)
 void ChooseLevel(int lev)
 {
     CLevel = lev;
-    if(lev>=20){
+    if(lev>=20)
+    {
         MessageBox(hwnd,L"win!",L"win!",0);
         exit(0);
         //TODO GAME OVER
         return ;
     }
-    fflush(fpi);
     tanks[0]++;
     tanks[1]++;
-    freeItem();
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
-	char filename[20];
+    char filename[20];
     ifstream f;
     ertank=20;
     etanks=0;
     f.open("etank.map",ios::in|ios::binary);
-	f.seekg((lev-1)*20);
+    f.seekg((lev-1)*20);
     f.read((char *)etank, sizeof(char)*20);
-	f.close();
-	sprintf(filename,"map\\level%d.map",lev);
-	readFile(filename);
-	freeControl();
+    f.close();
+    sprintf(filename,"map\\level%d.map",lev);
+    readFile(filename);
 }
 

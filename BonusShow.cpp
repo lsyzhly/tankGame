@@ -9,23 +9,19 @@ namespace view
 BonusShow::BonusShow(int rat):Show(rat)
 {
     this->rat = rat;
-	count =0;
-	maxcount =5;
+    count =0;
+    maxcount =5;
 
 }
-void BonusShow::move(int x, int y, ...)
+void BonusShow::move(int x, int y, int n)
 {
     if(-1==x&&-1==y)
     {
-		va_list va;
-        va_start(va,y);
-        int n=va_arg(va,int);
-        va_end(va);
         if(n&MOVELEVEL)
         {
             type=(n&MOVEVALUE)-6;
         }
-	    else if((n&MOVEFLAG)==0)
+        else if((n&MOVEFLAG)==0)
         {
             return;
         }
@@ -36,6 +32,9 @@ void BonusShow::move(int x, int y, ...)
     }
     else
     {
+#ifndef NDEBUG
+        assert(n==0);
+#endif // NDEBUG
         x*=rat;
         y*=rat;
         rec.left=x;
@@ -46,12 +45,12 @@ void BonusShow::move(int x, int y, ...)
 }
 void BonusShow::Repaint()
 {
-	if(count&0x8)
-	{
-		d3ddev->StretchRect(bonus[type], NULL, backbuffer, &rec, D3DTEXF_NONE);
-	}
+    if(count&0x8)
+    {
+        d3ddev->StretchRect(bonus[type], NULL, backbuffer, &rec, D3DTEXF_NONE);
+    }
 
-	count++;
+    count++;
 
 
 }

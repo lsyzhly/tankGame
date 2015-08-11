@@ -17,10 +17,6 @@ extern UINT player1tank[5];//表示player1的上下左右,fire的虚拟键值
 extern UINT player2tank[5];//表示player2的上下左右,fire的虚拟键值
 namespace Controler
 {
-using std::map;
-using std::vector;
-using std::set;
-using std::list;
 using item::Tank;
 using item::mpointer;
 using item::pointer;
@@ -33,18 +29,20 @@ class Control
 {
 protected:
     int maxcount;
+    bool is_run;
     Control(int maxcount);
 public:
     //移动一次纯虚方法
-    virtual bool run() = 0;
-    virtual void setNull()=0;
+    virtual void run() = 0;
+    void setRun(bool);
+    void control();
     virtual ~Control();
 };
-class TankControl :public Control{
-    public:
+class TankControl :public Control
+{
+public:
     Tank *tank;
     TankControl(Tank *tank);
-    virtual void setNull();
 };
 
 //坦克自动控制类,用于控制普通地方坦克
@@ -54,7 +52,7 @@ class autoTankControl :public TankControl
 public:
     clock_t clo;
     autoTankControl(Tank *tank);
-    virtual bool run();
+    virtual void run();
     virtual ~autoTankControl();
 };
 class playTankControl:public TankControl
@@ -64,7 +62,7 @@ public:
     int type;//0表示player1,1表示player2
     playTankControl(Tank *tank,int type);
     clock_t clo;
-    virtual bool run();
+    virtual void run();
     virtual ~playTankControl();
 };
 class bulletControl:public Control
@@ -72,14 +70,8 @@ class bulletControl:public Control
 public:
     Bullet *bul;
     bulletControl(Bullet *bul);
-    virtual void setNull();
     virtual ~bulletControl();
-    virtual bool run();
-};
-class autoPlayTankControl:public playTankControl{
-    public:
-    autoPlayTankControl(Tank *tank,int type);
-    virtual bool run();
+    virtual void run();
 };
 }
 #endif

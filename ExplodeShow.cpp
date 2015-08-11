@@ -7,11 +7,12 @@ ExplodeShow::ExplodeShow(int rat,int type):Show(rat)
     this->rat = rat ;
     this->type = type;
 }
-void ExplodeShow::move(int x, int y, ...)
+void ExplodeShow::move(int x, int y, int n)
 {
-    if(-1==x&&-1==y)
-    {
-          //
+    if(-1==x&&-1==y){
+#ifndef NDEBUG
+            assert(n==0);
+#endif // NDEBUG
     }
     else
     {
@@ -60,8 +61,6 @@ void ExplodeShow::move(int x, int y, ...)
 void ExplodeShow::Repaint()
 {
     if(FAILED(d3ddev->StretchRect(explode[type], NULL, backbuffer, &rec, D3DTEXF_NONE))){
-        fprintf(fpi,"ExplodeShow:%d,%d,%d,%d,%d\n",type,rec.bottom,rec.left,rec.right,rec.top);
-        fflush(fpi);
         throw rec;
     }
 }
