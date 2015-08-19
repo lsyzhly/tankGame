@@ -27,7 +27,6 @@ public:
     int x;
     int y;
     int size;
-    bool isBump;
     int level;
     //画图器
     view::Show *draw;
@@ -35,6 +34,7 @@ public:
     static void rePaint();
     static void deleteAll();
     square(int x, int y, int size, view::Show *draw,int level=0);
+    square(int level);
     //获取对象轮廓
     virtual posSet *getRange();
     virtual void reShow();
@@ -67,7 +67,7 @@ public:
         if(a->level!=b->level){
             return a->level<b->level;
         }else{
-            return a<b;
+            return a->draw<b->draw;
         }
     }
 };

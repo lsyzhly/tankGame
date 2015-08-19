@@ -15,9 +15,9 @@ square::square(int x, int y, int size,view::Show *draw,int level)
     this->size = size;
     this->draw = draw;
     draw->move(x, y,0);
-    isBump=true;
     this->level=level;
     squareSet.insert(this);
+    if(checker)checker->add(this);
 }
 
 std::set<square*> square::squareSet;
@@ -25,18 +25,15 @@ std::set<square*> square::squareSet;
 posSet *square::getRange()
 {
     posSet &pos_set=*new posSet();
-    if(isBump)
+    for (int i = 0; i < size; i++)
     {
-        for (int i = 0; i < size; i++)
-        {
-            pos_set.push_back(pos(x + i, y));
-            pos_set.push_back(pos(x + i, y + size - 1));
-        }
-        for (int i = 0; i < size; i++)
-        {
-            pos_set.push_back(pos(x, y + i));
-            pos_set.push_back(pos(x + size - 1, y + i));
-        }
+        pos_set.push_back(pos(x + i, y));
+        pos_set.push_back(pos(x + i, y + size - 1));
+    }
+    for (int i = 0; i < size; i++)
+    {
+        pos_set.push_back(pos(x, y + i));
+        pos_set.push_back(pos(x + size - 1, y + i));
     }
     return &pos_set;
 }
@@ -44,6 +41,11 @@ void square::rePaint(){
     for(square *a:squareSet){
         a->draw->Repaint();
     }
+}
+
+square::square(int level){
+    this->level=level;
+    draw=0;
 }
 
 void square::deleteAll(){
@@ -68,6 +70,10 @@ moveSquare::moveSquare(int x, int y, int size,view::Show *draw, direct drt, int 
     this->speed = speed;
     this->control = 0;
     draw->move(-1,-1,MOVESETDIRECT|drt);
+    if(checker){
+        checker->remove((pointer)this);
+        checker->add(this);
+    }
 }
 void moveSquare::move(direct drt,int size)
 {

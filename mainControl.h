@@ -27,10 +27,6 @@ void bindbumpchecker(bumpchecker *checker);
 //*********************
 void clean();
 
-void runControls();
-
-void rePaint();
-
 //注册时间事件
 //n为事件id OnTime事件响应函数,n为响应时间
 //自定义参数总大小不能大于64字节
@@ -40,6 +36,8 @@ void addTimeFun(std::function<void (void )> func,int n);
 //is_run为要设置的状态
 void setTankState(bool is,bool is_run);
 void setCapTankState(Tank *theTank,bool stoppable);
+void setHqState(unmoveType state);
+
 void deleteTank(bool type);
 void OnPlayerTank(bool type);
 void addEnemyTank();

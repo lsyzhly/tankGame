@@ -32,7 +32,7 @@ unsigned char etank[20];/*={   0,0,0,0,0,0,0,0,0,0,
                             0,0,0,1,1,1,1,2,2,2}*/;
 
 
-bumpchecker *checker=0;
+bumpchecker *checker;
 void newTank(Tank *tank,Show *a=0);
 void add_to_delete(pointer a, int count)
 {
@@ -44,21 +44,17 @@ void addHqItems(Arg ...arg)
     new unmoveSquare(arg...,HQ_LEVEL);
 }
 
-void setHqState(unmoveType state)
+void setHqState(int state)
 {
-    item::square *a=new item::square(HQ_LEVEL);
-    auto b=item::square::squareSet.find(a);
-    auto c=b;
-    while(1){
-        if(b==item::square::squareSet.end()) break;
-        item::square *s=*b++;
-        if(s->level!=HQ_LEVEL){
-            break;
-        }
-        item::unmoveSquare *na=dynamic_cast<item::unmoveSquare *>(s);
-        assert(na!=0);
-        na->utype=state;
+    std::set<pointer>::iterator ai = hqitems.begin();
+    ai++;
+    for (; ai != hqitems.end(); ai++)
+    {
+        pointer a = *ai;
+        a->draw->move(-1,-1,state|MOVELEVEL);
+
     }
+
 }
 
 void OnPlayerTank(bool type)
@@ -78,7 +74,7 @@ void OnPlayerTank(bool type)
         Show *s;
         Tank *tank;
         s=new PlayerTankShow(2,type);
-        tank=new Tank(4<<type<<4,12<<4,14,2,up,s,1,true);
+        tank=new Tank(4<<type<<4,12<<4,14,2,up,s,1,0,true);
         new playTankControl(tank,type);
         newTank(tank);
         return;
@@ -93,9 +89,6 @@ void addTanks(bool type)
 void bindbumpchecker(bumpchecker *checker)
 {
     ::checker = checker;
-    for(item::square *a:item::square::squareSet){
-        checker->add(a);
-    }
 }
 
 void clean()
@@ -131,6 +124,11 @@ void addTimeFun(std::function<void (void )> func,int n)
     OnTimelist.push_back(make_pair(func,n));
 }
 
+void setCapTankState(Tank *theTank,bool stoppable)
+{
+    theTank->isStoppable=stoppable;
+    theTank->draw->move(-1,-1,(int)stoppable|MOVESTATE);
+}
 void setTankState(bool type,bool is_run)
 {
     int level=type?PLAY_TANK_LEVEL:ENEMY_TANK_LEVEL;
@@ -138,8 +136,17 @@ void setTankState(bool type,bool is_run)
     auto b=item::square::squareSet.find(a);
     auto c=b;
     while(1){
-        if(b==item::square::squareSet.end()) break;
         item::square *sa=*b++;
+        if(sa->level!=level){
+            break;
+        }else{
+            Tank *a=dynamic_cast<Tank *>(sa);
+            assert(a!=0);
+            a->control->setRun(is_run);
+        }
+    }
+    while(1){
+        item::square *sa=*--c;
         if(sa->level!=level){
             break;
         }else{

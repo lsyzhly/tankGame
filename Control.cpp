@@ -117,7 +117,7 @@ void playTankControl::run()
     {
        dir=right;
     }
-    if(-1!=dir)
+    if(wrong!=dir)
     {
        Cmd &a=(*checker)[tank];
        a.drt=dir;

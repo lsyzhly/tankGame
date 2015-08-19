@@ -28,8 +28,6 @@ void init()
     readFile("map\\level1.map");
     bumpchecker *a=new bumpchecker(13<<4,13<<4);
     bindbumpchecker(a);
-    //sprintf(path,"D:\\log\\asd%d.txt",rand());
-    //fpi=fopen(path,"w");
     ChooseLevel(level);
     OnPlayerTank(false);
     OnPlayerTank(true);
@@ -38,9 +36,10 @@ void init()
 
 void flush()
 {
-    rePaint();
+    square::rePaint();
     clean();
-    addEnemyTank();
+    checker->checker_move();
+    //addEnemyTank();
 }
 
 void destory()

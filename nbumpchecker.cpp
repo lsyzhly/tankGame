@@ -164,6 +164,7 @@ void bumpchecker::RunMcmd()
                 }
                 if(movemap[mcmd[j]])
                 {
+                    printf("%d,%d\n",mcmd[j].x,mcmd[j].y);
                     Mcmd &omcmd=*movemap[mcmd[j]];
                     Cmd &ocmd=*omcmd.fatherCmd;
                     if(ocmd.target!=cmd.target)
@@ -268,6 +269,11 @@ void bumpchecker::add(pointer a)
     delete b;
 }
 
+void bumpchecker::add(mpointer a)
+{
+    cmds.push_back(Cmd(a));
+}
+
 void bumpchecker::remove(pointer a)
 {
     posSet *b=a->getRange();
@@ -275,7 +281,6 @@ void bumpchecker::remove(pointer a)
     {
         blockmap[*a]=0;
     }
-    delete a;
 }
 void bumpchecker::remove(mpointer a)
 {
